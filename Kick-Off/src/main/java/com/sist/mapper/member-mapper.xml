@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sist.mapper.member-mapper">
+	<select id="memberListData" resultType="MemberVO" parameterType="int">
+		SELECT member_id,login_id,name,email,phone,isadmin,TO_CHAR(regdate,'yyyy-mm-dd') AS dbday
+		FROM Member
+		ORDER BY member_id
+		OFFSET #{start} ROWS FETCH NEXT 20 ROWS ONLY
+	</select>
+	<select id="memberTotalPage" resultType="int">
+		SELECT CEIL(COUNT(*)/20.0)
+		FROM Member
+	</select>
+	<select id="memberDetailData" resultType="MemberVO" parameterType="int">
+		SELECT member_id,login_id,name,email,address,content,phone,isadmin,status,
+		       TO_CHAR(regdate,'yyyy-mm-dd hh24:mi:ss') AS dbday
+		FROM Member
+		WHERE member_id=#{member_id}
+	</select>
+	<insert id="memberInsert" parameterType="MemberVO">
+		INSERT INTO Member (login_id,pwd,name,sex,birthday,email,addr1,addr2,content,phone)VALUES(
+			#{login_id},#{pwd},#{name},#{sex},#{birthday},#{email},#{addr1},#{addr2},#{content},#{phone}
+		)
+	</insert>
+	<update id="memberUpdate" parameterType="MemberVO">
+		UPDATE Member
+		<set>
+			<if test="pwd!=null and pwd!=''">pwd=#{pwd},</if>
+			<if test="name!=null and name!=''">name=#{name},</if>
+			<if test="addr1!=null and addr1!=''">addr1=#{addr1},</if>
+			<if test="addr2!=null and addr2!=''">addr2=#{addr2},</if>
+			<if test="content!=null and content!=''">content=#{content}</if>
+		</set>
+		WHERE member_id=#{member_id}
+	</update>
+	<update id="memberDisable" parameterType="int">
+		UPDATE Member SET
+		status='N'
+		WHERE member_id=#{member_id}
+	</update>
+	<select id="memberIdCount" resultType="int" parameterType="string">
+		SELECT COUNT(*)
+		FROM Member
+		WHERE login_id=#{login_id}
+	</select>
+	<select id="memberInfoData" resultType="MemberVO" parameterType="string">
+		SELECT member_id,login_id,name,isadmin,pwd,status
+		FROM Member
+		WHERE login_id=#{login_id}
+	</select>
+</mapper>
