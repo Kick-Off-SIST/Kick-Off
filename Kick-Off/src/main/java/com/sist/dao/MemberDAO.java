@@ -102,4 +102,14 @@ public class MemberDAO {
 		session.close();
 		return vo;
 	}
+	public int memberIdCount(String id) {
+		int count=0;
+		try(SqlSession session=ssf.openSession()){
+			count=session.selectOne("memberIdCount",id);
+			session.close();
+		}catch(Exception ex) {
+			ex.printStackTrace();
+		}
+		return count;
+	}
 }

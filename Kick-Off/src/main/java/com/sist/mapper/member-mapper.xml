@@ -18,8 +18,8 @@
 		WHERE member_id=#{member_id}
 	</select>
 	<insert id="memberInsert" parameterType="MemberVO">
-		INSERT INTO Member (login_id,pwd,name,sex,birthday,email,addr1,addr2,content,phone)VALUES(
-			#{login_id},#{pwd},#{name},#{sex},#{birthday},#{email},#{addr1},#{addr2},#{content},#{phone}
+		INSERT INTO Member (login_id,pwd,name,sex,birthday,email,post,addr1,addr2,content,phone)VALUES(
+			#{login_id},#{pwd},#{name},#{sex},#{birthday},#{email},#{post},#{addr1},#{addr2},#{content},#{phone}
 		)
 	</insert>
 	<update id="memberUpdate" parameterType="MemberVO">

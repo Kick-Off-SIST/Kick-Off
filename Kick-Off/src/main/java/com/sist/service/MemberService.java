@@ -8,4 +8,5 @@ public interface MemberService {
 	public void memberInsert(MemberVO vo);
 	public void memberUpdate(MemberVO vo);
 	public void memberDisable(MemberVO vo);
+	public int memberIdCount(String id);
 }

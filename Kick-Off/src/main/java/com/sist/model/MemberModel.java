@@ -1,5 +1,7 @@
 package com.sist.model;
 
+import java.io.PrintWriter;
+
 import com.sist.commons.Commons;
 import com.sist.controller.Controller;
 import com.sist.controller.RequestMapping;
@@ -40,7 +42,47 @@ public class MemberModel {
 		return "../main/main.jsp";
 	}
 	@RequestMapping("member/join_ok.do")
-	public void member_join_ok(HttpServletRequest request,HttpServletResponse response) {
-		
+	public String member_join_ok(HttpServletRequest request,HttpServletResponse response) {
+		String login_id=request.getParameter("id");
+		String pwd=request.getParameter("pwd");
+		String name=request.getParameter("name");
+		String sex=request.getParameter("sex");
+		String birthday=request.getParameter("birthday");
+		String email=request.getParameter("email");
+		String post=request.getParameter("post");
+		String addr1=request.getParameter("addr1");
+		String addr2=request.getParameter("addr2");
+		String phone=request.getParameter("phone1")+"-"+request.getParameter("phone2");
+		String content=request.getParameter("content");
+		MemberVO vo=new MemberVO();
+		vo.setLogin_id(login_id);
+		vo.setPwd(pwd);
+		vo.setName(name);
+		vo.setSex(sex);
+		vo.setBirthday(birthday);
+		vo.setEmail(email);
+		vo.setPost(post);
+		vo.setAddr1(addr1);
+		vo.setAddr2(addr2);
+		vo.setPhone(phone);
+		vo.setContent(content);
+		service.memberInsert(vo);
+		return "redirect:../main/main.do";
+	}
+	@RequestMapping("member/idCheck.do")
+	public void member_idCheck(HttpServletRequest request,HttpServletResponse response) {
+		String id=request.getParameter("id");
+		int count=service.memberIdCount(id);
+		String msg="";
+		if(count==0) {
+			msg="OK";
+		}
+		try {
+			response.setContentType("text/html;charset=UTF-8");
+			PrintWriter out=response.getWriter();
+			out.write(msg);
+		}catch(Exception ex) {
+			ex.printStackTrace();
+		}
 	}
 }

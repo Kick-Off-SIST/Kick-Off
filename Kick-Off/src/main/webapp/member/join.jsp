@@ -35,11 +35,11 @@ $((e)=>{
 	let isIdValid=false
     $('#loginId').on('input',(e)=>{
         $('#idMsg').text('').removeClass('text-success text-danger')
-        clearGlobalError()
+//        clearGlobalError()
         isIdValid=false
     })
     $('#pwd, #pwdConfirm, #name').on('input', (e)=>{
-        clearGlobalError()
+//        clearGlobalError()
     })
     $('#postBtn').on('click',(e)=>{
 		new daum.Postcode({
@@ -73,11 +73,12 @@ $((e)=>{
         }
 
         $.ajax({
-            type:'get',
+            method:'get',
             url:'../member/idCheck.do',
-            data:{"id":id},
+            data:{id},
             success:(response)=>{
-                let res=response.trim()
+                const res=response.trim()
+                console.log(res)
                 if (res==='OK') {
                     $('#idMsg').text('사용 가능한 아이디입니다.').removeClass('text-danger').addClass('text-success')
                     isIdValid=true
@@ -93,6 +94,10 @@ $((e)=>{
             }
         })
     })
+    $('#submitBtn').on('click',(e)=>{
+    	const id=$('#loginId').val().trim()
+    	$('#joinForm').trigger('submit')
+    })
     
 })
 </script>
@@ -103,7 +108,7 @@ $((e)=>{
             <i class="bi bi-trophy-fill text-success me-2"></i>KICK-OFF 회원가입
         </h3>
 
-        <form id="joinForm">
+        <form id="joinForm" name="joinForm" method="post" action="../member/join_ok.do">
             <div class="mb-3">
                 <label for="loginId" class="form-label fw-bold text-secondary">아이디</label>
                 <div class="input-group">
@@ -130,25 +135,25 @@ $((e)=>{
             </div>
             
             <div class="mb-3">
-            	<label for="sex" class="form-label fw-bold text-secondary">성별</label>
-            	<input type="radio" name="sex" value="남자" checked>남자
-			    <input type="radio" name="sex" value="여자">여자
+            	<label for="sex" class="form-label fw-bold text-secondary">성별</label><br>
+            	<input type="radio" name="sex" value="M" checked>남자
+			    <input type="radio" name="sex" value="F">여자
             </div>
             
             <div class="mb-3">
-                <label for="name" class="form-label fw-bold text-secondary">생년월일</label>
+                <label for="birthday" class="form-label fw-bold text-secondary">생년월일</label>
                 <input type="date" name="birthday"  id="birthday" class="form-control input-sm" required>
             </div>
             
             <div class="mb-3">
-                <label for="name" class="form-label fw-bold text-secondary">이메일</label>
+                <label for="email" class="form-label fw-bold text-secondary">이메일</label>
                 <input type="text" class="form-control" id="email" name="email" placeholder="example@email.com" required>
             </div>
             
-            <div class="mb-3">
+            <div class="mb-4">
                 <label for="post" class="form-label fw-bold text-secondary">우편번호</label>
                 <input type="text" id="post" name="post" class="form-control input-sm" readonly>
-			    <button type="button" id="postBtn" class="btn btn-pink btn-sm">우편번호검색</button>
+			    <button type="button" id="postBtn" class="btn btn-outline-primary" style="margin-top: 5px;">우편번호검색</button>
             </div>
             
             <div class="mb-3">
@@ -163,17 +168,20 @@ $((e)=>{
             
             <div class="mb-3">
                 <label for="phone" class="form-label fw-bold text-secondary">연락처</label>
-                <select name="phone1" class="form-control input-sm">
-			    	<option>010</option>
-			    	<option>011</option>
-			    	<option>016</option>
-			    </select>
-                <input type="text" name="phone2" class="form-control input-sm" placeholder="####-####" required>
+                <div class="d-flex align-items-center gap-2">
+	                <select name="phone1" class="form-select form-select-sm w-auto">
+				    	<option>010</option>
+				    	<option>011</option>
+				    	<option>016</option>
+				    </select>
+				    <span class="text-secondary">-</span>
+	                <input type="text" name="phone2" class="form-control form-control-sm flex-grow-1" placeholder="####-####" required>
+            	</div>
             </div>
             
             <div class="mb-3">
                 <label for="content" class="form-label fw-bold text-secondary">소개</label>
-                <input type="text" class="form-control" id="content" name="content" placeholder="desc" required>
+                <textarea draggable="false" rows="10" class="form-control" id="content" name="content" placeholder="desc" required></textarea>
             </div>
 
             <div id="globalError" class="alert alert-danger text-center fw-bold py-2 mt-3 mb-0" style="font-size: 13px; display: none;">
@@ -181,7 +189,7 @@ $((e)=>{
             </div>
 
             <div class="d-grid gap-2 mt-4">
-                <button type="submit" class="btn btn-success btn-lg fw-bold fs-6">가입하기</button>
+                <button type="submit" class="btn btn-success btn-lg fw-bold fs-6" id="submitBtn">가입하기</button>
                 <a href="/main.do" class="btn btn-light fw-bold text-secondary fs-6">취소</a>
             </div>
         </form>

@@ -43,4 +43,10 @@ public class MemberServiceImpl implements MemberService {
 		dao.memberDisable(vo);
 	}
 
+	@Override
+	public int memberIdCount(String id) {
+		// TODO Auto-generated method stub
+		return dao.memberIdCount(id);
+	}
+
 }
