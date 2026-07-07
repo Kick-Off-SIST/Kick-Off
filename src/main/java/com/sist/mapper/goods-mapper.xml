@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sist.dao.goods-mapper">
+  <select id="goodsListData" resultType="GoodsVO" parameterType="int">
+    SELECT goods_no as goodsNo,
+           goods_name as goodsName,
+           image_url as imageUrl,
+           price
+    FROM goods
+    ORDER BY goods_name ASC
+    OFFSET #{start} ROWS FETCH NEXT 12 ROWS ONLY
+  </select>
+  <select id="goodsTotalPage" resultType="int">
+    SELECT CEIL(COUNT(*)/12.0) FROM goods
+  </select>
+  <select id="goodsDetailData" resultType="GoodsVO" parameterType="int">
+    SELECT goods_no as goodsNo,
+           goods_id as goodsId,
+           goods_name as goodsName,
+           price,
+           image_url as imageUrl,
+           category,
+           stock,
+           team_id as teamId,
+           reg_date
+    FROM goods
+    WHERE goods_no=#{no}
+  </select>
+  <select id="goodsFindListData" resultType="GoodsVO" parameterType="hashmap">
+     SELECT goods_no as goodsNo,
+           goods_name as goodsName,
+           image_url as imageUrl,
+           price,
+           category
+    FROM goods
+    WHERE 1=1
+    <if test="category != null and category != ''">
+        AND category = #{category}
+    </if>
+    <if test="ss != null and ss != ''">
+        AND goods_name LIKE '%'||#{ss}||'%'
+    </if>
+    ORDER BY goods_name ASC
+    OFFSET #{start} ROWS FETCH NEXT 12 ROWS ONLY
+  </select>
+  <select id="goodsFindTotalPage" resultType="int" parameterType="hashmap">
+     SELECT CEIL(COUNT(*)/12.0) FROM goods
+    WHERE 1=1
+    <if test="category != null and category != ''">
+        AND category = #{category}
+    </if>
+    <if test="ss != null and ss != ''">
+        AND goods_name LIKE '%'||#{ss}||'%'
+    </if>
+  </select>
+</mapper>

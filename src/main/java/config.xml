@@ -18,6 +18,7 @@
 		<typeAlias type="com.sist.vo.MemberVO" alias="MemberVO"/>
 		<typeAlias type="com.sist.vo.PlayerVO" alias="PlayerVO"/>
 		<typeAlias type="com.sist.vo.TeamVO" alias="TeamVO"/>
+		<typeAlias type="com.sist.vo.GoodsVO" alias="GoodsVO"/>
 	</typeAliases>
 	<environments default="development">
 		<environment id="development">
@@ -36,5 +37,6 @@
 	<mappers>
 		<mapper resource="com/sist/mapper/member-mapper.xml"/>
 		<mapper resource="com/sist/mapper/player-mapper.xml"/>
+		<mapper resource="com/sist/mapper/goods-mapper.xml"/>
 	</mappers>
 </configuration>

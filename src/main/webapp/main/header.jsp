@@ -65,6 +65,22 @@
 				            <li><a class="dropdown-item" href="#">팀목록</a></li>
 				        </ul>
 				    </li>
+				    <li class="nav-item dropdown">
+				        <a class="nav-link dropdown-toggle" href="#" id="listDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+				            커뮤니티
+				        </a>
+				        <ul class="dropdown-menu" aria-labelledby="listDropdown">
+				            <li><a class="dropdown-item" href="#">자유게시판</a></li>
+				            <li><hr class="dropdown-divider"></li> 
+				            <li><a class="dropdown-item" href="#">QnA 게시판</a></li>
+				        </ul>
+				    </li>
+				    <li class="nav-item dropdown">
+				        <a class="nav-link" href="../goods/find.do" aria-expanded="false">
+				            굿즈샵
+				        </a>				        
+				    </li>
+				    
 				</ul>
                 
                 <div class="d-flex">
