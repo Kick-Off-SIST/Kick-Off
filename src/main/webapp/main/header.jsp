@@ -12,7 +12,7 @@
 <body>
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
         <div class="container">
-            <a class="navbar-brand fw-bold" href="/main.do">
+            <a class="navbar-brand fw-bold" href="../main/main.do">
                 <i class="bi bi-trophy-fill text-success me-2"></i>Kick-Off
             </a>
             
@@ -44,7 +44,7 @@
 				        </ul>
 				    </li>
 				    
-				    <li class="nav-item">
+				    <li class="nav-item dropdown">
 				        <a class="nav-link dropdown-toggle" href="#" id="videoDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
 				            영상
 				        </a>
@@ -60,7 +60,7 @@
 				            선수/팀
 				        </a>
 				        <ul class="dropdown-menu" aria-labelledby="listDropdown">
-				            <li><a class="dropdown-item" href="#">선수목록</a></li>
+				            <li><a class="dropdown-item" href="../player/list.do">선수목록</a></li>
 				            <li><hr class="dropdown-divider"></li> 
 				            <li><a class="dropdown-item" href="#">팀목록</a></li>
 				        </ul>

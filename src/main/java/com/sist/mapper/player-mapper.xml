@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sist.mapper.player-mapper">
+	<resultMap type="PlayerVO" id="PlayerMap" autoMapping="true">
+		<association property="tvo" javaType="TeamVO">
+            <result property="team_name" column="team_name"/>
+            <result property="emblem" column="emblem"/>
+        </association>
+	</resultMap>
+	<select id="playerListData" resultMap="PlayerMap" parameterType="hashmap">
+		SELECT player_id,p.team_id,name,position,back_number,img_url,t.team_name,t.emblem
+		FROM KLeague_Player p 
+		JOIN KLeague_Team t ON p.team_id=t.team_id
+		<where>
+			<if test="team_id!=null and team_id!=''">p.team_id=#{team_id}</if>
+			<if test="position!=null and position!=''">AND position=#{position}</if>
+		</where>
+		ORDER BY ${column}
+		OFFSET #{start} ROWS FETCH NEXT 24 ROWS ONLY
+	</select>
+	<select id="playerTotalPage" resultType="int" parameterType="hashmap">
+		SELECT CEIL(COUNT(*)/24.0)
+		FROM KLeague_Player p 
+		JOIN KLeague_Team t ON p.team_id=t.team_id
+		<where>
+			<if test="team_id!=null and team_id!=''">p.team_id=#{team_id}</if>
+			<if test="position!=null and position!=''">AND position=#{position}</if>
+		</where>
+	</select>
+</mapper>
