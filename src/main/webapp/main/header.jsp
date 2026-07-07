@@ -20,10 +20,50 @@
             
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item"><a class="nav-link" href="/ticket/list.do">경기 예매</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/news/list.do">뉴스</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/video/list.do">하이라이트</a></li>
-                </ul>
+				    <li class="nav-item dropdown">
+				        <a class="nav-link dropdown-toggle" href="#" id="matchDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+				            경기
+				        </a>
+				        <ul class="dropdown-menu" aria-labelledby="matchDropdown">
+				            <li><a class="dropdown-item" href="#">빠른예매</a></li>
+				            <li><hr class="dropdown-divider"></li> 
+				            <li><a class="dropdown-item" href="#">경기목록</a></li>
+				        </ul>
+				    </li>
+				    
+				    <li class="nav-item dropdown">
+				        <a class="nav-link dropdown-toggle" href="#" id="newsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+				            뉴스
+				        </a>
+				        <ul class="dropdown-menu" aria-labelledby="newsDropdown">
+				            <li><a class="dropdown-item" href="#">공지사항</a></li>
+				            <li><hr class="dropdown-divider"></li> 
+				            <li><a class="dropdown-item" href="#">리그</a></li>
+				        </ul>
+				    </li>
+				    
+				    <li class="nav-item">
+				        <a class="nav-link dropdown-toggle" href="#" id="videoDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+				            영상
+				        </a>
+				        <ul class="dropdown-menu" aria-labelledby="videoDropdown">
+				            <li><a class="dropdown-item" href="#">하이라이트</a></li>
+				            <li><hr class="dropdown-divider"></li> 
+				            <li><a class="dropdown-item" href="#">골</a></li>
+				        </ul>
+				    </li>
+				    
+				    <li class="nav-item dropdown">
+				        <a class="nav-link dropdown-toggle" href="#" id="listDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+				            선수/팀
+				        </a>
+				        <ul class="dropdown-menu" aria-labelledby="listDropdown">
+				            <li><a class="dropdown-item" href="#">선수목록</a></li>
+				            <li><hr class="dropdown-divider"></li> 
+				            <li><a class="dropdown-item" href="#">팀목록</a></li>
+				        </ul>
+				    </li>
+				</ul>
                 
                 <div class="d-flex">
                 	<c:if test="${sessionScope.user.member_id==null }">
@@ -31,8 +71,10 @@
 	                    <a href="../member/join.do" class="btn btn-success">회원가입</a>
                     </c:if>
                     <c:if test="${sessionScope.user.member_id!=null }">
-                    	<span>${sessionScope.user.name } 님 </span>
-                    	<button class="btn btn-success" id="logout">로그아웃</button>
+                    	<div class="d-inline-flex align-items-center gap-3">
+	                    	<span style="color:white;">${sessionScope.user.name } (${sessionScope.user.isAdmin=='Y'?'관리자':'유저' })님 </span>
+	                    	<button class="btn btn-success" id="logout">로그아웃</button>
+                    	</div>
                     </c:if>
                 </div>
             </div>
