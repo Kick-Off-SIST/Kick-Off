@@ -42,6 +42,51 @@
 #team-link:hover{
 	color:gray
 }
+.scroll-filter-container {
+    display: flex;
+    overflow-x: auto;
+    white-space: nowrap;
+    gap: 12px;
+    padding-bottom: 10px 5px;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+.scroll-filter-container::-webkit-scrollbar {
+    display: none;
+}
+.team-logo-label {
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
+    border: 2px solid #dee2e6;
+    background-color: #fff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease-in-out;
+    padding: 5px;
+    flex-shrink: 0;
+}
+.team-logo-label img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+.team-logo-label:hover {
+    border-color: #adb5bd;
+    transform: scale(1.05);
+}
+.btn-check:checked + .team-logo-label {
+    border-color: #0d6efd;
+    box-shadow: 0 0 10px rgba(13, 110, 253, 0.4);
+    transform: scale(1.1);
+}
+.team-all-text {
+    font-size: 13px;
+    font-weight: 800;
+    color: #495057;
+}
 </style>
 <script type="text/javascript" src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 <script type="text/javascript" src="https://unpkg.com/axios/dist/axios.min.js"></script>
@@ -51,6 +96,44 @@
     	<div class="row">
         	<div class="col-12">
             	<h4 class="mb-4 fw-bold text-dark"><i class="bi bi-grid-3x3-gap-fill me-2"></i>선수 리스트</h4>
+            		<div class="row mb-4">
+					    <div class="col-6 col-md-3 mb-2">
+					        <select class="form-select form-select-sm" v-model="column" @change="filterChange">
+					            <option value="name">정렬: 이름순</option>
+					            <option value="back_number">정렬: 등번호순</option>
+					            <option value="t.team_name">정렬: 팀명순</option>
+					        </select>
+					    </div>
+					    
+					    <div class="col-6 col-md-3 mb-2">
+					        <select class="form-select form-select-sm" v-model="position" @change="filterChange">
+					            <option value="">필터: 전 포지션</option>
+					            <option value="FW">공격수 (FW)</option>
+					            <option value="MF">미드필더 (MF)</option>
+					            <option value="DF">수비수 (DF)</option>
+					            <option value="GK">골키퍼 (GK)</option>
+					        </select>
+					    </div>
+					    
+					    <div class="scroll-filter-container mb-4">
+						    <input type="radio" class="btn-check" name="teamFilter" id="team_all" v-model="team_id" value="" @change="filterChange">
+						    <label class="team-logo-label" for="team_all" title="전체 팀">
+						        <span class="team-all-text">ALL</span>
+						    </label>
+						
+						    <input type="radio" class="btn-check" name="teamFilter" id="team_1" v-model="team_id" value="1" @change="filterChange">
+						    <label class="team-logo-label" for="team_1" title="울산 HD">
+						        <img src="../player/ulsan_logo.png" alt="울산 HD">
+						    </label>
+						    
+						    <input type="radio" class="btn-check" name="teamFilter" id="team_2" v-model="team_id" value="2" @change="filterChange">
+						    <label class="team-logo-label" for="team_2" title="포항 스틸러스">
+						        <img src="../player/pohang_logo.png" alt="포항 스틸러스">
+						    </label>
+						    
+						</div>
+					   
+					</div>
             	<div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-6 g-3">
                     <div class="col" v-for="vo in list" :key="vo.player_id">
                         <div class="card h-100 shadow-sm border-0 grid-card">
@@ -92,6 +175,7 @@
 		data(){
 			return{
 				list:[],
+				teamList:[],
 				curpage:1,
 				totalpage:0,
 				startPage:0,

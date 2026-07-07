@@ -38,5 +38,6 @@
 		<mapper resource="com/sist/mapper/member-mapper.xml"/>
 		<mapper resource="com/sist/mapper/player-mapper.xml"/>
 		<mapper resource="com/sist/mapper/goods-mapper.xml"/>
+		<mapper resource="com/sist/mapper/team-mapper.xml"/>
 	</mappers>
 </configuration>
