@@ -35,11 +35,11 @@ $((e)=>{
 	let isIdValid=false
     $('#loginId').on('input',(e)=>{
         $('#idMsg').text('').removeClass('text-success text-danger')
-//        clearGlobalError()
+        clearGlobalError()
         isIdValid=false
     })
     $('#pwd, #pwdConfirm, #name').on('input', (e)=>{
-//        clearGlobalError()
+        clearGlobalError()
     })
     $('#postBtn').on('click',(e)=>{
 		new daum.Postcode({
@@ -98,7 +98,14 @@ $((e)=>{
     	const id=$('#loginId').val().trim()
     	$('#joinForm').trigger('submit')
     })
-    
+    const showGlobalError=(msg)=>{
+        $('#errorText').text(msg)
+        $('#globalError').show()
+    }
+    const clearGlobalError=()=>{
+        $('#globalError').hide()
+        $('#errorText').text('')
+    }
 })
 </script>
 <body>
@@ -190,7 +197,7 @@ $((e)=>{
 
             <div class="d-grid gap-2 mt-4">
                 <button type="submit" class="btn btn-success btn-lg fw-bold fs-6" id="submitBtn">가입하기</button>
-                <a href="/main.do" class="btn btn-light fw-bold text-secondary fs-6">취소</a>
+                <a href="../main/main.do" class="btn btn-light fw-bold text-secondary fs-6">취소</a>
             </div>
         </form>
     </div>
