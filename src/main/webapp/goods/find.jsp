@@ -5,64 +5,84 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <style type="text/css">
-.container{
-   margin-top: 50px;
-}
-.row {
-  margin: 0px auto;
+.goods-thumb{
   width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
 }
-p {
-   overflow: hidden;
-   white-space: nowrap;
-   text-overflow: ellipsis;
+.goods-price{
+  font-weight: 700;
+  color: #212529;
 }
-.a-link:hover{
+.pagination .page-link{
   cursor: pointer;
 }
 </style>
 <script type="text/javascript" src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-<script type="text/javascript" src="https://unpkg.com/axios/dist/axios.min.js"></script>
-<script type="text/javascript" src="page_card.js"></script>
 </head>
 <body>
 <%-- View--%>
-  <div class="container">
-    <div class="row">
-     <select class="input-sm" v-model="category">
-       <option value="">전체</option>
-       <option value="의류">의류</option>
-       <option value="머플러">머플러</option>
-       <option value="용품/기념품">용품/기념품</option>
-     </select>
-     <%--
-        @submit.prevent=""
-        @blur=""
-        @click=""
-        @change=""
-        @keydown.enter=""
-      --%>
-     <input type=text size=20 class="input-sm" v-model="ss"
-      ref="ssInput" @keydown.enter="find()"
-     >
-     <button type=button class="btn-sm btn-primary" @click="find()">검색</button>
+  <main id="goodsFindApp" class="container main-content flex-grow-1">
+
+    <div class="row mb-4">
+        <div class="col-12">
+            <h2 class="fw-bold">굿즈 스토어</h2>
+            <hr>
+        </div>
     </div>
-    <div class="row" style="margin-top: 20px">
-      <div class="col-sm-3" v-for="vo in goods_list">
-        <a :href="'../goods/detail.do?no='+vo.goodsNo">
-          <div class="thumbnail">
-            <img :src="vo.imageUrl" :title="vo.price" style="width:250px;height: 150px;object-fit:cover">
-            <p>{{vo.goodsName}}</p>
+
+    <div class="row mb-4">
+      <div class="col-12">
+        <div class="input-group">
+          <select class="form-select flex-grow-0 w-auto" v-model="category">
+            <option value="">전체 카테고리</option>
+            <option value="의류">의류</option>
+            <option value="머플러">머플러</option>
+            <option value="용품/기념품">용품/기념품</option>
+          </select>
+          <%--
+             @submit.prevent=""
+             @blur=""
+             @click=""
+             @change=""
+             @keydown.enter=""
+           --%>
+          <input type="text" class="form-control" v-model="ss"
+           ref="ssInput" @keydown.enter="find()"
+           placeholder="상품명을 입력하세요"
+          >
+          <button type="button" class="btn btn-primary" @click="find()">검색</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="row g-4">
+      <div class="col-md-3" v-for="vo in goods_list">
+        <a :href="'../goods/detail.do?no='+vo.goodsNo" class="text-decoration-none text-dark">
+          <div class="card h-100 shadow-sm border-0">
+            <img :src="vo.imageUrl" :alt="vo.goodsName" class="card-img-top goods-thumb">
+            <div class="card-body">
+              <p class="card-title fw-bold mb-1 text-truncate">{{vo.goodsName}}</p>
+              <p class="goods-price mb-0">{{vo.price}}원</p>
+            </div>
           </div>
         </a>
       </div>
+      <div class="col-12 text-center text-muted py-5" v-if="goods_list.length === 0">
+        검색 결과가 없습니다.
+      </div>
     </div>
-    <div class="row text-center" style="margin-top: 20px">
-      <pagecard></pagecard>
+
+    <div class="row" style="margin-top: 30px">
+      <ul class="pagination justify-content-center">
+        <li v-if="startPage>1" class="page-item"><a class="page-link" @click="move(startPage-1)">&laquo;</a></li>
+        <li v-for="i in range(startPage,endPage)" :key="i" class="page-item" :class="i===curpage?'active':''"><a class="page-link" @click="move(i)">{{i}}</a></li>
+        <li v-if="endPage<totalpage" class="page-item"><a class="page-link" @click="move(endPage+1)">&raquo;</a></li>
+      </ul>
     </div>
-  </div>
+
+  </main>
   <script>
     let find=Vue.createApp({
     	// 1. 서버에서 읽어오는 데이터 저장 => 변수 : Model
@@ -133,13 +153,10 @@ p {
     			
     		}
     	},
-    	components:{
-    		pagecard:page_card
-    	},
     	computed:{
     		
     	}
-    }).mount(".container")
+    }).mount("#goodsFindApp")
   </script>
 </body>
 </html>
