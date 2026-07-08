@@ -55,23 +55,7 @@ public class GoodsModel {
 			ex.printStackTrace();
 		}
 	}	
-		@RequestMapping("goods/detail_vue.do")
-		public void goods_detail(HttpServletRequest request,
-				   HttpServletResponse response)
-		{
-			try
-			{
-				String no=request.getParameter("no");
-				GoodsVO vo=GoodsDAO.goodsDetailData(Integer.parseInt(no));
-				ObjectMapper mapper=new ObjectMapper();
-				String json=mapper.writeValueAsString(vo);
-				
-				Commons.sendData(response, "text/plain", json);
-			}catch(Exception ex)
-			{
-				ex.printStackTrace();
-			}
-		}
+		
 	
 		@RequestMapping("goods/find.do")
 		public String goods_find(HttpServletRequest request,
@@ -125,11 +109,31 @@ public class GoodsModel {
 				 ex.printStackTrace();
 			 }
 		}
-		
 		@RequestMapping("goods/detail.do")
-		public String goods_detail1(HttpServletRequest request,
+		public String goods_detail(HttpServletRequest request,
 				   HttpServletResponse response)
 		{
-			return "../goods/detail.jsp";
+			String no=request.getParameter("no");
+			request.setAttribute("no", no);
+			request.setAttribute("main_jsp", "../goods/detail.jsp");
+		    return "../main/main.jsp";
 		}
+		@RequestMapping("goods/detail_vue.do")
+		public void goods_detail_vue(HttpServletRequest request,
+				   HttpServletResponse response)
+		{
+			try
+			{
+				String no=request.getParameter("no");
+				GoodsVO vo=GoodsDAO.goodsDetailData(Integer.parseInt(no));
+				ObjectMapper mapper=new ObjectMapper();
+				String json=mapper.writeValueAsString(vo);
+				
+				Commons.sendData(response, "text/plain", json);
+			}catch(Exception ex)
+			{
+				ex.printStackTrace();
+			}
+		}
+		
 }
