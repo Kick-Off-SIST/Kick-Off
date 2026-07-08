@@ -26,4 +26,12 @@ public class TeamModel {
 			ex.printStackTrace();
 		}
 	}
+	@RequestMapping("team/detail.do")
+	public String team_detail(HttpServletRequest request,HttpServletResponse response) {
+		String team_id=request.getParameter("team_id");
+		TeamVO vo=service.teamDetailData(team_id);
+		request.setAttribute("vo", vo);
+		request.setAttribute("main_jsp", "../team/detail.jsp");
+		return "../main/main.jsp";
+	}
 }

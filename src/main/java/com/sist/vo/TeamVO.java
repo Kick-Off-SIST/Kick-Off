@@ -10,4 +10,5 @@ import lombok.Data;
 public class TeamVO {
 	private int stadium_id;
 	private String team_id,team_name,emblem;
+	private StadiumVO svo=new StadiumVO();
 }
