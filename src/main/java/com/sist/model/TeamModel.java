@@ -1,10 +1,14 @@
 package com.sist.model;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sist.commons.Commons;
 import com.sist.controller.Controller;
 import com.sist.controller.RequestMapping;
 import com.sist.service.TeamService;
 import com.sist.service.TeamServiceImpl;
+import com.sist.vo.TeamVO;
 
+import java.util.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -13,6 +17,13 @@ public class TeamModel {
 	private TeamService service=new TeamServiceImpl();
 	@RequestMapping("team/emblem_vue.do")
 	public void team_emblem_vue(HttpServletRequest request,HttpServletResponse response) {
-		
+		List<TeamVO> list=service.teamEmblemData();
+		try {
+			ObjectMapper mapper=new ObjectMapper();
+			String json=mapper.writeValueAsString(list);
+			Commons.sendData(response, "text/plain", json);
+		}catch(Exception ex) {
+			ex.printStackTrace();
+		}
 	}
 }

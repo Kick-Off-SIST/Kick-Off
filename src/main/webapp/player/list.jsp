@@ -47,7 +47,7 @@
     overflow-x: auto;
     white-space: nowrap;
     gap: 12px;
-    padding-bottom: 10px 5px;
+    padding: 15px 7px;
     -ms-overflow-style: none;
     scrollbar-width: none;
 }
@@ -78,8 +78,8 @@
     transform: scale(1.05);
 }
 .btn-check:checked + .team-logo-label {
-    border-color: #0d6efd;
-    box-shadow: 0 0 10px rgba(13, 110, 253, 0.4);
+    border-color: rgb(0, 128, 0)255, 0);
+    box-shadow: 0 0 10px rgb(0, 128, 0);
     transform: scale(1.1);
 }
 .team-all-text {
@@ -120,17 +120,13 @@
 						    <label class="team-logo-label" for="team_all" title="전체 팀">
 						        <span class="team-all-text">ALL</span>
 						    </label>
-						
-						    <input type="radio" class="btn-check" name="teamFilter" id="team_1" v-model="team_id" value="1" @change="filterChange">
-						    <label class="team-logo-label" for="team_1" title="울산 HD">
-						        <img src="../player/ulsan_logo.png" alt="울산 HD">
-						    </label>
-						    
-						    <input type="radio" class="btn-check" name="teamFilter" id="team_2" v-model="team_id" value="2" @change="filterChange">
-						    <label class="team-logo-label" for="team_2" title="포항 스틸러스">
-						        <img src="../player/pohang_logo.png" alt="포항 스틸러스">
-						    </label>
-						    
+							
+							<template v-for="team in teamList" :key="team.team_id">
+							    <input type="radio" class="btn-check" name="teamFilter" :id='"team_"+team.team_id' v-model="team_id" :value="team.team_id" @change="filterChange">
+							    <label class="team-logo-label" :for='"team_"+team.team_id' :title="team.team_name">
+							        <img :src="team.emblem">
+							    </label>
+						    </template>
 						</div>
 					   
 					</div>
@@ -187,6 +183,7 @@
 		},
 		mounted(){
 			this.dataRecv()
+			this.teamDataRecv()
 		},
 		methods:{
 			async dataRecv(){
@@ -217,6 +214,16 @@
 			},
 			pageChange(page){
 				this.curpage=page
+				this.dataRecv()
+			},
+			async teamDataRecv(){
+				await axios.get('../team/emblem_vue.do')
+				.then(response=>{
+					this.teamList=response.data
+				})
+			},
+			filterChange(){
+				this.curpage=1
 				this.dataRecv()
 			}
 		}
