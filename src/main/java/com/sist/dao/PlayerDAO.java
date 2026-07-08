@@ -51,4 +51,33 @@ public class PlayerDAO {
 		}
 		return total;
 	}
+//	<select id="playerDetailData" resultMap="PlayerMap" parameterType="int">
+//		SELECT player_id,p.team_id,name,name_eng,position,nationality,height,weight,TO_CHAR(birth_date,'yyyy-mm-dd') AS dbday,back_number,img_url,t.team_name,t.emblem
+//		FROM KLeague_Player p 
+//		JOIN KLeague_Team t ON p.team_id=t.team_id
+//		WHERE player_id=#{player_id}
+//	</select>
+	public PlayerVO playerDetailData(int player_id) {
+		PlayerVO vo=new PlayerVO();
+		try(SqlSession session=ssf.openSession()){
+			vo=session.selectOne("playerDetailData",player_id);
+			session.close();
+		}catch(Exception ex) {
+			ex.printStackTrace();
+		}
+		return vo;
+	}
+//	<update id="playerLikeCount" parameterType="int">
+//		UPDATE KLeague_Player SET
+//		likecount=likecount+1
+//		WHERE player_id=#{player_id}
+//	</update>
+	public void playerLikeCount(int player_id) {
+		try(SqlSession session=ssf.openSession()){
+			session.update("playerLikeCount",player_id);
+			session.commit();
+		}catch(Exception ex) {
+			ex.printStackTrace();
+		}
+	}
 }

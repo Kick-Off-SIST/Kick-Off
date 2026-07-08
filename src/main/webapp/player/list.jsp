@@ -135,14 +135,14 @@
                         <div class="card h-100 shadow-sm border-0 grid-card">
                             
                             <div class="position-relative grid-img-container">
-                                <a href="">
+                                <a :href="'../player/detail.do?player_id='+vo.player_id">
                                 	<img :src="vo.img_url?vo.img_url:'../player/no_image.png'" class="card-img-top" alt="">
                                 </a>
                             </div>
                             
                             <div class="card-body p-2 d-flex justify-content-between align-items-center">
                                 <div style="min-width: 0;">
-                                    <h6 class="card-title text-truncate mb-1"><a href="" id="name-link">{{vo.name}}</a></h6>
+                                    <h6 class="card-title text-truncate mb-1"><a :href="'../player/detail.do?player_id='+vo.player_id" id="name-link">{{vo.name}}</a></h6>
                                     <p class="card-text text-truncate mb-0"><a href="" id="team-link">{{vo.tvo.team_name}}</a></p>
                                     <p class="card-text text-truncate mb-0">{{vo.back_number}}&nbsp;&nbsp;{{vo.position}}</p>
                                 </div>
@@ -195,7 +195,7 @@
 						position:this.position
 					}
 				}).then(response=>{
-					console.log(response.data)
+//					console.log(response.data)
 					this.list=response.data.list
 					this.curpage=response.data.curpage
 					this.totalpage=response.data.totalpage

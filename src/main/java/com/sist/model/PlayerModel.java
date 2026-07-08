@@ -60,4 +60,27 @@ public class PlayerModel {
 			ex.printStackTrace();
 		}
 	}
+	@RequestMapping("player/detail.do")
+	public String player_detail(HttpServletRequest request,HttpServletResponse response) {
+		String strP_id=request.getParameter("player_id");
+		int player_id=Integer.parseInt(strP_id);
+		PlayerVO vo=service.playerDetailData(player_id);
+		request.setAttribute("vo", vo);
+		request.setAttribute("main_jsp","../player/detail.jsp");
+		return "../main/main.jsp";
+	}
+	@RequestMapping("player/like.do")
+	public void player_like(HttpServletRequest request,HttpServletResponse response) {
+		String strP_id=request.getParameter("player_id");
+		int player_id=Integer.parseInt(strP_id);
+		String result="";
+		try {
+			service.playerLikeCount(player_id);
+			result="OK";
+		}catch(Exception ex) {
+			ex.printStackTrace();
+			result="NO";
+		}
+		Commons.sendData(response, "text/html", result);
+	}
 }

@@ -15,7 +15,7 @@ import java.util.*;
 import lombok.Data;
 @Data
 public class PlayerVO {
-	private int player_id,height,weight,back_number;
+	private int player_id,height,weight,back_number,likecount;
 	private String team_id,name,name_eng,position,nationality,img_url,dbday;
 	private Date birth_date;
 	private TeamVO tvo=new TeamVO();

@@ -20,4 +20,16 @@ public class PlayerServiceImpl implements PlayerService {
 		return dao.playerTotalPage(map);
 	}
 
+	@Override
+	public PlayerVO playerDetailData(int player_id) {
+		// TODO Auto-generated method stub
+		return dao.playerDetailData(player_id);
+	}
+
+	@Override
+	public void playerLikeCount(int player_id) {
+		// TODO Auto-generated method stub
+		dao.playerLikeCount(player_id);
+	}
+
 }

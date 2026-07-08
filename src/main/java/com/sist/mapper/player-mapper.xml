@@ -27,4 +27,15 @@
 			<if test="position!=null and position!=''">AND position=#{position}</if>
 		</where>
 	</select>
+	<select id="playerDetailData" resultMap="PlayerMap" parameterType="int">
+		SELECT player_id,p.team_id,name,name_eng,position,nationality,height,weight,TO_CHAR(birth_date,'yyyy-mm-dd') AS dbday,back_number,img_url,t.team_name,t.emblem,likecount
+		FROM KLeague_Player p 
+		JOIN KLeague_Team t ON p.team_id=t.team_id
+		WHERE player_id=#{player_id}
+	</select>
+	<update id="playerLikeCount" parameterType="int">
+		UPDATE KLeague_Player SET
+		likecount=likecount+1
+		WHERE player_id=#{player_id}
+	</update>
 </mapper>
