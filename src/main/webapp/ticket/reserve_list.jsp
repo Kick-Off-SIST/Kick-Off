@@ -11,12 +11,13 @@
 <div class="container my-5">
 	<div class="row">
     	<div class="col">
-    	 	<div class="" style="background-color: gray">
-    	 		<img src="" height="100px">
+    	 	<div class="" style="background-color: #D0FDFF">
+    	 		<img src="${imgSrc }" height="200px">
     	 	</div>
     		<c:if test="${list==null }">
     			<h4 class="mb-4 fw-bold text-dark">경기 일정이 없습니다</h4>
     		</c:if>
+    		<%-- <img src="${ticketImage }"> --%>
     	</div>
     </div>
 </div>

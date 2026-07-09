@@ -20,6 +20,10 @@
 		<typeAlias type="com.sist.vo.TeamVO" alias="TeamVO"/>
 		<typeAlias type="com.sist.vo.GoodsVO" alias="GoodsVO"/>
 		<typeAlias type="com.sist.vo.StadiumVO" alias="StadiumVO"/>
+		<typeAlias type="com.sist.vo.MatchSeatVO" alias="MatchSeatVO"/>
+		<typeAlias type="com.sist.vo.ReserveDetailVO" alias="ReserveDetailVO"/>
+		<typeAlias type="com.sist.vo.ReserveVO" alias="ReserveVO"/>
+		<typeAlias type="com.sist.vo.StadiumSeatVO" alias="StadiumSeatVO"/>
 	</typeAliases>
 	<environments default="development">
 		<environment id="development">
@@ -40,5 +44,6 @@
 		<mapper resource="com/sist/mapper/player-mapper.xml"/>
 		<mapper resource="com/sist/mapper/goods-mapper.xml"/>
 		<mapper resource="com/sist/mapper/team-mapper.xml"/>
+		<mapper resource="com/sist/mapper/reserve-mapper.xml"/>
 	</mappers>
 </configuration>

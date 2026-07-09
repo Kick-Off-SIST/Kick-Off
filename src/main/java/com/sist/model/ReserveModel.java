@@ -24,10 +24,12 @@ public class ReserveModel {
 	
 	@RequestMapping("ticket/reserve_list.do")
 	public String ticket_reserve_list(HttpServletRequest request, HttpServletResponse response) {
-		// 임시코드
-		TeamService ts=new TeamServiceImpl();
-		List<TeamVO> list=ts.teamEmblemData();
-		request.setAttribute("list", list);
+		String id=request.getParameter("id");
+		String imgSrc=ReserveDAO.reserveTeamMainData(id);
+		request.setAttribute("imgSrc", imgSrc);
+		
+		String ticketImage=ReserveDAO.reserveTeamTicketImage(id);
+		request.setAttribute("ticketImage", ticketImage);
 		
 		
 		request.setAttribute("main_jsp", "../ticket/reserve_list.jsp");

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sist.mapper.reserve-mapper">
+<!-- resultMap으로 수정할 것 -->
+<!-- <resultMap type="StadiumVO" id="StadiumMap">
+	<result column="ticket_policy_image" property="ticket_policy_image"/>
+</resultMap>
+<resultMap type="TeamVO" id="TeamMap">
+	<collection property="svo" resultMap="StadiumMap"/>
+</resultMap> -->
+<resultMap type="TeamVO" id="TeamMap" autoMapping="true">
+		<association property="svo" javaType="StadiumVO">
+            <result property="ticket_policy_image" column="ticket_policy_image"/>
+        </association>
+	</resultMap>
+<select id="reserveTeamMainData" resultType="string" parameterType="string">
+	SELECT emblem FROM kleague_team WHERE team_id=#{id} 
+</select>
+<select id="reserveTeamTicketImage" resultMap="TeamMap" parameterType="string">
+	SELECT s.ticket_policy_image FROM kleague_team t NATURAL JOIN kleague_stadium s WHERE team_id=#{id}
+</select>
+</mapper>
