@@ -27,6 +27,13 @@ public class TeamModel {
 			ex.printStackTrace();
 		}
 	}
+	@RequestMapping("team/list.do")
+	public String team_list(HttpServletRequest request,HttpServletResponse response) {
+		List<TeamVO> list=service.teamListData();
+		request.setAttribute("list", list);
+		request.setAttribute("main_jsp", "../team/list.jsp");
+		return "../main/main.jsp";
+	}
 	@RequestMapping("team/detail.do")
 	public String team_detail(HttpServletRequest request,HttpServletResponse response) {
 		String team_id=request.getParameter("team_id");

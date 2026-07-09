@@ -17,6 +17,17 @@ public class TeamDAO {
 		session.close();
 		return list;
 	}
+//	<select id="teamListData" resultMap="TeamMap">
+//		SELECT team_id,team_name,emblem,s.name
+//		FROM KLeague_team t JOIN KLeague_Stadium s
+//		ON t.stadium_id=s.stadium_id
+//	</select>
+	public List<TeamVO> teamListData(){
+		SqlSession session=ssf.openSession();
+		List<TeamVO> list=session.selectList("teamListData");
+		session.close();
+		return list;
+	}
 //	<select id="teamDetailData" resultMap="TeamMap" parameterType="string">
 //		SELECT team_id,team_name,t.stadium_id,emblem,s.name,s.address,s.capacity,s.latitude,s.longitude
 //		FROM KLeague_Team t JOIN KLeague_Stadium s

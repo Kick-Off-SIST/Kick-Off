@@ -62,7 +62,7 @@
 				        <ul class="dropdown-menu" aria-labelledby="listDropdown">
 				            <li><a class="dropdown-item" href="../player/list.do">선수목록</a></li>
 				            <li><hr class="dropdown-divider"></li> 
-				            <li><a class="dropdown-item" href="#">팀목록</a></li>
+				            <li><a class="dropdown-item" href="../team/list.do">팀목록</a></li>
 				        </ul>
 				    </li>
 				    <li class="nav-item dropdown">

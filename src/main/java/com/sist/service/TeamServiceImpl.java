@@ -15,5 +15,9 @@ public class TeamServiceImpl implements TeamService {
 	public TeamVO teamDetailData(String team_id) {
 		return dao.teamDetailData(team_id);
 	}
+	@Override
+	public List<TeamVO> teamListData() {
+		return dao.teamListData();
+	}
 
 }
