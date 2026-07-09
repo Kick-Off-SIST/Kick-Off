@@ -80,6 +80,14 @@
 				            굿즈샵
 				        </a>				        
 				    </li>
+				    <li class="nav-item dropdown">
+				        <a class="nav-link dropdown-toggle" href="#" id="listDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+				            티켓 예매
+				        </a>
+				        <ul class="dropdown-menu" aria-labelledby="listDropdown">
+				            <li><a class="dropdown-item" href="../ticket/reserve_team.do">구단별 예매</a></li>
+				        </ul>
+				    </li>
 				    
 				</ul>
                 
