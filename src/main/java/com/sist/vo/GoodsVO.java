@@ -19,6 +19,6 @@ import lombok.Data;
 @Data
 public class GoodsVO {
 	private int goodsNo,price,stock;
-	private String goodsId,goodsName,imageUrl,category,teamId,dbday;
+	private String goodsId,goodsName,imageUrl,category,teamId,teamName,emblem,dbday;
 	private Date reg_date;
 }

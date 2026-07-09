@@ -27,12 +27,15 @@
     WHERE goods_no=#{no}
   </select>
   <select id="goodsFindListData" resultType="GoodsVO" parameterType="hashmap">
-     SELECT goods_no as goodsNo,
-           goods_name as goodsName,
-           image_url as imageUrl,
-           price,
-           category
-    FROM goods
+     SELECT g.goods_no as goodsNo,
+           g.goods_name as goodsName,
+           g.image_url as imageUrl,
+           g.price,
+           g.category,
+           t.team_name as teamName,
+           t.emblem
+    FROM goods g
+    JOIN kleague_team t ON g.team_id = t.team_id
     WHERE 1=1
     <if test="category != null and category != ''">
         AND category = #{category}

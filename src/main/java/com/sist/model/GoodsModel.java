@@ -126,6 +126,9 @@ public class GoodsModel {
 			{
 				String no=request.getParameter("no");
 				GoodsVO vo=GoodsDAO.goodsDetailData(Integer.parseInt(no));
+				String p=String.valueOf(vo.getPrice());
+				   p=p.replaceAll("[^0-9]", "");
+				   vo.setPrice(Integer.parseInt(p));
 				ObjectMapper mapper=new ObjectMapper();
 				String json=mapper.writeValueAsString(vo);
 				
