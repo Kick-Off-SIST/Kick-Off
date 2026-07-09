@@ -47,13 +47,14 @@
     OFFSET #{start} ROWS FETCH NEXT 12 ROWS ONLY
   </select>
   <select id="goodsFindTotalPage" resultType="int" parameterType="hashmap">
-     SELECT CEIL(COUNT(*)/12.0) FROM goods
-    WHERE 1=1
-    <if test="category != null and category != ''">
-        AND category = #{category}
-    </if>
-    <if test="ss != null and ss != ''">
-        AND goods_name LIKE '%'||#{ss}||'%'
-    </if>
-  </select>
+   SELECT CEIL(COUNT(*)/12.0) 
+   FROM goods
+   WHERE 1=1
+   <if test="category != null and category != ''">
+       AND category = #{category}
+   </if>
+   <if test="ss != null and ss != ''">
+       AND goods_name LIKE '%'||#{ss}||'%'
+   </if>
+</select>
 </mapper>

@@ -102,8 +102,8 @@
             <p class="goods-no">상품번호 {{vo.goodsNo}}</p>
 
             <div class="d-flex align-items-baseline mb-3">
-              <span class="price-value">{{vo.price.toLocaleString()}}</span>
-              <span class="price-unit" style="font-size: 26px;">원</span>
+              <span class="price-value">{{vo.price ? vo.price.toLocaleString() : 0}}</span>
+              <span class="price-unit" style="font-size: 14px;">원</span>
             </div>
 
             <table class="spec-table">

@@ -64,7 +64,7 @@
         <img :src="vo.imageUrl" :alt="vo.goodsName" class="card-img-top goods-thumb">
         <div class="card-body d-flex flex-column">
           <p class="card-title fw-bold mb-1 text-truncate">{{vo.goodsName}}</p>
-          <p class="goods-price mb-2" style="color: gray; font-size: 15px" >{{vo.price.toLocaleString()}}원</p>
+          <p class="goods-price mb-2" style="color: gray; font-size: 16px" >{{vo.price.toLocaleString()}}원</p>
           <div class="d-flex align-items-center gap-2 mt-auto">
             <img :src="vo.emblem" :alt="vo.teamName"
                  style="width:28px; height:28px; object-fit:contain;">
@@ -75,21 +75,6 @@
       </div>
     </a>
   </div>
-  <!-- 
-  	<div class="card-body p-2 d-flex justify-content-between align-items-center">
-                                <div style="min-width: 0;">
-                                    <h6 class="card-title text-truncate mb-1"><a :href="'../player/detail.do?player_id='+vo.player_id" id="name-link">{{vo.name}}</a></h6>
-                                    <p class="card-text text-truncate mb-0"><a href="" id="team-link">{{vo.tvo.team_name}}</a></p>
-                                    <p class="card-text text-truncate mb-0">{{vo.back_number}}&nbsp;&nbsp;{{vo.position}}</p>
-                                </div>
-                                <div class="flex-shrink-0 ms-2">
-                                	<a href="" id="team-link">
-	                                	<img :src="vo.tvo.emblem?vo.tvo.emblem :''"
-	                                		alt="" style="width: 35px; height: 35px; object-fit: contain;">
-                                	</a>
-                                </div>
-                            </div>
-   -->
       <div class="col-12 text-center text-muted py-5" v-if="goods_list.length === 0">
         검색 결과가 없습니다.
       </div>
