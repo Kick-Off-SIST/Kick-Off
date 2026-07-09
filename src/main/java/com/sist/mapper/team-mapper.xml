@@ -4,10 +4,14 @@
 	<resultMap type="TeamVO" id="TeamMap" autoMapping="true">
 		<association property="svo" javaType="StadiumVO">
             <result property="capacity" column="capacity"/>
-            <result property="name" column="stadium_name"/>
+            <result property="name" column="name"/>
             <result property="longitude" column="longitude"/>
             <result property="latitude" column="latitude"/>
             <result property="address" column="address"/>
+            <result property="image" column="image"/>
+            <result property="near_station_name" column="near_station_name"/>
+            <result property="near_station_lat" column="near_station_lat"/>
+            <result property="near_station_lng" column="near_station_lng"/>
         </association>
 	</resultMap>
 	<select id="teamEmblemData" resultType="TeamVO">
@@ -15,7 +19,7 @@
 		FROM KLeague_team
 	</select>
 	<select id="teamDetailData" resultMap="TeamMap" parameterType="string">
-		SELECT team_id,team_name,t.stadium_id,emblem,s.stadium_name,s.address,s.capacity,s.latitude,s.longitude
+		SELECT team_id,team_name,t.stadium_id,emblem,s.name,s.address,s.capacity,s.latitude,s.longitude,s.image,s.near_station_name,s.near_station_lat,s.near_station_lng
 		FROM KLeague_Team t JOIN KLeague_Stadium s
 		ON t.stadium_id=s.stadium_id
 		WHERE team_id=#{team_id}

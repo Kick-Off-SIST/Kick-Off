@@ -143,11 +143,11 @@
                             <div class="card-body p-2 d-flex justify-content-between align-items-center">
                                 <div style="min-width: 0;">
                                     <h6 class="card-title text-truncate mb-1"><a :href="'../player/detail.do?player_id='+vo.player_id" id="name-link">{{vo.name}}</a></h6>
-                                    <p class="card-text text-truncate mb-0"><a href="" id="team-link">{{vo.tvo.team_name}}</a></p>
+                                    <p class="card-text text-truncate mb-0"><a :href="'../team/detail.do?team_id='+vo.team_id" id="team-link">{{vo.tvo.team_name}}</a></p>
                                     <p class="card-text text-truncate mb-0">{{vo.back_number}}&nbsp;&nbsp;{{vo.position}}</p>
                                 </div>
                                 <div class="flex-shrink-0 ms-2">
-                                	<a href="" id="team-link">
+                                	<a :href="'../team/detail.do?team_id='+vo.team_id" id="team-link">
 	                                	<img :src="vo.tvo.emblem?vo.tvo.emblem :''"
 	                                		alt="" style="width: 35px; height: 35px; object-fit: contain;">
                                 	</a>
@@ -182,6 +182,10 @@
 			}
 		},
 		mounted(){
+			const params=new URLSearchParams(window.location.search)
+			if(params.has('team_id')){
+				this.team_id=params.get('team_id')
+			}
 			this.dataRecv()
 			this.teamDataRecv()
 		},

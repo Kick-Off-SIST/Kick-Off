@@ -67,6 +67,14 @@ body {
 	position: sticky;
 	top: 80px;
 }
+.stadium-img {
+	width: 100%;
+	height: 350px;
+	object-fit: cover;
+	border-radius: 6px;
+	border: 1px solid #eeeeee;
+	margin-bottom: 20px;
+}
 </style>
 </head>
 <body>
@@ -80,7 +88,7 @@ body {
 				<div class="col-md-9 text-center text-md-start">
 					<h1 class="fw-bold mb-2" style="font-size: 36px;">${vo.team_name }</h1>
 					<p style="font-size: 18px; color: #cccccc; margin: 0;">
-						<i class="bi bi-geo-alt-fill text-success me-1"></i> 홈구장: ${vo.svo.stadium_name }
+						<i class="bi bi-geo-alt-fill text-success me-1"></i> 홈구장: ${vo.svo.name }
 					</p>
 				</div>
 			</div>
@@ -93,6 +101,8 @@ body {
 					<h4 class="fw-bold mb-4" style="border-bottom: 2px solid #212529; padding-bottom: 10px;">
 						홈구장 정보 및 오시는 길
 					</h4>
+	                
+	                <img src="${vo.svo.image }" class="stadium-img">
 	                
 					<div class="row g-3 mb-4">
 						<div class="col-md-6">
@@ -109,23 +119,61 @@ body {
 						</div>
 					</div>
 					<div id="map" class="map-area">
-	                    지도 API가 렌더링될 영역입니다 (위도: 35.535287, 경도: 129.259604)
+	                    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=${kakaoAPI }&libraries=services"></script>
+						<script>
+						var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+						    mapOption = {
+						        center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+						        level: 3 // 지도의 확대 레벨
+						    };  
+						
+						// 지도를 생성합니다    
+						var map = new kakao.maps.Map(mapContainer, mapOption); 
+						
+						// 주소-좌표 변환 객체를 생성합니다
+						var geocoder = new kakao.maps.services.Geocoder();
+						
+						// 주소로 좌표를 검색합니다
+						geocoder.addressSearch('${vo.svo.address}', function(result, status) {
+						
+						    // 정상적으로 검색이 완료됐으면 
+						     if (status === kakao.maps.services.Status.OK) {
+						
+						        var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+						
+						        // 결과값으로 받은 위치를 마커로 표시합니다
+						        var marker = new kakao.maps.Marker({
+						            map: map,
+						            position: coords
+						        });
+						
+						        // 인포윈도우로 장소에 대한 설명을 표시합니다
+						        var infowindow = new kakao.maps.InfoWindow({
+						            content: '<div style="width:150px;text-align:center;padding:6px 0;">${vo.svo.name}</div>'
+						        });
+						        infowindow.open(map, marker);
+						
+						        // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+						        map.setCenter(coords);
+						    } 
+						});    
+						</script>
 					</div>
 	
 					<div class="mt-4">
 						<h6 class="fw-bold mb-3"><i class="bi bi-train-front text-secondary me-2"></i>대중교통 이용 안내</h6>
 						<ul class="list-group list-group-flush" style="font-size: 15px;">
 							<li class="list-group-item px-0 py-3">
-								<strong class="text-primary">지하철/전철:</strong> 
-								동해선 '태화강역' 하차 후 버스 환승 (직접 연결 역 없음)
+								<strong class="text-primary">대중교통:</strong> 
+								<button type="button" class="btn btn-sm btn-primary" onclick="openDirection('traffic')"><i class="bi bi-map me-1"></i></button>
 							</li>
 							<li class="list-group-item px-0 py-3">
-								<strong class="text-success">시내버스:</strong> 
-								울산대공원 방면 버스 (104, 114, 405 등) 탑승 후 '문수경기장' 정류장 하차
+								<strong class="text-success">자가용:</strong> 
+								<button type="button" class="btn btn-sm btn-primary" onclick="openDirection('car')"><i class="bi bi-map me-1"></i></button>
 							</li>
 							<li class="list-group-item px-0 py-3">
-								<strong class="text-danger">고속/시외버스:</strong> 
-								울산시외버스터미널 하차 후 택시 이용 시 약 15분 소요 (약 6km)
+								<strong class="text-danger">도보:</strong> 
+								<button type="button" class="btn btn-sm btn-primary" onclick="openDirection('walk')"><i class="bi bi-map me-1"></i></button>
 							</li>
 						</ul>
 					</div>
@@ -138,14 +186,14 @@ body {
 	                
 					<div class="mb-4 text-center">
 						<div style="font-size: 14px; color: #666666; margin-bottom: 5px;">다음 홈 경기 예매</div>
-						<a href="../ticket/list.do?team_id=K01" class="btn btn-success w-100" style="font-weight: bold; font-size: 16px;">
+						<a href="../ticket/list.do?team_id=${vo.team_id }" class="btn btn-success w-100" style="font-weight: bold; font-size: 16px;">
 							<i class="bi bi-ticket-perforated me-2"></i>예매 페이지로 이동
 						</a>
 					</div>
 					<hr style="border-color: #dddddd; margin: 20px 0;">
 					<div class="mb-4 text-center">
 						<div style="font-size: 14px; color: #666666; margin-bottom: 5px;">소속 선수 확인</div>
-						<a href="../player/list.do?team_id=K01" class="btn btn-outline-dark w-100" style="font-weight: bold;">
+						<a href="../player/list.do?team_id=${vo.team_id }" class="btn btn-outline-dark w-100" style="font-weight: bold;">
 							<i class="bi bi-person-lines-fill me-2"></i>선수단 스쿼드 보기
 						</a>
 					</div>
@@ -154,7 +202,7 @@ body {
 	
 					<div class="text-center">
 						<div style="font-size: 14px; color: #666666; margin-bottom: 5px;">공식 유니폼 & 굿즈</div>
-						<a href="../goods/list.do?team_id=K01" class="btn btn-dark w-100" style="font-weight: bold;">
+						<a href="../goods/list.do?team_id=${vo.team_id }" class="btn btn-dark w-100" style="font-weight: bold;">
 							<i class="bi bi-shop me-2"></i>구단 스토어 바로가기
 						</a>
 					</div>
@@ -163,4 +211,22 @@ body {
 		</div>
 	</div>
 </body>
+<script>
+const openDirection=(type)=>{
+	let startName='${vo.svo.near_station_name}'
+	let startLat=${vo.svo.near_station_lat}
+	let startLng=${vo.svo.near_station_lng}
+	
+	let endName='${vo.svo.name}'
+	let endLat=${vo.svo.latitude}
+	let endLng=${vo.svo.longitude}
+	
+	let url='https://map.kakao.com/link/by/'
+		+type+'/'+startName+','+startLat+','
+		+startLng+'/'+endName+','+endLat+','+ endLng
+    
+    let option='width=1000,height=700,scrollbars=yes,resizable=yes,top=100,left=100'
+    window.open(url,'길찾기',option)
+}
+</script>
 </html>

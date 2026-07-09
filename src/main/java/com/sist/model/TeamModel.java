@@ -8,6 +8,7 @@ import com.sist.service.TeamService;
 import com.sist.service.TeamServiceImpl;
 import com.sist.vo.TeamVO;
 
+import java.io.InputStream;
 import java.util.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -30,6 +31,17 @@ public class TeamModel {
 	public String team_detail(HttpServletRequest request,HttpServletResponse response) {
 		String team_id=request.getParameter("team_id");
 		TeamVO vo=service.teamDetailData(team_id);
+		Properties prop=new Properties();
+		try(InputStream is=Thread.currentThread().getContextClassLoader().getResourceAsStream("api.properties")){
+			if(is!=null) {
+				prop.load(is);
+				String kakaoAPI=prop.getProperty("kakao.mapAPI");
+				request.setAttribute("kakaoAPI", kakaoAPI);
+			}
+		}catch(Exception ex) {
+			ex.printStackTrace();
+		}
+		
 		request.setAttribute("vo", vo);
 		request.setAttribute("main_jsp", "../team/detail.jsp");
 		return "../main/main.jsp";

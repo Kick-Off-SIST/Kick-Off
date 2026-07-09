@@ -12,6 +12,6 @@ import lombok.Data;
 @Data
 public class StadiumVO {
 	private int stadium_id,capacity;
-	private double latitude,longitude;
-	private String name,address,ticket_policy_image;
+	private double latitude,longitude,near_station_lat,near_station_lng;
+	private String name,address,ticket_policy_image,image,near_station_name;
 }
