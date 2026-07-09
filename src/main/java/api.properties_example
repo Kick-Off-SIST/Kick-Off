@@ -1,1 +1,3 @@
 kakao.mapAPI=API키 입력
+
+//값을 채워서 api.properties로 저장 후 gitignore 등록하기 (Team-Ignore)
