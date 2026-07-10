@@ -27,4 +27,30 @@
 		WHERE TRUNC(game_date,'month')=TRUNC(TO_DATE(#{searchDate}),'month')
 		ORDER BY game_date DESC
 	</select>
+	<select id="matchRecentData" resultMap="MatchMap" parameterType="string">
+		SELECT schedule_id,dbday,GAME_TIME,HOME_TEAM_NAME,
+			AWAY_TEAM_NAME,HOME_TEAM_EMBLEM,AWAY_TEAM_EMBLEM,
+			STADIUM_NAME,HOME_GOAL,AWAY_GOAL,GAME_STATUS,HOME_TEAM_ID,AWAY_TEAM_ID,ROWNUM
+		FROM(SELECT m.schedule_id,TO_CHAR(game_date,'yyyy-mm-dd') AS dbday,GAME_TIME,t1.TEAM_NAME AS HOME_TEAM_NAME,
+				t2.TEAM_NAME AS AWAY_TEAM_NAME,t1.emblem AS HOME_TEAM_EMBLEM,t2.emblem AS AWAY_TEAM_EMBLEM,
+				s.NAME AS STADIUM_NAME,HOME_GOAL,AWAY_GOAL,GAME_STATUS,t1.team_id AS HOME_TEAM_ID,t2.team_id AS AWAY_TEAM_ID
+				FROM kleague_schedule m
+				JOIN kleague_team t1 ON m.home_team_id=t1.team_id
+				JOIN kleague_team t2 ON m.away_team_id=t2.team_id
+				JOIN kleague_stadium s ON m.stadium_id=s.stadium_id
+				WHERE game_date>TO_DATE(#{currentDate})
+				ORDER BY game_date ASC, TO_DATE(game_time,'HH24:MI') ASC
+			)
+		WHERE ROWNUM&lt;=5
+	</select>
+	<select id="matchRankData" resultMap="MatchMap">
+		SELECT team_name,goals,ROWNUM
+		FROM (SELECT t.team_name AS team_name,SUM(s.home_goal) AS goals
+		    FROM kleague_schedule s
+		    JOIN kleague_team t ON s.home_team_id=t.team_id
+		    WHERE game_date>=TO_DATE(20260101)
+		    GROUP BY t.team_name
+		    ORDER BY 2 DESC)
+		ORDER BY ROWNUM ASC;
+	</select>
 </mapper>

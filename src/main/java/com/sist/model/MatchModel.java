@@ -23,18 +23,6 @@ public class MatchModel {
 	private MatchService service=new MatchServiceImpl();
 	@RequestMapping("match/list.do")
 	public String match_list(HttpServletRequest request,HttpServletResponse response) {
-//		JSONArray dateArr=new JSONArray();
-//		LocalDate today=LocalDate.now();
-//		for(int i=0;i<14;i++) {
-//			LocalDate day=today.plusDays(i);
-//			JSONObject obj=new JSONObject();
-//			obj.put("fullDate", day.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-//			obj.put("dayNum", String.valueOf(day.getDayOfMonth()));
-//			obj.put("dayName", day.getDayOfWeek().getDisplayName(TextStyle.FULL,Locale.KOREAN));
-//			dateArr.add(obj);
-//		}
-//		request.setAttribute("dList", dateArr.toJSONString());
-//		
 		request.setAttribute("main_jsp", "../match/list.jsp");
 		return "../main/main.jsp";
 	}
@@ -42,6 +30,18 @@ public class MatchModel {
 	public void match_list_vue(HttpServletRequest request,HttpServletResponse response) {
 		String searchDate=request.getParameter("searchDate");
 		List<MatchVO> list=service.matchListData(searchDate);
+		try {
+			ObjectMapper mapper=new ObjectMapper();
+			String json=mapper.writeValueAsString(list);
+			Commons.sendData(response, "text/plain", json);
+		}catch(Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+	@RequestMapping("match/recent_vue.do")
+	public void match_recent_vue(HttpServletRequest request,HttpServletResponse response) {
+		String currentDate=request.getParameter("searchDate");
+		List<MatchVO> list=service.matchRecentData(currentDate);
 		try {
 			ObjectMapper mapper=new ObjectMapper();
 			String json=mapper.writeValueAsString(list);

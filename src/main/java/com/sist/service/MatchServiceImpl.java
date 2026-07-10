@@ -11,5 +11,9 @@ public class MatchServiceImpl implements MatchService {
 	public List<MatchVO> matchListData(String searchDate) {
 		return dao.matchListData(searchDate);
 	}
+	@Override
+	public List<MatchVO> matchRecentData(String currentDate) {
+		return dao.matchRecentData(currentDate);
+	}
 
 }
