@@ -9,14 +9,34 @@
 	<collection property="svo" resultMap="StadiumMap"/>
 </resultMap> -->
 <resultMap type="TeamVO" id="TeamMap" autoMapping="true">
-		<association property="svo" javaType="StadiumVO">
-            <result property="ticket_policy_image" column="ticket_policy_image"/>
-        </association>
-	</resultMap>
-<select id="reserveTeamMainData" resultType="string" parameterType="string">
-	SELECT emblem FROM kleague_team WHERE team_id=#{id} 
+	<association property="svo" javaType="StadiumVO">
+		<result property="name" column="name"/>
+        <result property="ticket_policy_image" column="ticket_policy_image"/>
+    </association>
+</resultMap>
+<resultMap type="MatchVO" id="MatchMap" autoMapping="true">
+	<association property="awayVo" javaType="TeamVO">
+		<result column="team_name" property="team_name"/>
+		<result column="emblem" property="emblem"/>
+    </association>
+</resultMap>
+<select id="reserveTeam" resultMap="TeamMap" parameterType="string">
+	SELECT t.team_id, t.team_name, t.emblem, s.name
+	FROM kleague_team t NATURAL JOIN kleague_stadium s
+	ORDER BY ${col} ASC
+</select>
+<select id="reserveTeamMainData" resultType="TeamVO" parameterType="string">
+	SELECT team_name,emblem FROM kleague_team WHERE team_id=#{id}
 </select>
 <select id="reserveTeamTicketImage" resultMap="TeamMap" parameterType="string">
-	SELECT s.ticket_policy_image FROM kleague_team t NATURAL JOIN kleague_stadium s WHERE team_id=#{id}
+	SELECT s.name,s.ticket_policy_image FROM kleague_team t NATURAL JOIN kleague_stadium s WHERE team_id=#{id}
+</select>
+<select id="reserveTeamScheduleData" resultMap="MatchMap" parameterType="string">
+	select s.schedule_id,TO_CHAR(s.game_date,'MM-DD') as dbday,s.game_time,t.team_name,t.emblem
+	FROM kleague_schedule s INNER JOIN kleague_team t
+	ON s.away_team_id=t.team_id
+	WHERE (s.game_date BETWEEN SYSDATE AND SYSDATE+31)
+	AND home_team_id=#{id}
+	ORDER BY s.game_date ASC
 </select>
 </mapper>
