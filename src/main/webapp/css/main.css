@@ -11,8 +11,10 @@
 	--green-soft: #e6f4ec;
 	--gold: #b8860b;
 }
-
 body{
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
 	background-color: var(--bg);
 	color: var(--ink);
 	font-family: 'Noto Sans KR', sans-serif;

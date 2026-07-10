@@ -5,10 +5,12 @@
 		<association property="homeVo" javaType="TeamVO">
             <result property="team_name" column="home_team_name"/>
             <result property="emblem" column="home_team_emblem"/>
+            <result property="team_id" column="home_team_id"/>
         </association>
         <association property="awayVo" javaType="TeamVO">
             <result property="team_name" column="away_team_name"/>
             <result property="emblem" column="away_team_emblem"/>
+            <result property="team_id" column="away_team_id"/>
         </association>
         <association property="svo" javaType="StadiumVO">
             <result property="name" column="stadium_name"/>
@@ -17,11 +19,12 @@
 	<select id="matchListData" resultMap="MatchMap" parameterType="string">
 		SELECT m.schedule_id,TO_CHAR(game_date,'yyyy-mm-dd') AS dbday,GAME_TIME,t1.TEAM_NAME AS HOME_TEAM_NAME,
 			t2.TEAM_NAME AS AWAY_TEAM_NAME,t1.emblem AS HOME_TEAM_EMBLEM,t2.emblem AS AWAY_TEAM_EMBLEM,
-			s.NAME AS STADIUM_NAME,HOME_GOAL,AWAY_GOAL,GAME_STATUS
+			s.NAME AS STADIUM_NAME,HOME_GOAL,AWAY_GOAL,GAME_STATUS,t1.team_id AS HOME_TEAM_ID,t2.team_id AS AWAY_TEAM_ID,COUNT(m.schedule_id) OVER() AS count
 		FROM kleague_schedule m 
 		JOIN kleague_team t1 ON m.home_team_id=t1.team_id
 		JOIN kleague_team t2 ON m.away_team_id=t2.team_id
 		JOIN kleague_stadium s ON m.stadium_id=s.stadium_id
 		WHERE TRUNC(game_date,'month')=TRUNC(TO_DATE(#{searchDate}),'month')
+		ORDER BY game_date DESC
 	</select>
 </mapper>
