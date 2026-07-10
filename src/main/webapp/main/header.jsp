@@ -19,7 +19,7 @@
                     <ul class="dropdown-menu" aria-labelledby="matchDropdown">
                         <li><a class="dropdown-item" href="#">빠른예매</a></li>
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="#">경기목록</a></li>
+                        <li><a class="dropdown-item" href="../match/list.do">경기목록</a></li>
                     </ul>
                 </li>
 

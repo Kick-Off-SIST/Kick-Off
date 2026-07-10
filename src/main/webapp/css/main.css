@@ -1,155 +1,232 @@
-/* =========================================================
-   Kick-Off 공통 스타일 (밝은 회색 배경 + 블랙/화이트 카드 + 그린 포인트)
-   ⚠ 부트스트랩 기본 클래스(.card, .btn-*, .form-control, .form-select,
-     .dropdown-*, .modal-*, .pagination)는 여기서 재정의하지 않습니다.
-     굿즈샵(find.jsp)/선수목록(list.jsp)이 이 CSS를 같이 로드하기 때문에,
-     여길 건드리면 그 화면들 디자인이 전부 같이 바뀝니다.
-   홈 화면 전용 요소만 kickoff- 접두사를 붙여 완전히 분리합니다.
-   ========================================================= */
-
 :root{
-  --bg: #eef1f4;            /* 페이지 배경: 밝은 회색 */
-  --surface: #ffffff;       /* 기본 카드: 흰색 (부트스트랩 .card와 동일) */
-  --dark-card: #14171c;     /* 포인트 카드: 짙은 블랙 (히어로/스코어보드 전용) */
-  --dark-card-2: #1f242b;
-  --line: #e2e5ea;
-  --ink: #1f2328;
-  --muted: #6b7280;
-  --green: #0f9d58;
-  --green-dark: #0b7a44;
-  --green-soft: #e6f4ec;
-  --gold: #b8860b;
+	--bg: #eef1f4;
+	--surface: #ffffff;
+	--dark-card: #14171c;
+	--dark-card-2: #1f242b;
+	--line: #e2e5ea;
+	--ink: #1f2328;
+	--muted: #6b7280;
+	--green: #0f9d58;
+	--green-dark: #0b7a44;
+	--green-soft: #e6f4ec;
+	--gold: #b8860b;
 }
 
 body{
-  background-color: var(--bg);
-  color: var(--ink);
-  font-family: 'Noto Sans KR', sans-serif;
+	background-color: var(--bg);
+	color: var(--ink);
+	font-family: 'Noto Sans KR', sans-serif;
 }
 
 .navbar{
-  box-shadow: 0 2px 4px rgba(0,0,0,.08);
+	box-shadow: 0 2px 4px rgba(0,0,0,.08);
 }
 
+.foot-top{
+	box-shadow: 0 2px 4px rgba(0,0,0,.08);
+}
 .main-content{
-  min-height: 80vh;
-  padding-top: 2rem;
-  padding-bottom: 3rem;
+	min-height: 80vh;
+	padding-top: 2rem;
+	padding-bottom: 3rem;
 }
 
-/* ========================= 홈 화면 전용 (kickoff-*) ========================= */
+/* ========================= 홈 화면 ========================= */
 
-/* 히어로: 블랙 카드 */
 .kickoff-hero{
-  background: var(--dark-card);
-  color: #fff;
-  border-radius: 20px;
-  padding: 56px 40px;
-  margin-bottom: 28px;
-  position: relative;
-  overflow: hidden;
+	background: var(--dark-card);
+	color: #fff;
+	border-radius: 20px;
+	padding: 56px 40px;
+	margin-bottom: 28px;
+	position: relative;
+	overflow: hidden;
 }
 .kickoff-hero-eyebrow{
-  display: inline-flex; align-items: center; gap: 8px;
-  background: rgba(15,157,88,.16); border: 1px solid rgba(15,157,88,.4);
-  color: #4fd694; font-size: 12.5px; font-weight: 700; letter-spacing: .5px;
-  padding: 6px 14px; border-radius: 20px; margin-bottom: 16px;
+	display: inline-flex; align-items: center; gap: 8px;
+	background: rgba(15,157,88,.16); border: 1px solid rgba(15,157,88,.4);
+	color: #4fd694; font-size: 12.5px; font-weight: 700; letter-spacing: .5px;
+	padding: 6px 14px; border-radius: 20px; margin-bottom: 16px;
 }
 .kickoff-hero-eyebrow .pulse{
   width: 7px; height: 7px; background: var(--green); border-radius: 50%;
   animation: kickoff-pulse 1.6s infinite;
 }
 @keyframes kickoff-pulse{
-  0%{ box-shadow: 0 0 0 0 rgba(15,157,88,.6); }
-  70%{ box-shadow: 0 0 0 8px rgba(15,157,88,0); }
-  100%{ box-shadow: 0 0 0 0 rgba(15,157,88,0); }
+	0%{ box-shadow: 0 0 0 0 rgba(15,157,88,.6); }
+	70%{ box-shadow: 0 0 0 8px rgba(15,157,88,0); }
+	100%{ box-shadow: 0 0 0 0 rgba(15,157,88,0); }
 }
 .kickoff-hero h1{
-  font-family: 'Black Han Sans', sans-serif;
-  font-size: 38px; line-height: 1.25; color: #fff; margin-bottom: 14px;
+	font-family: 'Black Han Sans', sans-serif;
+	font-size: 38px; line-height: 1.25; color: #fff; margin-bottom: 14px;
 }
-.kickoff-hero h1 .accent{ color: var(--green); }
-.kickoff-hero p{ color: #a7adb8; max-width: 520px; margin-bottom: 0; }
+.kickoff-hero h1 .accent{ 
+	color: var(--green); 
+}
+.kickoff-hero p{ 
+	color: #a7adb8; 
+	max-width: 520px; 
+	margin-bottom: 0; 
+}
 
-/* 스코어보드 티커: 블랙 카드 */
 .kickoff-scoreboard{
-  background: var(--dark-card); color: #fff;
-  border-radius: 14px; overflow: hidden; margin-bottom: 28px;
-  display: flex; align-items: stretch;
+	background: var(--dark-card); 
+	color: #fff;
+	border-radius: 14px; 
+	overflow: hidden; 
+	margin-bottom: 28px;
+	display: flex; 
+	align-items: stretch;
 }
 .kickoff-scoreboard-label{
-  background: var(--green); color: #fff;
-  font-family: 'Black Han Sans', sans-serif; font-size: 13px;
-  padding: 14px 22px; display: flex; align-items: center;
-  white-space: nowrap; letter-spacing: .5px; text-align: center;
+	background: var(--green); 
+	color: #fff;
+	font-family: 'Black Han Sans', sans-serif; 
+	font-size: 13px;
+	padding: 14px 22px; 
+	display: flex; 
+	align-items: center;
+	white-space: nowrap; 
+	letter-spacing: .5px; 
+	text-align: center;
 }
-.kickoff-score-track{ display: flex; overflow-x: auto; scrollbar-width: none; }
-.kickoff-score-track::-webkit-scrollbar{ display: none; }
+.kickoff-score-track{ 
+	display: flex; 
+	overflow-x: auto; 
+	scrollbar-width: none; 
+}
+.kickoff-score-track::-webkit-scrollbar{ 
+	display: none; 
+}
 .kickoff-score-card{
-  display: flex; align-items: center; gap: 10px;
-  padding: 12px 24px; border-right: 1px solid rgba(255,255,255,.08);
-  white-space: nowrap; font-size: 14px; color: #fff;
+	display: flex; 
+	align-items: center; 
+	gap: 10px;
+	padding: 12px 24px; 
+	border-right: 1px solid rgba(255,255,255,.08);
+	white-space: nowrap; 
+	font-size: 14px; 
+	color: #fff;
 }
 .kickoff-score-card .num{
-  font-family: 'Black Han Sans', sans-serif; font-size: 16px;
-  background: rgba(15,157,88,.2); color: #4fd694;
-  padding: 2px 9px; border-radius: 4px;
+	font-family: 'Black Han Sans', sans-serif; 
+	font-size: 16px;
+	background: rgba(15,157,88,.2); 
+	color: #4fd694;
+	padding: 2px 9px; 
+	border-radius: 4px;
 }
-.kickoff-score-card .status{ color: #8b93a0; font-size: 12px; }
+.kickoff-score-card .status{ 
+	color: #8b93a0; 
+	font-size: 12px; 
+}
 
-/* 섹션 헤더 (화이트 카드 섹션 공통) */
 .kickoff-section-head{
-  display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 18px;
+	display: flex; 
+	align-items: flex-end; 
+	justify-content: space-between; 
+	margin-bottom: 18px;
 }
 .kickoff-section-head .eyebrow{
-  color: var(--green-dark); font-size: 12.5px; font-weight: 700; letter-spacing: 1px; margin-bottom: 4px;
+	color: var(--green-dark); 
+	font-size: 12.5px; 
+	font-weight: 700; 
+	letter-spacing: 1px; 
+	margin-bottom: 4px;
 }
 .kickoff-section-head h2{
-  font-family: 'Black Han Sans', sans-serif; font-size: 22px; margin: 0; color: var(--ink);
+	font-family: 'Black Han Sans', sans-serif; 
+	font-size: 22px; 
+	margin: 0; 
+	color: var(--ink);
 }
 
-/* 티켓 예매 배너: 옅은 그린 톤의 화이트 카드 */
 .kickoff-ticket-banner{
-  background: linear-gradient(120deg, var(--green-soft), #ffffff 70%);
-  border: 1px solid var(--line); border-radius: 16px; padding: 32px 36px;
-  display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap;
+	background: linear-gradient(120deg, var(--green-soft), #ffffff 70%);
+	border: 1px solid var(--line); 
+	border-radius: 16px; 
+	padding: 32px 36px;
+	display: flex; 
+	align-items: center; 
+	justify-content: space-between; 
+	gap: 24px; 
+	flex-wrap: wrap;
 }
-.kickoff-ticket-banner h3{ font-family: 'Black Han Sans', sans-serif; font-size: 21px; margin-bottom: 6px; color: var(--ink); }
-.kickoff-ticket-banner p{ color: var(--muted); font-size: 14px; margin: 0; }
+.kickoff-ticket-banner h3{ 
+	font-family: 'Black Han Sans', sans-serif; 
+	font-size: 21px; 
+	margin-bottom: 6px; 
+	color: var(--ink); 
+}
+.kickoff-ticket-banner p{ 
+	color: var(--muted); 
+	font-size: 14px; 
+	margin: 0; 
+}
 
-/* 팀 엠블럼/순위 표 안 배지 자리표시자 */
 .kickoff-crest{
-  width: 40px; height: 40px; border-radius: 50%;
-  background: var(--green-soft); border: 1px solid var(--line); flex-shrink: 0;
+	width: 40px; 
+	height: 40px; 
+	border-radius: 50%;
+	background: var(--green-soft);
+	border: 1px solid var(--line); 
+	flex-shrink: 0;
 }
-.kickoff-crest.sm{ width: 24px; height: 24px; }
+.kickoff-crest.sm{ 
+	width: 24px; 
+	height: 24px; 
+}
+.kickoff-rank-gold{ 
+	color: var(--gold); 
+}
 
-.kickoff-rank-gold{ color: var(--gold); }
-
-/* 영상 썸네일 */
 .kickoff-video-thumb{
-  aspect-ratio: 16/10; border-radius: 8px; background: var(--dark-card-2);
-  position: relative; overflow: hidden;
+	aspect-ratio: 16/10; 
+	border-radius: 8px; 
+	background: var(--dark-card-2);
+	position: relative; 
+	overflow: hidden;
 }
 .kickoff-video-thumb .play-btn{
-  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+	position: absolute; 
+	inset: 0; 
+	display: flex; 
+	align-items: center; 
+	justify-content: center;
 }
 .kickoff-video-thumb .play-btn::before{
-  content: ''; width: 40px; height: 40px; border-radius: 50%;
-  background: rgba(15,157,88,.9); position: absolute;
+	content: ''; 
+	width: 40px;
+	height: 40px; 
+	border-radius: 50%;
+	background: rgba(15,157,88,.9); 
+	position: absolute;
 }
 .kickoff-video-thumb .play-btn::after{
-  content: ''; width: 0; height: 0; z-index: 1;
-  border-left: 13px solid #fff; border-top: 8px solid transparent; border-bottom: 8px solid transparent;
-  margin-left: 3px;
+	content: ''; 
+	width: 0; 
+	height: 0; 
+	z-index: 1;
+	border-left: 13px solid #fff; 
+	border-top: 8px solid transparent; 
+	border-bottom: 8px solid transparent;
+	margin-left: 3px;
 }
 .kickoff-video-thumb .dur{
-  position: absolute; bottom: 8px; right: 8px; z-index: 1;
-  background: rgba(0,0,0,.55); color: #fff; font-size: 11px; padding: 2px 6px; border-radius: 4px;
+	position: absolute; 
+	bottom: 8px; 
+	right: 8px; 
+	z-index: 1;
+	background: rgba(0,0,0,.55); 
+	color: #fff; 
+	font-size: 11px; 
+	padding: 2px 6px; 
+	border-radius: 4px;
 }
 
-/* 굿즈 미리보기 썸네일 */
 .kickoff-goods-thumb{
-  aspect-ratio: 1; border-radius: 8px 8px 0 0;
-  background: linear-gradient(160deg, var(--green-soft), #ffffff);
+	aspect-ratio: 1; 
+	border-radius: 8px 8px 0 0;
+	background: linear-gradient(160deg, var(--green-soft), #ffffff);
 }
