@@ -79,7 +79,7 @@
 
     <div class="row mb-4">
       <div class="col-12">
-        <p class="goods-kicker mb-1">GOODS DETAIL</p>
+        <p class="goods-kicker mb-1">굿즈 상세보기</p>
         <hr>
       </div>
     </div>
