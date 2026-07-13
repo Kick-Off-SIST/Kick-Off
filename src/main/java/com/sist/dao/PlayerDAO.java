@@ -67,14 +67,16 @@ public class PlayerDAO {
 		}
 		return vo;
 	}
-//	<update id="playerLikeCount" parameterType="int">
+//	<update id="updatePlayerLikeCount" parameterType="int">
 //		UPDATE KLeague_Player SET
-//		likecount=likecount+1
+//		likecount=(SELECT COUNT(*)
+//					FROM myLike
+//					WHERE player_id=#{player_id})
 //		WHERE player_id=#{player_id}
 //	</update>
-	public void playerLikeCount(int player_id) {
+	public void updatePlayerLikeCount(int player_id) {
 		try(SqlSession session=ssf.openSession()){
-			session.update("playerLikeCount",player_id);
+			session.update("updatePlayerLikeCount",player_id);
 			session.commit();
 		}catch(Exception ex) {
 			ex.printStackTrace();

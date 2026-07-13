@@ -25,6 +25,7 @@
 		<typeAlias type="com.sist.vo.ReserveVO" alias="ReserveVO"/>
 		<typeAlias type="com.sist.vo.StadiumSeatVO" alias="StadiumSeatVO"/>
 		<typeAlias type="com.sist.vo.MatchVO" alias="MatchVO"/>
+		<typeAlias type="com.sist.vo.LikeVO" alias="LikeVO"/>
 	</typeAliases>
 	<environments default="development">
 		<environment id="development">
@@ -47,5 +48,6 @@
 		<mapper resource="com/sist/mapper/team-mapper.xml"/>
 		<mapper resource="com/sist/mapper/reserve-mapper.xml"/>
 		<mapper resource="com/sist/mapper/match-mapper.xml"/>
+		<mapper resource="com/sist/mapper/like-mapper.xml"/>
 	</mappers>
 </configuration>

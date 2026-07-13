@@ -4,17 +4,23 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sist.commons.Commons;
 import com.sist.controller.Controller;
 import com.sist.controller.RequestMapping;
+import com.sist.service.LikeService;
+import com.sist.service.LikeServiceImpl;
 import com.sist.service.PlayerService;
 import com.sist.service.PlayerServiceImpl;
+import com.sist.vo.LikeVO;
+import com.sist.vo.MemberVO;
 import com.sist.vo.PlayerVO;
 
 import java.util.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class PlayerModel {
 	private PlayerService service=new PlayerServiceImpl();
+	private LikeService lService=new LikeServiceImpl();
 	@RequestMapping("player/list.do")
 	public String player_list(HttpServletRequest request,HttpServletResponse response) {
 
@@ -66,21 +72,22 @@ public class PlayerModel {
 		int player_id=Integer.parseInt(strP_id);
 		PlayerVO vo=service.playerDetailData(player_id);
 		request.setAttribute("vo", vo);
+		HttpSession session=request.getSession();
+		MemberVO user=(MemberVO)session.getAttribute("user");
+		boolean isLiked=false;
+		if(user!=null) {
+			int member_id=user.getMember_id();
+			LikeVO lvo=new LikeVO();
+			lvo.setMember_id(member_id);
+			lvo.setPlayer_id(player_id);
+			lvo.setType(1);
+			int count=lService.isLiked(lvo);
+			if(count!=0) {
+				isLiked=true;
+			}
+		}
+		request.setAttribute("isLiked", isLiked);
 		request.setAttribute("main_jsp","../player/detail.jsp");
 		return "../main/main.jsp";
-	}
-	@RequestMapping("player/like.do")
-	public void player_like(HttpServletRequest request,HttpServletResponse response) {
-		String strP_id=request.getParameter("player_id");
-		int player_id=Integer.parseInt(strP_id);
-		String result="";
-		try {
-			service.playerLikeCount(player_id);
-			result="OK";
-		}catch(Exception ex) {
-			ex.printStackTrace();
-			result="NO";
-		}
-		Commons.sendData(response, "text/html", result);
 	}
 }

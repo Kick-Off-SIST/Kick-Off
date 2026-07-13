@@ -8,6 +8,7 @@
 <title>Insert title here</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <style>
 body {
@@ -119,8 +120,8 @@ body {
         <div class="col-lg-4">
             <div class="info-card side-panel" id="likeApp">
                 <h6 class="fw-bold mb-3 text-center">선수 응원하기</h6>
-                <button type="button" class="btn btn-outline-danger w-100 mb-4" id="btnLike" style="font-weight: bold; font-size: 16px;">
-                    <i class="bi bi-heart" id="likeIcon"></i> <span id="likeCount">${vo.likecount }</span>
+                <button type="button" class="btn btn-outline-danger w-100 mb-4" @click="likeOn" id="btnLike" style="font-weight: bold; font-size: 16px;" data-no="${vo.player_id }">
+                    <i class="bi" :class="isLiked?'bi-heart-fill text-danger':'bi-heart'" id="likeIcon"></i> <span id="likeCount">{{count}}</span>
                 </button>
                 
                 <hr style="border-color: #dddddd; margin: 20px 0;">
@@ -141,17 +142,19 @@ body {
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
-$((e)=>{
+/* $((e)=>{
     let currentCount=parseInt($('#likeCount').text().replace(/,/g,''))
     
     $('#btnLike').on('click',(e)=>{
-    	let playerId = ${vo.player_id}
+    	let playerId=${vo.player_id}
+    	let type=1
     	$.ajax({
     		type: 'post',
             url: '../player/like.do',
-            data: { "player_id": playerId },
+            data: { "player_id": playerId,
+            		"type": type},
             success:(res)=>{
-            	if(res.trim() === 'OK') {
+            	if(res.trim()==='OK') {
                     currentCount++;
                     $('#likeCount').text(currentCount.toLocaleString())
                     $('#likeIcon').removeClass('bi-heart').addClass('bi-heart-fill text-danger')
@@ -161,7 +164,45 @@ $((e)=>{
             }
     	})
     })
-})
+}) */
+const likeApp=Vue.createApp({
+	data(){
+		return{
+			player_id:${vo.player_id},
+			count:${vo.likecount},
+			type:1,
+			isLiked:${isLiked!=null?isLiked:false},
+		}
+	},
+	mounted(){
+		
+	},
+	methods:{
+		async likeOn(){
+			const likeType=this.isLiked?0:1
+			const params = new URLSearchParams()
+            params.append('player_id', this.player_id)
+            params.append('type', this.type)
+            params.append('likeType', likeType)
+           
+			const response=await axios.post('../like/player_like.do',params)
+			const result=response.data.trim()
+			if(result==='OK'){
+				if (this.isLiked) {
+                    this.count--
+                    this.isLiked=false
+                } else {
+                    this.count++
+                    this.isLiked=true
+                }
+			} else if (result==='NOLOGIN') {
+                alert('로그인이 필요한 서비스입니다.')
+            } else {
+                alert('오류가 발생했습니다.')
+            }
+		}
+	}
+}).mount('#likeApp')
 
 </script>
 </body>

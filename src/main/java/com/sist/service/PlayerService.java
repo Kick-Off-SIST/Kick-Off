@@ -9,5 +9,5 @@ public interface PlayerService {
 	public List<PlayerVO> playerListData(Map map);
 	public int playerTotalPage(Map map);
 	public PlayerVO playerDetailData(int player_id);
-	public void playerLikeCount(int player_id);
+	public void updatePlayerLikeCount(int player_id);
 }
