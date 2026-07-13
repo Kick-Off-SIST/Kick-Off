@@ -78,7 +78,22 @@
                         <li><a class="dropdown-item" href="../ticket/reserve_team.do">구단별 예매</a></li>
                     </ul>
                 </li>
-
+				<c:if test="${sessionScope.user.member_id!=null }">
+				  <c:if test="${sessionScope.user.isAdmin=='N' }">
+					<li class="nav-item dropdown">
+                    <a class="nav-link" href="../mypage/mypage.do" aria-expanded="false">
+                        마이페이지
+                    </a>
+                  </c:if>
+                  <!-- 관리자 페이지 -->
+                  <c:if test="${sessionScope.user.isAdmin=='Y' }">
+					<li class="nav-item dropdown">
+                    <a class="nav-link" href="#" aria-expanded="false">
+                        관리자페이지
+                    </a>
+                  </c:if>
+                </li>
+				</c:if>
             </ul>
 
             <div class="d-flex">
@@ -188,7 +203,8 @@
     $(function(){
         $('#logout').on('click',async (e)=>{
             await axios.post('../member/logout.do')
-            location.reload()
+            //location.reload()
+            location.href="../main/main.do"
         })
     })
 </script>

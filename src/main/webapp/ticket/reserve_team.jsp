@@ -6,6 +6,11 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style type="text/css">
+body {
+	background-color: #f8f9fa;
+}
+</style>
 <script type="text/javascript" src="http://code.jquery.com/jquery-4.0.0.min.js"></script>
 <script type="text/javascript">
 $(function(){

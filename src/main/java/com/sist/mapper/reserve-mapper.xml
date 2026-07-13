@@ -26,13 +26,13 @@
 	ORDER BY ${col} ASC
 </select>
 <select id="reserveTeamMainData" resultType="TeamVO" parameterType="string">
-	SELECT team_name,emblem FROM kleague_team WHERE team_id=#{id}
+	SELECT team_id,team_name,emblem FROM kleague_team WHERE team_id=#{id}
 </select>
 <select id="reserveTeamTicketImage" resultMap="TeamMap" parameterType="string">
 	SELECT s.name,s.ticket_policy_image FROM kleague_team t NATURAL JOIN kleague_stadium s WHERE team_id=#{id}
 </select>
 <select id="reserveTeamScheduleData" resultMap="MatchMap" parameterType="string">
-	select s.schedule_id,TO_CHAR(s.game_date,'MM-DD') as dbday,s.game_time,t.team_name,t.emblem
+	select s.away_team_id,s.schedule_id,TO_CHAR(s.game_date,'MM-DD') as dbday,s.game_time,t.team_name,t.emblem
 	FROM kleague_schedule s INNER JOIN kleague_team t
 	ON s.away_team_id=t.team_id
 	WHERE (s.game_date BETWEEN SYSDATE AND SYSDATE+31)
