@@ -10,6 +10,7 @@ import com.sist.service.TeamServiceImpl;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class ReserveModel {
@@ -59,8 +60,15 @@ public class ReserveModel {
 	
 	@RequestMapping("ticket/reserve_ticket.do")
 	public String ticket_reserve_ticket(HttpServletRequest request, HttpServletResponse response) {
-		
-		request.setAttribute("main_jsp", "../ticket/reserve_ticket.jsp");
-		return "../main/main.jsp";
+		String msg="";
+		HttpSession session=request.getSession();
+		if(session.getAttribute("user")!=null) {
+			request.setAttribute("main_jsp", "../ticket/reserve_ticket.jsp");
+			msg="../main/main.jsp";
+		}
+		else {
+			msg="redirect:../main/main.do";
+		}
+		return msg;
 	}
 }
