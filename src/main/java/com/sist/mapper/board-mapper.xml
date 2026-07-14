@@ -3,7 +3,7 @@
 <mapper namespace="com.sist.mapper.board-mapper">
   <select id="boardListData" resultType="BoardVO" parameterType="int">
   	SELECT b.no,b.title,b.content,TO_CHAR(b.regdate,'YYYY-MM-DD') as dbday,b.hit,
-  	m.login_id as loginId
+  	m.login_id as loginId,(SELECT COUNT(*) FROM reply r WHERE r.bno = b.no) AS replyCount
   	FROM board b
   	JOIN member m ON b.member_id = m.member_id
   	ORDER BY b.no DESC

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sist.mapper.reply-mapper">
+  <select id="replyListData" resultType="ReplyVO" parameterType="int">
+    SELECT no,bno,id,name,msg,
+    TO_CHAR(regdate,'YYYY-MM-DD HH24:MI:SS') as dbday
+    FROM reply
+    WHERE bno=#{bno}
+    ORDER BY no DESC
+  </select>
+  <insert id="replyInsert" parameterType="ReplyVO">
+    <selectKey keyProperty="no" resultType="int"
+     order="BEFORE"
+    >
+    SELECT NVL(MAX(no)+1,1) as no FROM reply
+    </selectKey>
+    INSERT INTO reply VALUES(#{no},#{bno},#{id},#{name},
+    #{msg},SYSDATE)
+  </insert>
+  <update id="replyUpdate" parameterType="hashmap">
+    UPDATE reply SET 
+    msg=#{msg}
+    WHERE no=#{no}
+  </update>
+  <delete id="replyDelete" parameterType="int">
+    DELETE FROM reply
+    WHERE no=#{no}
+  </delete>
+</mapper>

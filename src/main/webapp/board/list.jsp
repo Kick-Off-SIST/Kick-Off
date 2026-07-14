@@ -2,12 +2,24 @@
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="jakarta.tags.core" %>
 <style type="text/css">
+.board-card{
+	border:none;
+	border-radius:12px;
+	box-shadow:0 4px 12px rgba(0,0,0,.08);
+	overflow:hidden;
+}
 .dataTr td{
 	font-size: 13px;
 	vertical-align: middle;
 }
 .dataTr:hover{
-	background-color: var(--green-soft);
+	background-color: var(--green-soft, #e6f4ec);
+}
+.board-actions .btn{
+	border-radius:20px;
+	padding:6px 18px;
+	font-weight:600;
+	font-size:13.5px;
 }
 </style>
 
@@ -15,19 +27,22 @@
 
   <div class="d-flex justify-content-between align-items-center mb-3">
     <h2 class="fw-bold mb-0">자유게시판</h2>
-    <a href="#" class="btn btn-success btn-sm" onclick="goWrite()">글쓰기</a>
+    <div class="board-actions">
+      <a href="#" class="btn btn-success btn-sm" onclick="goWrite()">글쓰기</a>
+    </div>
   </div>
 
-  <div class="card shadow-sm border-0">
+  <div class="card board-card">
     <div class="table-responsive">
       <table class="table align-middle mb-0">
         <thead>
           <tr class="table-success text-center">
             <th style="width:10%">번호</th>
-            <th style="width:45%">제목</th>
-            <th style="width:15%">아이디</th>
-            <th style="width:20%">작성일</th>
+            <th style="width:40%">제목</th>
+            <th style="width:10%">아이디</th>
+            <th style="width:15%">작성일</th>
             <th style="width:10%">조회수</th>
+            <th style="width:10%">댓글</th>
           </tr>
         </thead>
         <tbody>
@@ -44,6 +59,7 @@
             <td class="text-center text-muted">${vo.loginId }</td>
             <td class="text-center text-muted">${vo.dbday }</td>
             <td class="text-center text-muted">${vo.hit }</td>
+            <td class="text-center text-muted">${vo.replycount }</td>
           </tr>
           <c:set var="count" value="${count-1 }"/>
           </c:forEach>

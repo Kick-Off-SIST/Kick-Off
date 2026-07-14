@@ -82,6 +82,10 @@ public class BoardModel {
 		// 결과값(출력할 데이터)전송
 		request.setAttribute("vo", vo);				
 		request.setAttribute("main_jsp", "../board/detail.jsp");
+		
+		List<ReplyVO> list=ReplyDAO.replyListData(Integer.parseInt(no));
+		request.setAttribute("rList", list);
+		request.setAttribute("rcount", list.size());
 		return "../main/main.jsp";
 	}
 	// 화면 변경이 없으면 void
