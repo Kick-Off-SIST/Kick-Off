@@ -60,7 +60,7 @@
                         커뮤니티
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="communityDropdown">
-                        <li><a class="dropdown-item" href="#">자유게시판</a></li>
+                        <li><a class="dropdown-item" href="../board/list.do">자유게시판</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="#">QnA 게시판</a></li>
                     </ul>

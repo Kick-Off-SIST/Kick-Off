@@ -20,6 +20,9 @@ public class MemberModel {
 		String login_id=request.getParameter("id");
 		String pwd=request.getParameter("pwd");
 		
+		System.out.println("login_id = " + login_id);
+		System.out.println("pwd = " + pwd);
+		
 		MemberVO vo=service.isLogin(login_id, pwd);
 		if("OK".equals(vo.getMsg())) {
 			HttpSession session=request.getSession();
