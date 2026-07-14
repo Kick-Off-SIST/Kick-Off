@@ -1,3 +1,4 @@
 kakao.mapAPI=API키 입력
-
+naver.ID=네이버 Client ID입력
+naver.Secret=네이버 Client Secret 입력
 //값을 채워서 api.properties로 저장 후 gitignore 등록하기 (Team-Ignore)
