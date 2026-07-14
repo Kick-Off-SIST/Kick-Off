@@ -11,27 +11,48 @@
     <p>실시간 경기 결과부터 순위, 굿즈, 티켓 예매까지 — 팬을 위한 모든 것을 한 곳에서.</p>
     <div class="d-flex gap-2 mt-4">
       <a href="../ticket/reserve_team.do" class="btn btn-success">티켓 예매하기</a>
-      <a href="#" class="btn btn-outline-light">이번 주 일정 보기</a>
+      <a href="../match/list.do" class="btn btn-outline-light">이번 달 일정 보기</a>
     </div>
   </div>
 
   <!-- 최근 경기 스코어보드: 블랙 카드 -->
-  <div class="kickoff-scoreboard">
-    <div class="kickoff-scoreboard-label">최근 경기<br>결과</div>
-    <div class="kickoff-score-track">
-      <c:forEach var="r" items="${recentResults}">
-        <div class="kickoff-score-card">
-          <span>${r.homeTeamName}</span>
-          <span class="num">${r.homeScore}</span> : <span class="num">${r.awayScore}</span>
-          <span>${r.awayTeamName}</span>
-          <span class="status">종료</span>
-        </div>
-      </c:forEach>
-      <c:if test="${empty recentResults}">
-        <div class="kickoff-score-card"><span class="status">최근 경기 데이터가 없습니다</span></div>
-      </c:if>
-    </div>
-  </div>
+	<div class="kickoff-score-controls">
+		<button type="button" class="kickoff-scroll-btn" id="btnScrollLeft">
+			<i class="bi bi-chevron-left"></i>
+		</button>
+		<button type="button" class="kickoff-scroll-btn" id="btnScrollRight">
+			<i class="bi bi-chevron-right"></i>
+		</button>
+	</div>
+	<div class="kickoff-scoreboard">
+		<div class="kickoff-scoreboard-label">최근 경기<br>결과</div>
+		<div class="kickoff-score-wrapper" style="flex: 1; min-width: 0;">
+			<div class="kickoff-score-track" id="scoreTrack">
+				<c:forEach var="mvo" items="${mList}" begin="0" end="4">
+				<div class="kickoff-score-card">
+					<a href="../team/detail.do?team_id=${mvo.homeVo.team_id}" class="k-board-link">
+						<span>${mvo.homeVo.team_name}</span>
+						<img src="${mvo.homeVo.emblem}">
+					</a>
+					<div class="d-flex align-items-center mx-3">
+						<span class="num">${mvo.home_goal}</span> 
+						<span class="mx-2" style="color: #6b7280;">:</span> 
+						<span class="num">${mvo.away_goal}</span>
+					</div>
+					<a href="../team/detail.do?team_id=${mvo.awayVo.team_id}" class="k-board-link">
+						<img src="${mvo.awayVo.emblem}">
+						<span>${mvo.awayVo.team_name}</span>
+					</a>
+					<span class="status ms-4">종료</span> 
+				</div>
+		      </c:forEach>
+			<c:if test="${empty mList}">
+				<div class="kickoff-score-card"><span class="status">최근 경기 데이터가 없습니다</span></div>
+			</c:if>
+			</div>
+		</div>
+	</div>
+  
 
   <!-- 리그 순위 / 최근 경기: 화이트 카드 -->
   <div class="row g-4 mb-4">
@@ -40,25 +61,26 @@
         <div class="card-body p-4">
           <div class="kickoff-section-head">
             <div><div class="eyebrow">STANDINGS</div><h2>리그 순위</h2></div>
-            <a href="#" class="small text-muted text-decoration-none">전체보기</a>
           </div>
           <table class="table table-borderless align-middle mb-0">
             <thead>
               <tr class="text-muted small">
-                <th>순위</th><th>팀</th><th>경기</th><th class="text-end">승점</th>
+                <th class="text-center">순위</th>
+                <th>팀</th>
+                <th class="text-center">승수</th>
               </tr>
             </thead>
             <tbody>
-              <c:forEach var="s" items="${standings}" varStatus="i">
+              <c:forEach var="rvo" items="${rList}">
                 <tr>
-                  <td class="fw-bold ${i.index==0 ? 'kickoff-rank-gold' : ''}">${i.index + 1}</td>
+                  <td class="text-center fw-bold ${rvo.rank==1?'kickoff-rank-gold':''}">${rvo.rank }</td>
                   <td>
                     <div class="d-flex align-items-center gap-2">
-                      <span class="kickoff-crest sm"></span>${s.teamName}
+                      	<span class="kickoff-crest sm"><a href="../team/detail.do?team_id=${rvo.team_id }"><img src="${rvo.emblem }"></a></span>
+                      	<a href="../team/detail.do?team_id=${rvo.team_id }"  class="k-team-name">${rvo.team_name}</a>
                     </div>
                   </td>
-                  <td>${s.played}</td>
-                  <td class="text-end fw-bold text-success">${s.points}</td>
+                  <td class="text-center">${rvo.wins} 승</td>
                 </tr>
               </c:forEach>
             </tbody>
@@ -72,14 +94,37 @@
         <div class="card-body p-4">
           <div class="kickoff-section-head">
             <div><div class="eyebrow">RESULTS</div><h2>최근 경기</h2></div>
-            <a href="#" class="small text-muted text-decoration-none">전체보기</a>
+            <a href="../match/list.do" class="small text-muted text-decoration-none">전체보기</a>
           </div>
-          <c:forEach var="r" items="${recentResults}" varStatus="i">
-            <div class="d-flex justify-content-between align-items-center py-2 ${i.index > 0 ? 'border-top' : ''}">
-              <div>${r.homeTeamName} <strong>${r.homeScore} : ${r.awayScore}</strong> ${r.awayTeamName}</div>
-              <div class="text-muted small">${r.matchDate}</div>
-            </div>
-          </c:forEach>
+          	<c:forEach var="r" items="${mList}">
+				<div class="kickoff-recent-match">
+					<div class="k-match-team home">
+						<a href="../team/detail.do?team_id=${r.homeVo.team_id}" class="k-team-name">
+							${r.homeVo.team_name}
+						</a>
+						<a href="../team/detail.do?team_id=${r.homeVo.team_id}" class="kickoff-crest sm">
+							<img src="${r.homeVo.emblem}">
+						</a>
+					</div>
+				
+					<div class="k-match-score">
+						${r.home_goal} : ${r.away_goal}
+					</div>
+				
+					<div class="k-match-team away">
+						<a href="../team/detail.do?team_id=${r.awayVo.team_id}" class="kickoff-crest sm">
+						<img src="${r.awayVo.emblem}">
+						</a>
+						<a href="../team/detail.do?team_id=${r.awayVo.team_id}" class="k-team-name">
+							${r.awayVo.team_name}
+						</a>
+					</div>
+				
+					<div class="k-match-date">
+						${r.dbday}<br>${r.game_time}
+					</div>
+				</div>
+          	</c:forEach>
         </div>
       </div>
     </div>
@@ -173,3 +218,15 @@
   </section>
 
 </main>
+<script>
+$((e)=>{
+	const track=document.getElementById('scoreTrack')
+	const scrollAmount=300
+	$('#btnScrollLeft').on('click',(e)=>{
+		track.scrollLeft-=scrollAmount
+	})
+	$('#btnScrollRight').on('click',(e)=>{
+		track.scrollLeft+=scrollAmount
+	})
+})
+</script>

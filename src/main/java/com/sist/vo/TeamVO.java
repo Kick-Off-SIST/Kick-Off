@@ -8,7 +8,7 @@ import lombok.Data;
 //EMBLEM              VARCHAR2(500) 
 @Data
 public class TeamVO {
-	private int stadium_id;
+	private int stadium_id,rank,wins;
 	private String team_id,team_name,emblem;
 	private StadiumVO svo=new StadiumVO();
 }

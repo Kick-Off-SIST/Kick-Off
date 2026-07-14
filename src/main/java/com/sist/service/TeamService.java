@@ -8,4 +8,5 @@ public interface TeamService {
 	public List<TeamVO> teamEmblemData();
 	public TeamVO teamDetailData(String team_id);
 	public List<TeamVO> teamListData();
+	public List<TeamVO> teamRankData();
 }

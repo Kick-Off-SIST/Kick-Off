@@ -38,19 +38,9 @@
 				JOIN kleague_team t1 ON m.home_team_id=t1.team_id
 				JOIN kleague_team t2 ON m.away_team_id=t2.team_id
 				JOIN kleague_stadium s ON m.stadium_id=s.stadium_id
-				WHERE game_date>TO_DATE(#{currentDate})
-				ORDER BY game_date ASC, TO_DATE(game_time,'HH24:MI') ASC
+				WHERE game_date&lt;TO_DATE(#{currentDate})
+				ORDER BY game_date DESC, TO_DATE(game_time,'HH24:MI') DESC
 			)
-		WHERE ROWNUM&lt;=5
-	</select>
-	<select id="matchRankData" resultMap="MatchMap">
-		SELECT team_name,goals,ROWNUM
-		FROM (SELECT t.team_name AS team_name,SUM(s.home_goal) AS goals
-		    FROM kleague_schedule s
-		    JOIN kleague_team t ON s.home_team_id=t.team_id
-		    WHERE game_date>=TO_DATE(20260101)
-		    GROUP BY t.team_name
-		    ORDER BY 2 DESC)
-		ORDER BY ROWNUM ASC;
+		WHERE ROWNUM&lt;=9
 	</select>
 </mapper>

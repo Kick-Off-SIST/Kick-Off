@@ -40,4 +40,31 @@ public class TeamDAO {
 		session.close();
 		return vo;
 	}
+//	<select id="teamRankData" resultType="TeamVO">
+//		SELECT 
+//		    RANK() OVER(ORDER BY SUM(u.win_count) DESC) AS rank,
+//		    t.team_id,
+//		    t.team_name,
+//		    SUM(u.win_count) AS wins
+//		FROM (
+//		    SELECT home_team_id AS team_id, home_win AS win_count
+//		    FROM kleague_schedule
+//		    WHERE game_date&gt;=TO_DATE('20260101','YYYYMMDD')
+//		    
+//		    UNION ALL
+//		    
+//		    SELECT away_team_id AS team_id, away_win AS win_count
+//		    FROM kleague_schedule
+//		    WHERE game_date&gt;=TO_DATE('20260101','YYYYMMDD')
+//		) u
+//		JOIN kleague_team t ON u.team_id = t.team_id
+//		GROUP BY t.team_name, t.team_id
+//		ORDER BY rank ASC
+//	</select>
+	public List<TeamVO> teamRankData() {
+		SqlSession session=ssf.openSession();
+		List<TeamVO> list=session.selectList("teamRankData");
+		session.close();
+		return list;
+	}
 }
