@@ -57,7 +57,7 @@
   <!-- 리그 순위 / 최근 경기: 화이트 카드 -->
   <div class="row g-4 mb-4">
     <div class="col-lg-7">
-      <div class="card shadow-sm border-0 h-100">
+      <div class="card h-100">
         <div class="card-body p-4">
           <div class="kickoff-section-head">
             <div><div class="eyebrow">STANDINGS</div><h2>리그 순위</h2></div>
@@ -90,7 +90,7 @@
     </div>
 
     <div class="col-lg-5">
-      <div class="card shadow-sm border-0 h-100">
+      <div class="card h-100">
         <div class="card-body p-4">
           <div class="kickoff-section-head">
             <div><div class="eyebrow">RESULTS</div><h2>최근 경기</h2></div>
@@ -140,25 +140,25 @@
   </div>
 
   <!-- 뉴스 -->
-  <section class="mb-5">
-    <div class="kickoff-section-head">
-      <div><div class="eyebrow">NEWS</div><h2>최신 뉴스</h2></div>
-      <a href="#" class="small text-muted text-decoration-none">전체보기</a>
-    </div>
-    <div class="row row-cols-1 row-cols-md-3 g-4">
-      <c:forEach var="n" items="${newsList}">
-        <div class="col">
-          <div class="card h-100 shadow-sm border-0">
-            <div class="card-body">
-              <span class="badge text-bg-success bg-opacity-10 text-success mb-2">${n.category}</span>
-              <h6 class="card-title fw-bold">${n.title}</h6>
-              <div class="text-muted small">${n.regDate}</div>
-            </div>
-          </div>
-        </div>
-      </c:forEach>
-    </div>
-  </section>
+	<section class="mb-5">
+		<div class="kickoff-section-head">
+			<div>
+				<div class="eyebrow" style="color: var(--green);">
+					LIVE NEWS
+				</div>
+				<h2>최신 뉴스</h2>
+			</div>
+			<div class="text-end">
+				<a href="../news/find.do" class="small text-muted text-decoration-none text-right">전체보기</a>
+				<div class="small fw-medium" style="color: var(--green);" id="newsUpdateTime">업데이트 대기 중...</div>
+			</div>
+		</div> 
+		<div class="row row-cols-1 row-cols-md-3 g-4" id="realtimeNewsContainer">
+			<div class="col w-100 text-center py-5 text-muted">
+				실시간 뉴스를 불러오는 중입니다...
+			</div>
+		</div>
+	</section>
 
   <!-- 영상 -->
   <section class="mb-5">
@@ -228,5 +228,38 @@ $((e)=>{
 	$('#btnScrollRight').on('click',(e)=>{
 		track.scrollLeft+=scrollAmount
 	})
+	
+	const ws = new WebSocket("ws://"+window.location.host+"/Kick-Off/news")
+    const $newsContainer = $('#realtimeNewsContainer')
+    const $updateTime = $('#newsUpdateTime')
+
+    ws.onopen=()=>console.log("뉴스 서버 연결 완료")
+    ws.onclose=()=>console.log("뉴스 서버 연결 종료")
+    ws.onerror=(e)=>console.error("뉴스 소켓 에러:",e)
+    
+    ws.onmessage=(event)=>{
+        try {
+            const data=JSON.parse(event.data)
+            let html=""
+            
+            data.slice(0,6).forEach(news =>{
+                html+='<div class="col">'+
+                          '<a href="'+news.link+'" target="_blank" class="text-decoration-none">'+
+                            '<div class="card h-100 news-card">'+
+                              '<div class="card-body">'+
+                                '<span class="badge text-bg-success bg-opacity-10 text-success mb-2">실시간</span>'+
+                                '<h6 class="card-title fw-bold text-dark">'+news.title+'</h6>'+
+                              '</div>'+
+                            '</div>'+
+                          '</a>'+
+                        '</div>'
+            })
+            $newsContainer.html(html)
+            const now = new Date()
+            $updateTime.text(now.toLocaleTimeString()+'기준')
+        } catch(err) {
+            console.error("뉴스 데이터 파싱 실패:",err)
+        }
+    }
 })
 </script>

@@ -241,7 +241,16 @@ body{
 .kickoff-rank-gold{ 
 	color: var(--gold) !important;
 }
-
+.news-card { 
+	transition: transform 0.2s ease, border-color 0.2s ease; 
+    border: 1px solid var(--line) !important;
+    box-shadow: none !important;
+}
+.news-card:hover { 
+	transform: translateY(-4px); 
+    border-color: var(--green) !important;
+    box-shadow: none !important;
+}
 .kickoff-video-thumb{
 	aspect-ratio: 16/10; 
 	border-radius: 8px; 

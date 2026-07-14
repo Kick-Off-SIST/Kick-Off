@@ -24,14 +24,9 @@
                 </li>
 
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="newsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a class="nav-link" href="../news/find.do" aria-expanded="false">
                         뉴스
                     </a>
-                    <ul class="dropdown-menu" aria-labelledby="newsDropdown">
-                        <li><a class="dropdown-item" href="#">공지사항</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="#">리그</a></li>
-                    </ul>
                 </li>
 
                 <li class="nav-item dropdown">
