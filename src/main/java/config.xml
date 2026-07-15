@@ -53,5 +53,6 @@
 		<mapper resource="com/sist/mapper/like-mapper.xml"/>
 		<mapper resource="com/sist/mapper/board-mapper.xml"/>
 		<mapper resource="com/sist/mapper/reply-mapper.xml"/>
+		<mapper resource="com/sist/mapper/admin-mapper.xml"/>
 	</mappers>
 </configuration>

@@ -83,7 +83,7 @@
                   <!-- 관리자 페이지 -->
                   <c:if test="${sessionScope.user.isAdmin=='Y' }">
 					<li class="nav-item dropdown">
-                    <a class="nav-link" href="#" aria-expanded="false">
+                    <a class="nav-link" href="../adminpage/admin_main.do" aria-expanded="false">
                         관리자페이지
                     </a>
                   </c:if>

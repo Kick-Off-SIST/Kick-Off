@@ -12,7 +12,7 @@ import java.util.*;
 import lombok.Data;
 @Data
 public class MemberVO {
-	private int member_id;
+	private int member_id,grade;
 	private String login_id,pwd,name,sex,birthday,email,post,addr1,addr2,content,phone,isAdmin,status,dbday,msg;
 	private Date regdate;
 }
