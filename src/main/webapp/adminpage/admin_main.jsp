@@ -197,7 +197,9 @@ body {
     <div class="admin-user">
       <span>${sessionScope.name }
       (${sessionScope.admin=='y'?"관리자":"일반사용자"})님 환영합니다</span>
+      <button onclick="location.href='../main/main.do'">홈으로</button>
       <button onclick="location.href='../member/logout.do'">로그아웃</button>
+     
     </div>
   </header>
 

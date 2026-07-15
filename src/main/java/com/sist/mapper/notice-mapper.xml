@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sist.mapper.notice-mapper">
+  <insert id="noticeInsert" parameterType="NoticeVO">
+    INSERT INTO notice(no,type,title,content)
+    VALUES(notice_no_seq.nextval,
+     #{type},
+     #{title},
+     #{content}
+    )
+  </insert>
+  <select id="noticeListData" parameterType="int" resultType="NoticeVO">
+  	SELECT no,type,name,title, TO_CHAR(regdate,'yyyy-MM-dd') as dbday,hit
+  	FROM notice
+  	ORDER BY no DESC
+  	OFFSET #{start} ROWS FETCH NEXT 10 ROWS ONLY
+   </select>
+   <select id="noticeTotalPage" resultType="int">
+     SELECT CEIL(COUNT(*)/10.0) FROM notice
+   </select>
+   <delete id="noticeDelete" parameterType="int">
+     DELETE FROM notice
+     WHERE no=#{no}
+   </delete>
+   
+   <select id="noticeDetailData" resultType="NoticeVO" parameterType="int">
+   	SELECT *
+   	FROM notice
+   	WHERE no=#{no}
+   </select>
+   <update id="noticeHitIncrement" parameterType="int">
+    UPDATE notice SET
+    hit=hit+1
+    WHERE no=#{no}
+   </update>
+   
+   <update id="noticeUpdate" parameterType="NoticeVO">
+     UPDATE notice SET
+     title=#{title} , content=#{content},type=#{type}
+     WHERE no=#{no}
+    </update>
+</mapper>

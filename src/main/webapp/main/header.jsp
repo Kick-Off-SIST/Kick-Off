@@ -24,9 +24,13 @@
                 </li>
 
                 <li class="nav-item dropdown">
-                    <a class="nav-link" href="../news/find.do" aria-expanded="false">
+                	<a class="nav-link dropdown-toggle" href="#" id="matchDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         뉴스
-                    </a>
+                    </a>                 
+                    <ul class="dropdown-menu" aria-labelledby="videoDropdown">   
+                      <li><a class="dropdown-item" href="../news/find.do">뉴스</a></li>
+                      <li><a class="dropdown-item" href="../notice/user_list.do">공지사항</a></li>
+                    </ul>
                 </li>
 
                 <li class="nav-item dropdown">
