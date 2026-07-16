@@ -186,7 +186,7 @@ body {
 	                
 					<div class="mb-4 text-center">
 						<div style="font-size: 14px; color: #666666; margin-bottom: 5px;">다음 홈 경기 예매</div>
-						<a href="../ticket/list.do?team_id=${vo.team_id }" class="btn btn-success w-100" style="font-weight: bold; font-size: 16px;">
+						<a href="../ticket/reserve_list.do?id=${vo.team_id }" class="btn btn-success w-100" style="font-weight: bold; font-size: 16px;">
 							<i class="bi bi-ticket-perforated me-2"></i>예매 페이지로 이동
 						</a>
 					</div>

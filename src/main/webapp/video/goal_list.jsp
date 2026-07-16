@@ -4,7 +4,7 @@
 <main class="container main-content" id="goalApp">
 	<div class="mb-4 border-bottom pb-3">
 		<div class="eyebrow" style="color: var(--green); font-size: 12.5px; font-weight: 700; letter-spacing: 1px; margin-bottom: 4px;">VIDEO ARCHIVE</div>
-		<h2 style="font-family: 'Black Han Sans', sans-serif; font-size: 28px; margin: 0;">K리그 하이라이트</h2>
+		<h2 style="font-family: 'Black Han Sans', sans-serif; font-size: 28px; margin: 0;">K리그 골</h2>
 	</div>
 	<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
 		<div v-for="video in videos" :key="video.id.videoId" class="col">
