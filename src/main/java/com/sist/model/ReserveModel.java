@@ -69,6 +69,7 @@ public class ReserveModel {
 		if(session.getAttribute("user")!=null) {
 			MatchVO vo=ReserveDAO.scheduleDetailData(Integer.parseInt(sid));
 			List<SeatGradeVO> list=ReserveDAO.seatGradeListData(vo.getStadium_id());
+			request.setAttribute("sid", sid);
 			request.setAttribute("list", list);
 			request.setAttribute("main_jsp", "../ticket/reserve_ticket.jsp");
 			msg="../main/main.jsp";
@@ -82,12 +83,10 @@ public class ReserveModel {
 	@RequestMapping("ticket/seat.do")
 	public String ticket_seat(HttpServletRequest request, HttpServletResponse response) {
 		// grade id 받아서 구장별 좌석 출력
-		//String schedule_id=request.getParameter("");
+		String schedule_id=request.getParameter("sid");
 		String gid=request.getParameter("gid");
 		SeatGradeVO vo=ReserveDAO.maxSeatData(Integer.parseInt(gid));
-		String schedule_id="1199";
-		
-		String[] charRow={"","A"};
+		//String schedule_id="1199";
 		
 		Map map=new HashMap();
 		map.put("schedule_id", Integer.parseInt(schedule_id));

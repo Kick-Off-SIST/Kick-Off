@@ -18,10 +18,11 @@ body {
 $(function(){
 	$('.seat-grade').on('click',function(){
  		let gid=$(this).attr('data-gid')
+ 		let sid="${sid}"
 		$.ajax({
 			type:'get',
 			url:'../ticket/seat.do',
-			data:{"gid":gid},
+			data:{"gid":gid,"sid":sid},
 			success:function(result){
 				$('#reserve_seat').html(result)
 			}
@@ -34,7 +35,7 @@ $(function(){
 		let scol=$('#scol').val()
 		let damount=$('#damount').val()
 		let gname=$('#gname').val()
-		let sid=1199
+		let sid="${sid}"
 		
 		if(msid===''){
 			alert('좌석을 선택해주세요!!')

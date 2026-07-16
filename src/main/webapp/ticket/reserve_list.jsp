@@ -14,8 +14,16 @@ body {
 <script type="text/javascript" src="http://code.jquery.com/jquery-4.0.0.min.js"></script>
 <script type="text/javascript">
 $(function(){
+	// 예매하기 버튼을 눌렀을때 처리
 	$('.reserve').on('click',function(){
 		let sid=$(this).attr('data-id')
+		
+		// 임시
+		/* if(sid!=1199) {
+			alert("준비중입니다...")
+			return
+		} */
+		
 		// 로그인 처리
 		if("${sessionScope.user}"!==''){
 			location.href="../ticket/reserve_ticket.do?sid="+sid; // ?sid='스케쥴 id'
