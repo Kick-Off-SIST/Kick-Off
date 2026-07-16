@@ -62,6 +62,10 @@
                         <li><a class="dropdown-item" href="../board/list.do">자유게시판</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="#">QnA 게시판</a></li>
+                        <c:if test="${sessionScope.user!=null }">
+                        	<li><hr class="dropdown-divider"></li>
+                        	<li><a class="dropdown-item" href="../chat/chat.do">실시간 채팅</a></li>
+                        </c:if>
                     </ul>
                 </li>
                 <li class="nav-item dropdown">
