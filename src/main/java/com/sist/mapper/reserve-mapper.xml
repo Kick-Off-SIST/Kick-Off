@@ -92,9 +92,20 @@
 <!-- 한 예매에 여러 좌석을 구매한다면 #{reserve_id} 로 변경 -->
 <select id="reservemyPageListDetailData" resultMap="rDetailMap" parameterType="int">
 	SELECT d.reserve_id, seat_row, seat_col, grade_name, amount, schedule_id, 
-	TO_CHAR(reserve_time,'yyyy-mm-dd hh24:mi:ss') as dbday
+	TO_CHAR(reserve_time,'yyyy-mm-dd hh24:mi:ss') as dbday, match_seat_id
 	FROM reservation_detail d JOIN reservation r ON r.reserve_id=d.reserve_id
 	WHERE member_id=#{member_id}
 	ORDER BY d.reserve_id DESC
 </select>
+<!-- 예매 취소 쿼리(3개) -->
+<update id="matchSeatStatusRemove" parameterType="int">
+	UPDATE match_seat SET seat_status='Y' WHERE match_seat_id=#{match_seat_id};
+</update>
+<delete id="reserveDetailDelete" parameterType="int">
+	DELETE FROM reservation_detail WHERE reserve_id=#{reserve_id}
+</delete>
+<delete id="reserveDelete" parameterType="int">
+	DELETE FROM reservation WHERE reserve_id=#{reserve_id}
+</delete>
+
 </mapper>

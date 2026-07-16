@@ -57,5 +57,6 @@
 		<mapper resource="com/sist/mapper/reply-mapper.xml"/>
 		<mapper resource="com/sist/mapper/admin-mapper.xml"/>
 		<mapper resource="com/sist/mapper/notice-mapper.xml"/>
+		<mapper resource="com/sist/mapper/mypage-mapper.xml"/>
 	</mappers>
 </configuration>

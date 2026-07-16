@@ -35,11 +35,11 @@ body {
             </div>
             
             <nav class="nav flex-column">
-                <a class="nav-link active" href="#">회원정보 관리</a>
-                <a class="nav-link" href="#">구매/배송 조회</a>
-                <a class="nav-link" href="#">찜한 상품</a>
-                <a class="nav-link" href="../mypage/mypage_reserve.do">티켓 내역</a>
-                <a class="nav-link" href="#">문의 내역</a>
+                <a class="nav-link ${menu==1?'active':'' }" href="../mypage/mypage.do">회원정보 관리</a>
+                <a class="nav-link ${menu==2?'active':'' }" href="#">구매/배송 조회</a>
+                <a class="nav-link ${menu==3?'active':'' }" href="#">찜한 상품</a>
+                <a class="nav-link ${menu==4?'active':'' }" href="../mypage/mypage_reserve.do">티켓 내역</a>
+                <a class="nav-link ${menu==5?'active':'' }" href="#">문의 내역</a>
             </nav>
             
         </div>

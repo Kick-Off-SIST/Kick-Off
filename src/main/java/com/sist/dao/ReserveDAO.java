@@ -152,5 +152,23 @@ public class ReserveDAO {
 			session.close();
 			return list;
 		}	
-
+/*
+<update id="matchSeatStatusRemove">
+	UPDATE match_seat SET seat_status='Y' WHERE match_seat_id=#{match_seat_id};
+</update>
+<delete id="reserveDetailDelete" parameterType="int">
+	DELETE FROM reservation_detail WHERE reserve_id=#{reserve_id}
+</delete>
+<delete id="reserveDelete" parameterType="int">
+	DELETE FROM reservation WHERE reserve_id=#{reserve_id}
+</delete>
+ */
+		public static void reserveDelete(Map map) {
+			SqlSession session=ssf.openSession();
+			session.update("matchSeatStatusRemove",map);
+			session.delete("reserveDetailDelete",map);
+			session.delete("reserveDelete",map);
+			session.commit();
+			session.close();
+		}
 }
