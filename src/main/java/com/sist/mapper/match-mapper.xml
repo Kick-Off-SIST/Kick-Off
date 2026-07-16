@@ -24,7 +24,7 @@
 		JOIN kleague_team t1 ON m.home_team_id=t1.team_id
 		JOIN kleague_team t2 ON m.away_team_id=t2.team_id
 		JOIN kleague_stadium s ON m.stadium_id=s.stadium_id
-		WHERE TRUNC(game_date,'month')=TRUNC(TO_DATE(#{searchDate}),'month')
+		WHERE TRUNC(game_date,'month')=TRUNC(TO_DATE(#{searchDate},'yyyy-mm-dd'),'month')
 		ORDER BY game_date DESC
 	</select>
 	<select id="matchRecentData" resultMap="MatchMap" parameterType="string">
@@ -38,7 +38,7 @@
 				JOIN kleague_team t1 ON m.home_team_id=t1.team_id
 				JOIN kleague_team t2 ON m.away_team_id=t2.team_id
 				JOIN kleague_stadium s ON m.stadium_id=s.stadium_id
-				WHERE game_date&lt;TO_DATE(#{currentDate})
+				WHERE game_date&lt;TO_DATE(#{currentDate},'yyyy-mm-dd')
 				ORDER BY game_date DESC, TO_DATE(game_time,'HH24:MI') DESC
 			)
 		WHERE ROWNUM&lt;=9
