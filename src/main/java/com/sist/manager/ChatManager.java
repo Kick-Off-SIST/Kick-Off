@@ -2,6 +2,7 @@ package com.sist.manager;
 import java.util.*;
 
 import com.sist.vo.ChatVO;
+import com.sist.vo.MemberVO;
 
 import jakarta.servlet.http.HttpSession;
 import jakarta.websocket.EndpointConfig;
@@ -20,8 +21,9 @@ public class ChatManager {
 	public void connection(Session session,EndpointConfig config) throws Exception{
 		ChatVO vo=new ChatVO();
 		HttpSession hs=(HttpSession)config.getUserProperties().get(HttpSession.class.getName());
-		vo.setId((String)hs.getAttribute("user.id"));
-		vo.setName((String)hs.getAttribute("user.name"));
+		MemberVO mvo=(MemberVO)hs.getAttribute("user");
+		vo.setId(mvo.getLogin_id());
+		vo.setName(mvo.getName());
 		vo.setSession(session);
 		users.put(session, vo);
 		Iterator<Session> it=users.keySet().iterator();
