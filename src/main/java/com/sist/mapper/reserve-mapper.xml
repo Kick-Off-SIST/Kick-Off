@@ -98,13 +98,13 @@
 	ORDER BY d.reserve_id DESC
 </select>
 <!-- 예매 취소 쿼리(3개) -->
-<update id="matchSeatStatusRemove" parameterType="int">
-	UPDATE match_seat SET seat_status='Y' WHERE match_seat_id=#{match_seat_id};
+<update id="matchSeatStatusRemove" parameterType="hashmap">
+	UPDATE match_seat SET seat_status='Y' WHERE match_seat_id=#{match_seat_id}
 </update>
-<delete id="reserveDetailDelete" parameterType="int">
+<delete id="reserveDetailDelete" parameterType="hashmap">
 	DELETE FROM reservation_detail WHERE reserve_id=#{reserve_id}
 </delete>
-<delete id="reserveDelete" parameterType="int">
+<delete id="reserveDelete" parameterType="hashmap">
 	DELETE FROM reservation WHERE reserve_id=#{reserve_id}
 </delete>
 
