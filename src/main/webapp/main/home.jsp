@@ -161,22 +161,30 @@
 	</section>
 
   <!-- 영상 -->
-  <section class="mb-5">
-    <div class="kickoff-section-head">
-      <div><div class="eyebrow">VIDEO</div><h2>하이라이트 영상</h2></div>
-      <a href="#" class="small text-muted text-decoration-none">전체보기</a>
-    </div>
-    <div class="row row-cols-2 row-cols-md-4 g-3">
-      <c:forEach var="v" items="${videoList}">
-        <div class="col">
-          <div class="kickoff-video-thumb">
-            <div class="play-btn"></div>
-            <div class="dur">${v.duration}</div>
-          </div>
-        </div>
-      </c:forEach>
-    </div>
-  </section>
+	<section class="mb-5">
+		<div class="kickoff-section-head">
+			<div><div class="eyebrow">VIDEO</div><h2>하이라이트 영상</h2></div>
+			<a href="../video/highlights.do" class="small text-muted text-decoration-none">전체보기</a>
+		</div>
+		<div class="row row-cols-2 row-cols-md-4 g-3" id="youtubeApp">
+			<div v-if="isLoading" class="col w-100 text-center py-5 text-muted">
+				영상을 불러오는 중입니다...
+			</div>
+			<div v-else-if="isError" class="col w-100 text-center py-4 text-danger">
+				영상을 불러올 수 없습니다.
+			</div>
+			<div v-else v-for="video in videos" :key="video.id.videoId" class="col">
+				<a :href="'https://www.youtube.com/watch?v='+video.id.videoId" target="_blank" class="text-decoration-none text-dark">
+					<div class="kickoff-video-thumb" :style="{ backgroundImage: 'url('+video.snippet.thumbnails.medium.url+')',backgroundSize:'cover',backgroundPosition:'center' }">
+						<div class="play-btn"></div>
+					</div>
+					<div class="mt-2 fw-medium text-truncate" style="font-size: 14px;" :title="video.snippet.title">
+						{{ video.snippet.title }}
+					</div>    
+				</a>
+			</div>
+		</div>
+	</section>
 
   <!-- 참가 구단 -->
   <section class="mb-5">
@@ -262,4 +270,38 @@ $((e)=>{
         }
     }
 })
+const youtubeApp=Vue.createApp({
+	data(){
+		return{
+			videos:[],
+			isLoading:true,
+			isError:false,
+			apiKey:'${youtubeAPI}'
+		}
+	},
+	mounted(){
+		if (!this.apiKey) {
+			this.isLoading=false
+			this.isError=true
+			return
+		}
+		this.dataRecv()
+	},
+	methods:{
+		async dataRecv(){
+			const searchKeyword=encodeURIComponent('K리그 하이라이트')
+			const maxResults=4
+			const url='https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults='+maxResults+'&q='+searchKeyword+'&type=video&key='+this.apiKey
+			try{
+				const response=await axios.get(url)
+				this.videos=response.data.items
+			}catch(error){
+				console.error(error)
+				this.isError=true
+			}finally{
+				this.isLoading=false
+			}
+		}
+	}
+}).mount('#youtubeApp')
 </script>

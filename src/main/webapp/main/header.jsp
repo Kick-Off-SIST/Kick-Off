@@ -38,9 +38,9 @@
                         영상
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="videoDropdown">
-                        <li><a class="dropdown-item" href="#">하이라이트</a></li>
+                        <li><a class="dropdown-item" href="../video/highlights.do">하이라이트</a></li>
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="#">골</a></li>
+                        <li><a class="dropdown-item" href="../video/goal.do">골</a></li>
                     </ul>
                 </li>
 

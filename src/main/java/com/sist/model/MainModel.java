@@ -8,6 +8,7 @@ import com.sist.service.TeamService;
 import com.sist.service.TeamServiceImpl;
 import com.sist.vo.*;
 
+import java.io.InputStream;
 import java.util.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -24,8 +25,20 @@ public class MainModel {
 		String currentDate="2026-06-30";
 		List<MatchVO> mlist=mService.matchRecentData(currentDate);
 		
+		String youtubeAPI="";
+		Properties prop=new Properties();
+		try(InputStream is=Thread.currentThread().getContextClassLoader().getResourceAsStream("api.properties")){
+			if(is!=null) {
+				prop.load(is);
+				youtubeAPI=prop.getProperty("youtube.API");
+			}
+		}catch(Exception ex) {
+			ex.printStackTrace();
+		}
+		
 		request.setAttribute("mList", mlist);
 		request.setAttribute("rList", rlist);
+		request.setAttribute("youtubeAPI", youtubeAPI);
 		request.setAttribute("main_jsp", "../main/home.jsp");
 		return "../main/main.jsp";
 	}
