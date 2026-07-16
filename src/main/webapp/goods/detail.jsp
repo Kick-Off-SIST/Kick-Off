@@ -126,6 +126,32 @@
         </div>
       </div>
     </div>
+    </div>
+
+	<!-- 상세정보 -->
+	<div class="row mt-5">
+	    <div class="col-12">
+	        <div class="card shadow-sm border-0">
+	            <div class="card-header bg-success text-white fw-bold">
+	                상품 상세정보
+	            </div>
+	
+	            <div class="card-body text-center">
+	                <img :src="vo.detailImg1"
+	                     class="img-fluid"
+	                     alt="상세정보1">
+	                     <img :src="vo.detailImg2"
+	                     class="img-fluid"
+	                     alt="상세정보2">
+	                     <img :src="vo.detailImg3"
+	                     class="img-fluid"
+	                     alt="상세정보3">
+	            </div>
+	        </div>
+	    </div>
+	</div>
+
+</main>
 
   </main>
   <script>

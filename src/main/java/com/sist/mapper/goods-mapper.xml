@@ -20,6 +20,9 @@
            price,
            image_url as imageUrl,
            category,
+           detail_img1 as detailImg1,
+           detail_img2 as detailImg2,
+           detail_img3 as detailImg3,
            stock,
            team_id as teamId,
            reg_date
