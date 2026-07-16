@@ -38,14 +38,14 @@ body {
                 <a class="nav-link active" href="#">회원정보 관리</a>
                 <a class="nav-link" href="#">구매/배송 조회</a>
                 <a class="nav-link" href="#">찜한 상품</a>
-                <a class="nav-link" href="#">티켓 내역</a>
+                <a class="nav-link" href="../mypage/mypage_reserve.do">티켓 내역</a>
                 <a class="nav-link" href="#">문의 내역</a>
             </nav>
             
         </div>
         
         <div class="col-12 col-md-10">
-        <jsp:include page="${mypage_jsp }"/>
+        	<jsp:include page="${mypage_jsp }"/>
         </div>
     </div>
 </div>

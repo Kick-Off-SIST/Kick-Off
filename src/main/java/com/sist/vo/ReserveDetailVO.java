@@ -10,5 +10,7 @@ import lombok.Data;
 
 @Data
 public class ReserveDetailVO {
-	private int reserve_detail_id,seat_count,reserve_id,match_seat_id;
+	private int reserve_detail_id,reserve_id,match_seat_id,seat_col,amount;
+	private String seat_row,grade_name;
+	private ReserveVO rvo=new ReserveVO();
 }

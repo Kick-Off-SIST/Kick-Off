@@ -20,6 +20,12 @@
 		<result column="emblem" property="emblem"/>
     </association>
 </resultMap>
+<resultMap type="MatchSeatVO" id="MatchSeatMap">
+	<result property="svo.seat_row" column="seat_row" />
+	<result property="svo.seat_col" column="seat_col" />
+	<result property="svo.gvo.amount" column="amount" />
+	<result property="svo.gvo.grade_name" column="grade_name" />
+</resultMap>
 <select id="reserveTeam" resultMap="TeamMap" parameterType="string">
 	SELECT t.team_id, t.team_name, t.emblem, s.name
 	FROM kleague_team t NATURAL JOIN kleague_stadium s
@@ -32,11 +38,63 @@
 	SELECT s.name,s.ticket_policy_image FROM kleague_team t NATURAL JOIN kleague_stadium s WHERE team_id=#{id}
 </select>
 <select id="reserveTeamScheduleData" resultMap="MatchMap" parameterType="string">
-	select s.away_team_id,s.schedule_id,TO_CHAR(s.game_date,'MM-DD') as dbday,s.game_time,t.team_name,t.emblem
+	select s.away_team_id,schedule_id,TO_CHAR(s.game_date,'MM-DD') as dbday,s.game_time,t.team_name,t.emblem
 	FROM kleague_schedule s INNER JOIN kleague_team t
 	ON s.away_team_id=t.team_id
 	WHERE (s.game_date BETWEEN SYSDATE AND SYSDATE+31)
 	AND home_team_id=#{id}
 	ORDER BY s.game_date ASC
+</select>
+<!-- 수정 필요 -->
+<select id="seatGradeListData" resultType="SeatGradeVO" parameterType="int">
+	SELECT grade_id, grade_name, amount, totalseat, max_row, max_col
+	FROM seat_grade WHERE stadium_id=#{id}
+</select>
+<select id="scheduleDetailData" resultType="MatchVO" parameterType="int">
+	SELECT stadium_id
+	FROM kleague_schedule
+	WHERE schedule_id=#{id}
+</select>
+<select id="maxSeatData" resultType="SeatGradeVO" parameterType="int">
+	SELECT max_row, max_col
+	FROM seat_grade
+	WHERE grade_id=#{grade_id}
+</select>
+<select id="seatInfoListData" resultMap="MatchSeatMap" parameterType="hashmap">
+	SELECT match_seat_id, seat_status, seat_row, seat_col, amount, grade_name
+	FROM match_seat m JOIN stadium_seat s ON s.seat_id=m.seat_id
+	JOIN seat_grade g ON s.grade_id=g.grade_id
+	AND schedule_id=#{schedule_id} AND s.grade_id=#{grade_id}
+	ORDER BY seat_row ASC, seat_col ASC
+</select>
+<insert id="reserveInsert" parameterType="hashmap">
+	<selectKey keyProperty="rid" resultType="long" order="BEFORE">
+        SELECT res_rid_seq.nextval FROM dual
+    </selectKey>
+	INSERT INTO reservation(reserve_id,total_amount,member_id,schedule_id)
+	VALUES(#{rid},#{total_amount},#{member_id},#{schedule_id})
+</insert>
+<insert id="reserveDetailInsert" parameterType="hashmap">
+	INSERT INTO reservation_detail(RESERVE_DETAIL_ID,RESERVE_ID,
+	MATCH_SEAT_ID, SEAT_ROW, SEAT_COL,AMOUNT,GRADE_NAME)
+	VALUES(resd_rdid_seq.nextval,#{rid},#{match_seat_id},
+		#{seat_row},#{seat_col},#{amount},#{grade_name})
+</insert>
+<update id="matchSeatStatusUpdate" parameterType="hashmap">
+	UPDATE match_seat SET seat_status='N' WHERE match_seat_id=#{match_seat_id}
+</update>
+<resultMap type="ReserveDetailVO" id="rDetailMap">
+	<result property="rvo.member_id" column="member_id" />
+	<result property="rvo.reserve_time" column="reserve_time" />
+	<result property="rvo.dbday" column="dbday" />
+	<result property="rvo.schedule_id" column="schedule_id" />
+</resultMap>
+<!-- 한 예매에 여러 좌석을 구매한다면 #{reserve_id} 로 변경 -->
+<select id="reservemyPageListDetailData" resultMap="rDetailMap" parameterType="int">
+	SELECT d.reserve_id, seat_row, seat_col, grade_name, amount, schedule_id, 
+	TO_CHAR(reserve_time,'yyyy-mm-dd hh24:mi:ss') as dbday
+	FROM reservation_detail d JOIN reservation r ON r.reserve_id=d.reserve_id
+	WHERE member_id=#{member_id}
+	ORDER BY d.reserve_id DESC
 </select>
 </mapper>

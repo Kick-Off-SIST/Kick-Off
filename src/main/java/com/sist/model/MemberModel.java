@@ -27,6 +27,7 @@ public class MemberModel {
 		if("OK".equals(vo.getMsg())) {
 			HttpSession session=request.getSession();
 			session.setAttribute("user", vo);
+			session.setAttribute("member_id", vo.getMember_id());
 		}
 		try {
 			Commons.sendData(response, "text/html", vo.getMsg());

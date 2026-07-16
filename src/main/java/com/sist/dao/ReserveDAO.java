@@ -1,6 +1,7 @@
 package com.sist.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -66,4 +67,90 @@ public class ReserveDAO {
 		session.close();
 		return list;
 	}
+/*
+<select id="seatGradeListData" resultType="com.sist.vo.SeatGradeVO" parameterType="int">
+	SELECT * FROM seat_grade WHERE stadium_id=#{id}
+</select>
+ */
+	public static List<SeatGradeVO> seatGradeListData(int id) {
+		SqlSession session=ssf.openSession();
+		List<SeatGradeVO> list=session.selectList("seatGradeListData",id);
+		session.close();
+		return list;
+	}
+/*
+<select id="scheduleDetailData" resultType="MatchVO" parameterType="int">
+	SELECT stadium_id
+	FROM kleague_schedule
+	WHERE schedule_id=#{id}
+</select>
+ */
+	public static MatchVO scheduleDetailData(int id) {
+		SqlSession session=ssf.openSession();
+		MatchVO vo=session.selectOne("scheduleDetailData",id);
+		session.close();
+		return vo;
+	}
+/*
+<select id="maxSeatData" resultType="com.sist.vo.SeatGradeVO" parameterType="int">
+	SELECT max_row, max_col
+	FROM seat_grade
+	WHERE grade_id=#{grade_id}
+</select>
+ */
+	public static SeatGradeVO maxSeatData(int id) {
+		SqlSession session=ssf.openSession();
+		SeatGradeVO vo=session.selectOne("maxSeatData",id);
+		session.close();
+		return vo;
+	}
+/*
+<select id="seatInfoListData" resultMap="MatchSeatMap" parameterType="hashmap">
+	SELECT match_seat_id, seat_status, seat_row, seat_col, amount
+	FROM match_seat m JOIN stadium_seat s ON s.seat_id=m.seat_id
+	JOIN seat_grade g ON s.grade_id=g.grade_id
+	AND schedule_id=#{schedule_id} AND s.grade_id=#{grade_id}
+</select>
+ */
+	public static List<MatchSeatVO> seatInfoListData(Map map) {
+		SqlSession session=ssf.openSession();
+		List<MatchSeatVO> list=session.selectList("seatInfoListData",map);
+		session.close();
+		return list;
+	}
+/*
+<insert id="reserveInsert" parameterType="hashmap">
+	INSERT INTO reservation
+	VALUES(res_rid_seq.nextval,SYSDATE,#{total_amount},#{member_id})
+</insert>
+<insert id="reserveDetailInsert" parameterType="hashmap">
+	INSERT INTO reservation
+	VALUES(resd_rdid_seq.nextval,#{rid},#{match_seat_id})
+</insert>
+ */
+	public static void reserveInsert(Map map) {
+		SqlSession session=ssf.openSession();
+		session.insert("reserveInsert",map);
+		// 한 예매에 여러 좌석을 예매한다면 for문으로 처리
+		session.insert("reserveDetailInsert",map);
+		session.update("matchSeatStatusUpdate",map);
+		session.commit();
+		session.close();
+	}
+
+	/*
+	<select id="reservemyPageListDetailData" resultMap="rDetailMap" parameterType="int">
+		SELECT d.reserve_id, seat_row, seat_col, grade_name, amount
+		FROM reservation_detail d JOIN reservation r ON r.reserve_id=d.reserve_id
+		WHERE member_id=#{member_id}
+	</select>
+	 */
+
+		public static List<ReserveDetailVO> reservemyPageListDetailData(int member_id){
+			SqlSession session=ssf.openSession();
+			List<ReserveDetailVO> list=session.selectList("reservemyPageListDetailData",member_id);
+			session.close();
+			return list;
+		}	
+
 }

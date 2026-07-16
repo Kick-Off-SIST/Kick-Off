@@ -12,7 +12,9 @@ MEMBER_ID             VARCHAR2(20)
  */
 @Data
 public class ReserveVO {
-	private int reserve_id,total_amount;
+	private int reserve_id,total_amount,schedule_id;
 	private String member_id,dbday;
 	private Date reserve_time;
+	private MemberVO mvo=new MemberVO();
+	private MatchVO mmvo=new MatchVO();
 }

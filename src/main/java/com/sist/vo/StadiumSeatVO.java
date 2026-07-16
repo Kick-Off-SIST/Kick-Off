@@ -10,6 +10,8 @@ AMOUNT     NOT NULL NUMBER
  */
 @Data
 public class StadiumSeatVO {
-	private int seat_id,seat_col,stadium_id,amount;
+	private int seat_id,seat_col,stadium_id,grade_id;
 	private String seat_row;
+	private StadiumVO svo=new StadiumVO();
+	private SeatGradeVO gvo=new SeatGradeVO();
 }

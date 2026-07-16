@@ -15,8 +15,10 @@ body {
 <script type="text/javascript">
 $(function(){
 	$('.reserve').on('click',function(){
+		let sid=$(this).attr('data-id')
+		// 로그인 처리
 		if("${sessionScope.user}"!==''){
-			location.href="../ticket/reserve_ticket.do"; // ?sid='스케쥴 id'
+			location.href="../ticket/reserve_ticket.do?sid="+sid; // ?sid='스케쥴 id'
 		}
 		else {
 			$('#loginRequiredModal').modal('show')
@@ -46,7 +48,7 @@ $(function(){
     <div class="row" style="margin-top: 20px">
     <c:if test="${mList==null || mList.size()==0 }">
     	<div class="py-5 text-center">
-      		<p class="fs-5">경기 일정이 없습니다.</p>
+      		<p class="fs-5">예정된 경기 일정이 없습니다.</p>
     	</div>
     </c:if>
     <c:if test="${mList!=null }">
@@ -72,7 +74,7 @@ $(function(){
         				</div>
       				</div>
       				<div class="text-center text-md-end">
-        				<a class="btn btn-outline-primary fw-bold px-5 py-2.5 rounded-pill fs-5 reserve" style="border-width: 2px;">
+        				<a class="btn btn-outline-primary fw-bold px-5 py-2.5 rounded-pill fs-5 reserve" data-id="${mvo.schedule_id}" style="border-width: 2px;">
           					예매하기
         				</a>
       				</div>

@@ -1,6 +1,7 @@
 package com.sist.vo;
 
 import lombok.Data;
+import com.sist.vo.*;
 
 /*
 MATCH_SEAT_ID NOT NULL NUMBER       
@@ -12,4 +13,6 @@ SEAT_ID                NUMBER
 public class MatchSeatVO {
 	private int match_seat_id,schedule_id,seat_id;
 	private String seat_status;
+	private MatchVO mvo=new MatchVO();
+	private StadiumSeatVO svo=new StadiumSeatVO();
 }
