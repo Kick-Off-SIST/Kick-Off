@@ -206,6 +206,11 @@ body {
 							<i class="bi bi-shop me-2"></i>구단 스토어 바로가기
 						</a>
 					</div>
+					<div class="mt-4 pt-3" style="border-top: 1px dashed #e0e0e0;">
+			            <a href="../team/list.do" class="btn btn-light w-100 text-muted" style="border: 1px solid #ced4da; font-weight: 500;">
+			                <i class="bi bi-list me-2"></i>팀 목록으로 돌아가기
+			            </a>
+			        </div>
 				</div>
 			</div>
 		</div>

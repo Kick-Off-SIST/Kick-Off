@@ -120,6 +120,12 @@ body {
 				<button type="button" class="month-nav-btn" @click="nextMonth">
 					<i class="bi bi-chevron-right"></i>
 				</button>
+				
+				<div class="position-absolute end-0 me-3 me-md-4">
+			        <button type="button" onclick='location.href="../main/main.do"' class="btn btn-outline-secondary fw-bold" style="font-size: 14px;">
+			            <i class="bi bi-arrow-left me-1"></i>돌아가기
+			        </button>
+			    </div>
 			</div>
 	
 			<div class="team-filter-bar d-flex justify-content-between align-items-center">

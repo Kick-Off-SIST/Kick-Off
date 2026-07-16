@@ -13,6 +13,46 @@
 body{
 	background: #f8f9fa
 }
+.team-hero{
+	background:#111827;
+	border-radius:18px;
+	padding:45px 50px;
+	margin-bottom:40px;
+	color:white;
+	position:relative;
+	overflow:hidden;
+}
+.team-hero:after{
+	content:"";
+	position:absolute;
+	right:-80px;
+	top:-80px;
+	width:280px;
+	height:280px;
+	border-radius:50%;
+	background:rgba(34,197,94,.15);
+}
+.team-eyebrow{
+	color:#22c55e;
+	font-size:13px;
+	font-weight:800;
+	letter-spacing:2px;
+	margin-bottom:15px;
+}
+.team-hero h1{
+	font-size:42px;
+	font-weight:800;
+	line-height:1.25;
+	position:relative;
+	z-index:1;
+}
+.team-hero p{
+	color:#d1d5db;
+	font-size:16px;
+	position:relative;
+	z-index:1;
+}
+
 .team-card{
 	background: #ffffff;
 	border: 1px solid #e0e0e0;
@@ -59,9 +99,21 @@ body{
 </head>
 <body>
 	<div class="container my-5">
-		<h4 class="mb-4 fw-bold text-dark border-bottom pb-3">
-			<i class="bi bi-shield-shaded text-success me-2"></i>K리그 구단 목록
-		</h4>
+		<div class="team-hero">
+			<div class="team-eyebrow">
+				KICK-OFF
+			</div>
+			<h1>
+				KLeague<br>
+				<span style="color:#22c55e">
+					구단목록
+				</span>
+			</h1>
+			<p>
+				서울에서 부산까지<br>
+				K-리그 참가 구단들을 만나보세요.
+			</p>
+		</div>
 		<div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 g-4">
 			<c:forEach var="vo" items="${list }">
 			<div class="col">

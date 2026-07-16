@@ -1,6 +1,45 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <style type="text/css">
+.player-hero{
+	background:#111827;
+	border-radius:18px;
+	padding:45px 50px;
+	margin-bottom:40px;
+	color:white;
+	position:relative;
+	overflow:hidden;
+}
+.player-hero:after{
+	content:"";
+	position:absolute;
+	right:-80px;
+	top:-80px;
+	width:280px;
+	height:280px;
+	border-radius:50%;
+	background:rgba(34,197,94,.15);
+}
+.player-eyebrow{
+	color:#22c55e;
+	font-size:13px;
+	font-weight:800;
+	letter-spacing:2px;
+	margin-bottom:15px;
+}
+.player-hero h1{
+	font-size:42px;
+	font-weight:800;
+	line-height:1.25;
+	position:relative;
+	z-index:1;
+}
+.player-hero p{
+	color:#d1d5db;
+	font-size:16px;
+	position:relative;
+	z-index:1;
+}
 .grid-img-container {
     width: 100%;
     aspect-ratio: 4 / 3; 
@@ -93,9 +132,23 @@
 
 
 	<div class="container my-5" id="playerListApp">
+		<div class="player-hero">
+			<div class="player-eyebrow">
+				KICK-OFF
+			</div>
+			<h1>
+				KLeague<br>
+				<span style="color:#22c55e">
+					선수목록
+				</span>
+			</h1>
+			<p>
+				<br>
+				K-리그 소속 선수들을 만나보세요.
+			</p>
+		</div>
     	<div class="row">
         	<div class="col-12">
-            	<h4 class="mb-4 fw-bold text-dark"><i class="bi bi-grid-3x3-gap-fill me-2"></i>선수 리스트</h4>
             		<div class="row mb-4">
 					    <div class="col-6 col-md-3 mb-2">
 					        <select class="form-select form-select-sm" v-model="column" @change="filterChange">

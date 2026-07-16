@@ -9,7 +9,7 @@
 	color: #198754
 }
 </style>
-<footer class="bg-dark text-light py-5 mt-5">
+<footer class="bg-dark text-light py-5 mt-auto">
 	<div class="container">
 		<div class="row align-items-center mb-4">
 			<div class="col-md-4 text-center text-md-start mb-3 mb-md-0">

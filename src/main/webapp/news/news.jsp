@@ -26,14 +26,12 @@ body {
     color: var(--ink);
     font-family: 'Noto Sans KR', sans-serif;
 }
-
 .news-widget {
     max-width: 800px;
     margin: 40px auto;
     border-radius: 14px;
     background-color: var(--surface);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-    border: none;
+    border: 1px solid var(--line) !important;
 }
 
 .news-widget h2 {
