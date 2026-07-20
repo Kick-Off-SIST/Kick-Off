@@ -135,13 +135,36 @@
   </div>
 
   <!-- 티켓 예매 배너 -->
-  <div class="kickoff-ticket-banner mb-5">
-    <div>
-      <h3>다음 홈경기, 자리가 채워지고 있어요</h3>
-      <p>${nextHomeMatch.matchDate} ${nextHomeMatch.matchTime} · ${nextHomeMatch.homeTeamName} vs ${nextHomeMatch.awayTeamName} · 잔여석 약 ${nextHomeMatch.remainRate}%</p>
-    </div>
-    <a href="../ticket/reserve_team.do" class="btn btn-success">티켓 예매하기</a>
-  </div>
+	<div class="kickoff-ticket-banner mb-5 d-flex justify-content-between align-items-center p-4 border rounded">
+		<div>
+			<h3 class="mb-3">다음 경기, 자리가 채워지고 있어요</h3>
+			<div class="match-info d-flex align-items-center fs-5">
+				<span class="match-time me-4 text-muted">${cvo.dbday} ${cvo.game_time}</span>
+				
+				<div class="team home-team d-flex align-items-center">
+					<a href="../team/detail.do?team_id=${mvo.homeVo.team_id}" class="k-team-name">
+						<img src="${cvo.homeVo.emblem }" alt="${cvo.homeVo.team_name}" class="emblem-img me-2" style="width: 32px; height: 32px; object-fit: contain;">
+						<span class="fw-bold">${cvo.homeVo.team_name}</span>
+					</a>
+				</div>
+	      
+				<span class="vs-text mx-3 text-muted fw-bold">VS</span>
+	      
+				<div class="team away-team d-flex align-items-center">
+					<a href="../team/detail.do?team_id=${mvo.awayVo.team_id}" class="k-team-name">
+						<img src="${cvo.awayVo.emblem }" alt="${cvo.awayVo.team_name}" class="emblem-img me-2" style="width: 32px; height: 32px; object-fit: contain;">
+						<span class="fw-bold">${cvo.awayVo.team_name}</span>
+					</a>
+				</div>
+			</div>
+		</div>
+	<c:if test="${sessionScope.user!=null }">
+		<a href="../ticket/reserve_ticket.do?sid=${cvo.schedule_id }" class="btn btn-success btn-lg flex-shrink-0 ml-3">티켓 예매하기</a>
+	</c:if>
+	<c:if test="${sessionScope.user==null }">
+		<button class="btn btn-success btn-lg flex-shrink-0 ml-3" disabled>로그인이 필요한 서비스입니다</button>
+	</c:if>
+</div>
 
   <!-- 뉴스 -->
 	<section class="mb-5">

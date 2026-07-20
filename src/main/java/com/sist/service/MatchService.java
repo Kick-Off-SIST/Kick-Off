@@ -7,4 +7,5 @@ import com.sist.vo.MatchVO;
 public interface MatchService {
 	public List<MatchVO> matchListData(String searchDate);
 	public List<MatchVO> matchRecentData(String currentDate);
+	public MatchVO matchCloseData();
 }

@@ -24,6 +24,8 @@ public class MainModel {
 		String currentDate=java.time.LocalDate.now().toString();
 		List<MatchVO> mlist=mService.matchRecentData(currentDate);
 		
+		MatchVO vo=mService.matchCloseData();
+		
 		String youtubeAPI="";
 		Properties prop=new Properties();
 		try(InputStream is=Thread.currentThread().getContextClassLoader().getResourceAsStream("api.properties")){
@@ -35,6 +37,7 @@ public class MainModel {
 			ex.printStackTrace();
 		}
 		
+		request.setAttribute("cvo", vo);
 		request.setAttribute("mList", mlist);
 		request.setAttribute("rList", rlist);
 		request.setAttribute("youtubeAPI", youtubeAPI);

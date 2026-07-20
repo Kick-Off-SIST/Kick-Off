@@ -77,15 +77,15 @@
 						<div class="kickoff-hero-eyebrow mb-0 me-3" style="padding: 4px 10px;">
 							<span class="pulse"></span>실시간 채팅
 						</div>
-						<h5 class="mb-0 fw-bold" style="font-family: 'Black Han Sans', sans-serif; font-size: 22px;">팬 라운지</h5>
+						<h5 class="mb-0" style="font-family: 'Black Han Sans', sans-serif; font-size: 25px;">팬 라운지</h5>
 					</div>
 					<div id="chatBox" class="chat-body">
 						<div class="system-message">채팅 서버에 연결 중입니다...</div>
 					</div>
 					<div class="card-footer bg-white p-3" style="border-top: 1px solid var(--line);">
 						<div class="d-flex gap-2">
-							<input type="text" id="messageInput" class="form-control focus-ring focus-ring-success" placeholder="메세지를 입력하세요.." style="border-radius: 20px; padding: 10px 20px;">
-							<button id="sendBtn" class="btn btn-success fw-bold px-4" style="border-radius: 20px;">전송</button>
+							<input type="text" id="messageInput" class="form-control flex-grow-1 focus-ring focus-ring-success" placeholder="메세지를 입력하세요.." style="border-radius: 20px; padding: 10px 20px;">
+							<button id="sendBtn" class="btn btn-success fw-bold px-4 flex-shrink-0 text-nowrap" style="border-radius: 20px;">전송</button>
 						</div>
 					</div>
 				</div>

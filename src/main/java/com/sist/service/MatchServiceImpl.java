@@ -15,5 +15,9 @@ public class MatchServiceImpl implements MatchService {
 	public List<MatchVO> matchRecentData(String currentDate) {
 		return dao.matchRecentData(currentDate);
 	}
+	@Override
+	public MatchVO matchCloseData() {
+		return dao.matchCloseData();
+	}
 
 }
