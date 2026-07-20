@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sist.mapper.goodslike-mapper">
+  <insert id="goodslikeOn" parameterType="GoodsLikeVO">
+    INSERT INTO goodslike VALUES(
+    	GOODSLIKE_SEQ.nextval,
+    	#{gno},
+    	#{id}
+    )
+  </insert>
+  <delete id="goodslikeOff" parameterType="GoodsLikeVO">
+    DELETE FROM goodslike
+    WHERE id=#{id} AND gno=#{gno}
+  </delete>
+  <select id="goodslikeCount" resultType="int" parameterType="int">
+    SELECT COUNT(*)
+    FROM goodslike
+    WHERE gno=#{gno}
+  </select>
+  <select id="goodslikeCheck" resultType="int" parameterType="GoodsLikeVO">
+    SELECT COUNT(*)
+    FROM goodslike
+    WHERE gno=#{gno} AND id=#{id}
+  </select>
+  <select id="goodsLikeUpdate" parameterType="int">
+  	UPDATE goods SET
+  	likecount=(SELECT COUNT(*)
+               FROM goodslike
+               WHERE gno=#{gno})
+    WHERE goods_no=#{gno}
+  </select>
+</mapper>

@@ -18,7 +18,7 @@ import java.util.*;
 import lombok.Data;
 @Data
 public class GoodsVO {
-	private int goodsNo,price,stock;
+	private int goodsNo,price,stock,likecount;
 	private String goodsId,goodsName,imageUrl,category,teamId,teamName,emblem,dbday,detailImg1,detailImg2,detailImg3;
 	private Date reg_date;
 }

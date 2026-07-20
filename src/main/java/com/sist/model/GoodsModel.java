@@ -9,6 +9,7 @@ import com.sist.vo.*;
 import com.sist.dao.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class GoodsModel {
@@ -114,8 +115,38 @@ public class GoodsModel {
 				   HttpServletResponse response)
 		{
 			String no=request.getParameter("no");
-			request.setAttribute("no", no);
-			request.setAttribute("main_jsp", "../goods/detail.jsp");
+
+		    request.setAttribute("no", no);
+
+
+		    // 좋아요 정보 추가
+		    HttpSession session=request.getSession();
+
+		    MemberVO user=(MemberVO)session.getAttribute("user");
+		    
+		    if(user!=null)
+		    {
+		    	String id=user.getLogin_id();
+		        GoodsLikeVO vo=new GoodsLikeVO();
+		        vo.setId(id);
+		        vo.setGno(Integer.parseInt(no));
+
+		        int check=GoodsLikeDAO.goodslikeCheck(vo);
+		        int count=GoodsLikeDAO.goodslikeCount(Integer.parseInt(no));
+
+		        request.setAttribute("check", check);
+		        request.setAttribute("count", count);
+		    }
+		    else
+		    {
+		        request.setAttribute("check", 0);
+		        request.setAttribute("count", 
+		             GoodsLikeDAO.goodslikeCount(Integer.parseInt(no)));
+		    }
+
+
+		    request.setAttribute("main_jsp", "../goods/detail.jsp");
+
 		    return "../main/main.jsp";
 		}
 		@RequestMapping("goods/detail_vue.do")

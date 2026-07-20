@@ -30,6 +30,7 @@
 		<typeAlias type="com.sist.vo.ReplyVO" alias="ReplyVO"/>
 		<typeAlias type="com.sist.vo.NoticeVO" alias="NoticeVO"/>
 		<typeAlias type="com.sist.vo.SeatGradeVO" alias="SeatGradeVO"/>
+		<typeAlias type="com.sist.vo.GoodsLikeVO" alias="GoodsLikeVO"/>
 	</typeAliases>
 	<environments default="development">
 		<environment id="development">
@@ -58,5 +59,6 @@
 		<mapper resource="com/sist/mapper/admin-mapper.xml"/>
 		<mapper resource="com/sist/mapper/notice-mapper.xml"/>
 		<mapper resource="com/sist/mapper/mypage-mapper.xml"/>
+		<mapper resource="com/sist/mapper/goodslike-mapper.xml"/>
 	</mappers>
 </configuration>
