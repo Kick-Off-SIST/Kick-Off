@@ -290,7 +290,7 @@
           </div>
           
           <div class="gd-actions">
-            <button class="btn btn-outline-dark">장바구니</button>
+            <button class="btn btn-outline-dark" @click="cart()">장바구니</button>
             <button class="btn btn-success" @click="buyBtn()">바로구매</button>
           </div>
           <div class="gd-back-link">
@@ -400,7 +400,16 @@
     					   this.count--;
     				   }
     			   })
-    		   }
+    		   },
+    		   cart(){
+       			axios.get('../cart/insert.do',{
+           			params:{
+           				no:this.no
+           			}
+           		}).then(response=>{
+           			window.location.href="../mypage/mypage_cart.do"
+           		})
+       		}
     		
     	}
     }).mount("#detailApp")

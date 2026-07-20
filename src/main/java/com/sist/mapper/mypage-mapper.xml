@@ -10,4 +10,48 @@
 <select id="mypageReserveCount" resultType="int" parameterType="int">
 	SELECT COUNT(*) FROM reservation WHERE member_id=#{member_id}
 </select>
+
+<!-- 예약 정보 -->
+<resultMap type="ReserveDetailVO" id="rMap">
+	<result property="rvo.schedule_id" column="schedule_id" />
+	<result property="rvo.mmvo.homeVo.team_name" column="home" />
+	<result property="rvo.mmvo.awayVo.team_name" column="away" />
+	<result property="rvo.mmvo.homeVo.emblem" column="home_em" />
+	<result property="rvo.mmvo.awayVo.emblem" column="away_em" />
+	<result property="rvo.mmvo.game_date" column="game_date" />
+	<result property="rvo.mmvo.dbday" column="gday" />
+	<result property="rvo.mmvo.game_time" column="game_time" />
+	<result property="rvo.reserve_time" column="reserve_time" />
+	<result property="rvo.dbday" column="rday" />
+	<result property="rvo.total_amount" column="total_amount" />
+</resultMap>
+<select id="mypageReserveListData" resultMap="rMap" parameterType="int" >
+	SELECT d.reserve_id, r.schedule_id, 
+	t1.emblem as home_em, t1.team_name as home,
+	t2.emblem as away_em, t2.team_name as away,
+	TO_CHAR(game_date,'yyyy-mm-dd') as gday, game_time, 
+	grade_name, seat_row, seat_col, TO_CHAR(reserve_time,'yyyy-mm-dd hh24:mi:ss') as rday, total_amount
+	FROM reservation_detail d JOIN reservation r ON r.reserve_id=d.reserve_id
+	JOIN kleague_schedule s ON r.schedule_id=s.schedule_id
+	JOIN kleague_team t1 ON s.home_team_id=t1.team_id
+	JOIN kleague_team t2 ON s.away_team_id=t2.team_id
+	WHERE member_id=#{member_id}
+	ORDER BY reserve_id DESC
+</select>
+
+
+<!-- 장바구니 상품 정보 -->
+<resultMap type="CartVO" id="CartMap">
+	<result property="gvo.goodsName" column="goods_name" />
+	<result property="gvo.price" column="price" />
+	<result property="gvo.imageUrl" column="image_url" />
+</resultMap>
+<select id="cartGoodsDetailData" resultMap="CartMap" parameterType="int">
+	SELECT c.goods_no,cart_id,count,goods_name, price, image_url
+	FROM cart c JOIN goods g ON c.goods_no = g.goods_no
+	WHERE member_id=#{member_id}
+</select>
+
+<!-- 경기 정보 가져오기 -->
+
 </mapper>

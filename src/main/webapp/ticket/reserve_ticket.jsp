@@ -13,6 +13,41 @@ body {
 .seat-grade {
 	cursor: pointer; 	
 }
+.community-hero {
+	background: #111827;
+	border-radius: 18px;
+	padding: 20px 50px; 
+	margin-bottom: 30px;
+	color: white;
+}
+
+
+.community-eyebrow{
+	font-size:13px;
+	font-weight:800;
+	letter-spacing:2px;
+	color:#22c55e;
+	margin-bottom:15px;
+}
+
+
+.community-hero h1{
+	font-size:42px;
+	font-weight:800;
+	line-height:1.25;
+	margin-bottom:18px;
+	position:relative;
+	z-index:1;
+}
+
+
+.community-hero p{
+	color:#d1d5db;
+	font-size:16px;
+	line-height:1.7;
+	position:relative;
+	z-index:1;
+}
 </style>
 <script type="text/javascript">
 $(function(){
@@ -60,6 +95,33 @@ $(function(){
 </head>
 <body>
 <div class="container my-5">
+	<div class="row">
+		<div class="community-hero">
+
+
+	<div class="community-eyebrow">
+		TICKET
+	</div>
+
+
+	<h1>
+		울산 VS 수원<br>
+		
+	</h1>
+	<h2>
+		<span style="color:#22c55e;">
+			울산 경기장
+		</span>
+	</h2>
+
+
+	<p>
+		2026년 7월 21일 19시 30분
+	</p>
+
+
+</div>
+	</div>
 	<div class="row">
 	  <div class="col-12 col-md-8"> 
 		<div class="card bg-white" style="height: 600px" id="reserve_seat">       

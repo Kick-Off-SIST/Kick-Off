@@ -32,8 +32,8 @@ $(function(){
     	  <thead>
     		<tr>
     			<th width="10%" class="text-center">예약번호</th>
-    			<th width="25%" class="text-center">경기정보</th>
-    			<th width="25%" class="text-center">좌석</th>
+    			<th width="30%" class="text-center">경기정보</th>
+    			<th width="20%" class="text-center">좌석</th>
     			<th width="15%" class="text-center">예매일</th>
     			<th width="15%" class="text-center">가격</th>
     			<th width="10%"></th>
@@ -43,12 +43,17 @@ $(function(){
     		<c:forEach var="vo" items="${list }">
     			<tr class="border-bottom-custom">
 	    			<td width="10%" class="text-muted small text-center">${vo.reserve_id }</td>
-	    			<td width="25%" class="text-center">
-	    				<%-- ${vo.rvo.mmvo.dbday }&nbsp;
-	    				${vo.rvo.mmvo.game_time } --%>
-	    				${vo.rvo.schedule_id }
+	    			<td width="30%" class="text-center">
+	    				<img src="${vo.rvo.mmvo.homeVo.emblem }" style="height: 20px">
+	    				${vo.rvo.mmvo.homeVo.team_name } vs
+	    				<img src="${vo.rvo.mmvo.awayVo.emblem }" style="height: 20px">
+	    				${vo.rvo.mmvo.awayVo.team_name }
+	    				<br>
+	    				${vo.rvo.mmvo.dbday }&nbsp;
+	    				${vo.rvo.mmvo.game_time }
+	    				<%-- ${vo.rvo.schedule_id } --%>
 	    			</td>
-	    			<td width="25%" class="text-center">
+	    			<td width="20%" class="text-center">
 	    				<div class="d-flex align-items-center gap-2">
                                     <span class="badge bg-secondary-subtle text-secondary rounded-pill px-2.5 py-1" style="font-size: 0.7rem; font-weight: 600;">
                                         ${vo.grade_name}
@@ -60,7 +65,7 @@ $(function(){
 	    			</td>
 	    			<td width="15%" class="text-center text-secondary small">${vo.rvo.dbday }</td>
 	    			<td width="15%" class="text-center">
-	    			&#8361; <span class="fw-bold text-primary">${vo.amount}</span>
+	    			&#8361; <span class="fw-bold text-primary">${vo.rvo.total_amount}</span>
 	    			</td>
 	    			<td width="10%" class="text-center">
 	    				<a class="delBtn btn btn-outline-danger btn-sm rounded-3 px-3 fw-semibold" 

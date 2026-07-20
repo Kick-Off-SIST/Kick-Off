@@ -30,10 +30,12 @@ public class MyPageModel {
 	public String mypage_reserve(HttpServletRequest request, HttpServletResponse response) {
 		HttpSession session=request.getSession();
 		int member_id=(int)session.getAttribute("member_id");
-		List<ReserveDetailVO> list=ReserveDAO.reservemyPageListDetailData(member_id);
+		//List<ReserveDetailVO> list=ReserveDAO.reservemyPageListDetailData(member_id);
 		//System.out.println(list);
+		List<ReserveDetailVO> list=MyPageDAO.mypageReserveListData(member_id);
 		request.setAttribute("menu", 4);
 		request.setAttribute("list", list);
+		
 		request.setAttribute("mypage_jsp", "../mypage/mypage_reserve.jsp");
 		request.setAttribute("main_jsp", "../mypage/mypage.jsp");
 		return "../main/main.jsp";
@@ -46,7 +48,19 @@ public class MyPageModel {
 		Map map=new HashMap();
 		map.put("match_seat_id", match_seat_id);
 		map.put("reserve_id", reserve_id);
-		System.out.println("리절트맵"+map);
 		ReserveDAO.reserveDelete(map);
+	}
+	
+	@RequestMapping("mypage/mypage_cart.do")
+	public String mypage_cart(HttpServletRequest request, HttpServletResponse response) {
+		HttpSession session=request.getSession();
+		int member_id=(int)session.getAttribute("member_id");
+		List<CartVO> list=MyPageDAO.cartGoodsDetailData(member_id);
+		request.setAttribute("menu", 3);
+		request.setAttribute("list", list);
+		
+		request.setAttribute("mypage_jsp", "../mypage/mypage_cart.jsp");
+		request.setAttribute("main_jsp", "../mypage/mypage.jsp");
+		return "../main/main.jsp";
 	}
 }
