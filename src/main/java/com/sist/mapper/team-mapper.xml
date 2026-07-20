@@ -31,25 +31,49 @@
 		ORDER BY team_id ASC
 	</select>
 	<select id="teamRankData" resultType="TeamVO">
-		SELECT 
-		    RANK() OVER(ORDER BY SUM(u.win_count) DESC) AS rank,
-		    t.team_id,
-		    t.team_name,
-		    t.emblem,
-		    SUM(u.win_count) AS wins
-		FROM (
-		    SELECT home_team_id AS team_id, home_win AS win_count
-		    FROM kleague_schedule
-		    WHERE game_date&gt;=TO_DATE('20260101','YYYYMMDD')
-		    
-		    UNION ALL
-		    
-		    SELECT away_team_id AS team_id, away_win AS win_count
-		    FROM kleague_schedule
-		    WHERE game_date&gt;=TO_DATE('20260101','YYYYMMDD')
-		) u
-		JOIN kleague_team t ON u.team_id = t.team_id
-		GROUP BY t.team_name, t.team_id, t.emblem
-		ORDER BY rank ASC
-	</select>
+    SELECT 
+        RANK() OVER(
+            ORDER BY 
+            SUM(u.points) DESC, 
+            SUM(u.goals) DESC, 
+            SUM(u.goal_diff) DESC
+        ) AS rank,
+        t.team_id,
+        t.team_name,
+        t.emblem,
+        SUM(u.wins) AS wins,
+        SUM(u.points) AS points,
+        SUM(u.goals) AS goals,
+        SUM(u.goal_diff) AS goal_diff
+    FROM (
+        SELECT 
+            home_team_id AS team_id, 
+            CASE WHEN home_goal > away_goal THEN 3
+                 WHEN home_goal = away_goal THEN 1
+                 ELSE 0 END AS points,
+            home_goal AS goals,
+            (home_goal-away_goal) AS goal_diff,
+            home_win AS wins
+        FROM kleague_schedule
+        WHERE game_date&gt;=TRUNC(SYSDATE, 'YYYY')
+        AND game_status='A'
+        
+        UNION ALL
+        
+        SELECT 
+            away_team_id AS team_id, 
+            CASE WHEN away_goal>home_goal THEN 3
+                 WHEN away_goal=home_goal THEN 1
+                 ELSE 0 END AS points,
+            away_goal AS goals,
+            (away_goal-home_goal) AS goal_diff,
+            away_win AS wins
+        FROM kleague_schedule
+        WHERE game_date&gt;=TRUNC(SYSDATE, 'YYYY')
+        AND game_status='A'
+    ) u
+    JOIN kleague_team t ON u.team_id = t.team_id
+    GROUP BY t.team_name, t.team_id, t.emblem
+    ORDER BY rank ASC
+</select>
 </mapper>

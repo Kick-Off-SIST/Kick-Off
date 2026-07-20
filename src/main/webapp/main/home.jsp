@@ -67,7 +67,9 @@
               <tr class="text-muted small">
                 <th class="text-center">순위</th>
                 <th>팀</th>
-                <th class="text-center">승수</th>
+                <th class="text-center">승점</th>
+                <th class="text-center">총득점</th>
+                <th class="text-center">득실차</th>
               </tr>
             </thead>
             <tbody>
@@ -80,7 +82,9 @@
                       	<a href="../team/detail.do?team_id=${rvo.team_id }"  class="k-team-name">${rvo.team_name}</a>
                     </div>
                   </td>
-                  <td class="text-center">${rvo.wins} 승</td>
+                  <td class="text-center">${rvo.points}</td>
+                  <td class="text-center">${rvo.goals}</td>
+                  <td class="text-center">${rvo.goal_diff}</td>
                 </tr>
               </c:forEach>
             </tbody>
@@ -185,24 +189,6 @@
 			</div>
 		</div>
 	</section>
-
-  <!-- 참가 구단 -->
-  <section class="mb-5">
-    <div class="kickoff-section-head">
-      <div><div class="eyebrow">TEAMS</div><h2>참가 구단</h2></div>
-      <a href="../team/list.do" class="small text-muted text-decoration-none">전체보기</a>
-    </div>
-    <div class="row row-cols-3 row-cols-md-6 g-3">
-      <c:forEach var="t" items="${teamList}">
-        <div class="col">
-          <a href="../team/detail.do?team_id=${t.teamId}" class="card shadow-sm border-0 text-center text-decoration-none text-dark p-3 h-100">
-            <span class="kickoff-crest mx-auto mb-2"></span>
-            <span class="small fw-medium">${t.teamName}</span>
-          </a>
-        </div>
-      </c:forEach>
-    </div>
-  </section>
 
   <!-- 인기 굿즈 -->
   <section class="mb-3">

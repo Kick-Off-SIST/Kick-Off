@@ -21,8 +21,7 @@ public class MainModel {
 	public String main_main(HttpServletRequest request,HttpServletResponse response) {
 		List<TeamVO> rlist=tService.teamRankData();
 		
-//		String currentDate=java.time.LocalDate.now().toString();
-		String currentDate="2026-06-30";
+		String currentDate=java.time.LocalDate.now().toString();
 		List<MatchVO> mlist=mService.matchRecentData(currentDate);
 		
 		String youtubeAPI="";

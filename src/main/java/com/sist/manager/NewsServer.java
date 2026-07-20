@@ -27,8 +27,13 @@ public class NewsServer {
 		scheduler.scheduleAtFixedRate(()->{
 			try {
 				String json=NewsManagerRT.newsRealTimeData("K리그");
-				broadcast(json);
-			}catch(Exception ex) {
+				if (json != null) {
+	                broadcast(json);
+	            }
+			}catch(IllegalStateException e){
+				scheduler.shutdown();
+			}
+			catch(Exception ex) {
 				ex.printStackTrace();
 			}
 		},0,60,TimeUnit.SECONDS);
