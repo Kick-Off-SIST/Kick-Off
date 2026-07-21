@@ -118,47 +118,124 @@ body {
 							</div>
 						</div>
 					</div>
-					<div id="map" class="map-area">
-	                    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=${kakaoAPI }&libraries=services"></script>
-						<script>
-						var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
-						    mapOption = {
-						        center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
-						        level: 3 // 지도의 확대 레벨
-						    };  
-						
-						// 지도를 생성합니다    
-						var map = new kakao.maps.Map(mapContainer, mapOption); 
-						
-						// 주소-좌표 변환 객체를 생성합니다
-						var geocoder = new kakao.maps.services.Geocoder();
-						
-						// 주소로 좌표를 검색합니다
-						geocoder.addressSearch('${vo.svo.address}', function(result, status) {
-						
-						    // 정상적으로 검색이 완료됐으면 
-						     if (status === kakao.maps.services.Status.OK) {
-						
-						        var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-						
-						        // 결과값으로 받은 위치를 마커로 표시합니다
-						        var marker = new kakao.maps.Marker({
-						            map: map,
-						            position: coords
-						        });
-						
-						        // 인포윈도우로 장소에 대한 설명을 표시합니다
-						        var infowindow = new kakao.maps.InfoWindow({
-						            content: '<div style="width:150px;text-align:center;padding:6px 0;">${vo.svo.name}</div>'
-						        });
-						        infowindow.open(map, marker);
-						
-						        // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
-						        map.setCenter(coords);
-						    } 
-						});    
-						</script>
+					<!-- 지도 타이틀 및 맛집 마커 토글 버튼 -->
+					<div class="d-flex justify-content-between align-items-center mb-2 w-100">
+						<div style="font-size: 14px; font-weight: bold; color: #6c757d;">
+							<i class="bi bi-geo-alt-fill text-success"></i> 경기장 위치 & 반경 5km 맛집
+						</div>
+						<button type="button" id="toggleRestBtn" class="btn btn-sm btn-outline-danger" onclick="toggleRestaurants()" style="font-weight: bold;">
+							<i class="bi bi-eye-slash"></i> 맛집 숨기기
+						</button>
 					</div>
+					<script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=${kakaoAPI}&libraries=services&autoload=false"></script>
+					<script>
+					let map
+					let restaurantMarkers=[]
+					let isRestVisible=true 
+					
+					// 1. 경기장 좌표 세팅
+					let stadiumLat = ${vo.svo.latitude}
+					let stadiumLng = ${vo.svo.longitude}
+					kakao.maps.load(function() {
+					    let mapContainer = document.getElementById('map');
+					    let stadiumPos = new kakao.maps.LatLng(stadiumLat, stadiumLng)
+					    
+					    let mapOption = {
+					        center:stadiumPos, 
+					        level:4 
+					    }
+
+					    // 지도 생성
+					    map = new kakao.maps.Map(mapContainer, mapOption);
+
+					    // 경기장 기본 마커 및 인포윈도우 생성
+					    let stadiumMarker = new kakao.maps.Marker({
+					        map: map,
+					        position: stadiumPos
+					    })
+
+					    let stadiumInfoWindow = new kakao.maps.InfoWindow({
+					        content: '<div style="width:150px;text-align:center;padding:6px 0;font-weight:bold;color:#198754;">${vo.svo.name}</div>'
+					    })
+					    stadiumInfoWindow.open(map, stadiumMarker)
+
+					    // 반경 5km 음식점 검색 로직
+					    let ps = new kakao.maps.services.Places()
+					    let searchOptions = {
+					        location: stadiumPos,
+					        radius: 5000,
+					        sort: kakao.maps.services.SortBy.DISTANCE,
+					        category_group_code: 'FD6' 
+					    }
+					    kakao.maps.event.addListener(map, 'click', function() {
+					        if (window.currentRestInfoWindow) {
+					            window.currentRestInfoWindow.close()
+					        }
+					    })
+
+					    ps.keywordSearch('맛집', function(data, status, pagination) {
+					        if (status === kakao.maps.services.Status.OK) {
+					            let imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
+					            let imageSize = new kakao.maps.Size(24, 35);
+					            let markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize)
+					            let restInfoWindow = new kakao.maps.InfoWindow({
+					                zIndex: 1
+					            })
+					            window.currentRestInfoWindow = restInfoWindow;
+
+					            for (let i = 0; i < data.length; i++) {
+					                let placePos = new kakao.maps.LatLng(data[i].y, data[i].x)
+					                
+					                let marker = new kakao.maps.Marker({
+					                    map: map,
+					                    position: placePos,
+					                    image: markerImage 
+					                });
+
+					                (function(marker, placeName, placeUrl, distance) {
+					                    kakao.maps.event.addListener(marker, 'click', function() {
+					                        let content = '<div style="padding:5px;font-size:12px;width:150px;text-align:center;">' +
+					                                      '<strong>' + placeName + '</strong><br>' +
+					                                      '<span style="color:#666;">거리: ' + distance + 'm</span><br>' +
+					                                      '<a href="' + placeUrl + '" target="_blank" style="color:blue;">상세보기</a>' +
+					                                      '</div>';
+					                        restInfoWindow.setContent(content)
+					                        restInfoWindow.open(map, marker)
+					                    });
+					                })(marker, data[i].place_name, data[i].place_url, data[i].distance);
+
+					                restaurantMarkers.push(marker)
+					            }
+					        }
+					    }, searchOptions);
+					});
+					
+					// 4. 음식점 마커 토글
+					function toggleRestaurants() {
+						let btn = document.getElementById('toggleRestBtn')
+						isRestVisible = !isRestVisible
+					    
+						if (isRestVisible) {
+							// 마커 표시
+							for (let i = 0; i < restaurantMarkers.length; i++) {
+								restaurantMarkers[i].setMap(map);
+							}
+							btn.innerHTML = '<i class="bi bi-eye-slash"></i> 맛집 숨기기'
+							btn.classList.remove('btn-outline-primary')
+							btn.classList.add('btn-outline-danger')
+						} else {
+							// 마커 제거
+							for (let j = 0; j < restaurantMarkers.length; j++) {
+								restaurantMarkers[j].setMap(null);
+							}
+							btn.innerHTML = '<i class="bi bi-eye"></i> 맛집 보기'
+							btn.classList.remove('btn-outline-danger')
+							btn.classList.add('btn-outline-primary')
+						}
+					}
+					</script>
+					<!-- 지도 영역 -->
+					<div id="map" class="map-area"></div>
 	
 					<div class="mt-4">
 						<h6 class="fw-bold mb-3"><i class="bi bi-train-front text-secondary me-2"></i>대중교통 이용 안내</h6>
