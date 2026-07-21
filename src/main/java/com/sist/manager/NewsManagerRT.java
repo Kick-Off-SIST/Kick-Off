@@ -48,8 +48,16 @@ public class NewsManagerRT {
         try {
         	JSONParser jp=new JSONParser();
 	        JSONObject root=(JSONObject)jp.parse(responseBody);
-	        JSONArray arr=(JSONArray)root.get("items");
-	        json=arr.toJSONString();
+	        if(root!=null) {
+	        	if(root.containsKey("items")) {
+	        		JSONArray arr=(JSONArray)root.get("items");
+	        		if(arr!=null) {
+	        			json=arr.toJSONString();
+	        		}
+	        	}else {
+	        		System.err.println("에러:"+responseBody);
+	        	}
+	        }
         }catch(Exception ex) {
         	ex.printStackTrace();
         }
