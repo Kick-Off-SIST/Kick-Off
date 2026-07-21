@@ -81,6 +81,31 @@
 #team-link:hover{
 	color:gray
 }
+.team-filter-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.team-scroll-btn {
+    background-color: #fff;
+    border: 1px solid #dee2e6;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    transition: all 0.2s;
+    flex-shrink: 0;
+    color: #495057;
+}
+.team-scroll-btn:hover {
+    background-color: #f8f9fa;
+    border-color: #adb5bd;
+    color: #212529;
+}
 .scroll-filter-container {
     display: flex;
     overflow-x: auto;
@@ -89,6 +114,8 @@
     padding: 15px 7px;
     -ms-overflow-style: none;
     scrollbar-width: none;
+    flex: 1;
+    scroll-behavior: smooth;
 }
 .scroll-filter-container::-webkit-scrollbar {
     display: none;
@@ -168,18 +195,26 @@
 					        </select>
 					    </div>
 					    
-					    <div class="scroll-filter-container mb-4">
-						    <input type="radio" class="btn-check" name="teamFilter" id="team_all" v-model="team_id" value="" @change="filterChange">
-						    <label class="team-logo-label" for="team_all" title="전체 팀">
-						        <span class="team-all-text">ALL</span>
-						    </label>
-							
-							<template v-for="team in teamList" :key="team.team_id">
-							    <input type="radio" class="btn-check" name="teamFilter" :id='"team_"+team.team_id' v-model="team_id" :value="team.team_id" @change="filterChange">
-							    <label class="team-logo-label" :for='"team_"+team.team_id' :title="team.team_name">
-							        <img :src="team.emblem">
+					    <div class="team-filter-wrapper mb-4">
+							<button type="button" class="team-scroll-btn" @click="scrollTrack(-250)">
+								<i class="bi bi-chevron-left"></i>
+							</button>
+						    <div class="scroll-filter-container" ref="teamTrack">
+							    <input type="radio" class="btn-check" name="teamFilter" id="team_all" v-model="team_id" value="" @change="filterChange">
+							    <label class="team-logo-label" for="team_all" title="전체 팀">
+							        <span class="team-all-text">ALL</span>
 							    </label>
-						    </template>
+								
+								<template v-for="team in teamList" :key="team.team_id">
+								    <input type="radio" class="btn-check" name="teamFilter" :id='"team_"+team.team_id' v-model="team_id" :value="team.team_id" @change="filterChange">
+								    <label class="team-logo-label" :for='"team_"+team.team_id' :title="team.team_name">
+								        <img :src="team.emblem">
+								    </label>
+							    </template>
+							</div>
+							<button type="button" class="team-scroll-btn" @click="scrollTrack(250)">
+								<i class="bi bi-chevron-right"></i>
+							</button>
 						</div>
 					   
 					</div>
@@ -282,6 +317,12 @@
 			filterChange(){
 				this.curpage=1
 				this.dataRecv()
+			},
+			scrollTrack(amount) {
+				const track=this.$refs.teamTrack;
+				if(track) {
+					track.scrollLeft+=amount;
+				}
 			}
 		}
 	}).mount('#playerListApp')

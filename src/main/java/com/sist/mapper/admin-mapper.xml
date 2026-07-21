@@ -2,9 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sist.mapper.admin-mapper">
   <select id="AdmemberListData" resultType="MemberVO">
-	SELECT login_id,name,sex,addr1,phone,grade
+	SELECT login_id,name,sex,addr1,addr2,phone,grade
 	FROM member
-	WHERE isadmin!='y'
+	WHERE isadmin!='Y'
 	ORDER BY regdate DESC
 	OFFSET #{start} ROWS FETCH NEXT 10 ROWS ONLY
   </select>

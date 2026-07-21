@@ -52,7 +52,7 @@ $(function(){ // mounted() / useEffect()
               <td>${vo.login_id }</td>
 	          <td>${vo.name }</td>
 	          <td>${vo.sex }</td>
-	          <td>${vo.addr1 }</td>
+	          <td>${vo.addr1 } ${vo.addr2 }</td>
 	          <td>${vo.phone }</td>
 	          <td>
 	            <select class="type" data-id="${vo.login_id }">
@@ -67,9 +67,9 @@ $(function(){ // mounted() / useEffect()
         </c:forEach>
         <tr>
           <td colspan="6" class="text-center">
-            <a href="#" class="btn btn-sm btn-primary">이전</a>
+            <a href="../adminpage/member_list.do?page=${curpage>1?curpage-1:curpage }" class="btn btn-sm btn-primary">이전</a>
              ${curpage } page / ${totalpage } pages
-            <a href="#" class="btn btn-sm btn-primary">다음</a>
+            <a href="../adminpage/member_list.do?page=${curpage<totalpage?curpage+1:curpage }" class="btn btn-sm btn-primary">다음</a>
           </td>
         </tr>
       </table>
