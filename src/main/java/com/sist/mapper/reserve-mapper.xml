@@ -94,19 +94,23 @@
 <update id="matchSeatStatusUpdate" parameterType="hashmap">
 	UPDATE match_seat SET seat_status='N' WHERE match_seat_id=#{match_seat_id}
 </update>
-<resultMap type="ReserveDetailVO" id="rDetailMap">
-	<result property="rvo.member_id" column="member_id" />
-	<result property="rvo.reserve_time" column="reserve_time" />
-	<result property="rvo.dbday" column="dbday" />
-	<result property="rvo.schedule_id" column="schedule_id" />
+<!-- 예매하려는 경기 정보 -->
+<resultMap type="MatchVO" id="mMap">
+	<result property="homeVo.emblem" column="home_em" />
+	<result property="awayVo.emblem" column="away_em" />
+	<result property="homeVo.team_name" column="home" />
+	<result property="awayVo.team_name" column="away" />
+	<result property="svo.name" column="name" />
 </resultMap>
-<!-- 한 예매에 여러 좌석을 구매한다면 #{reserve_id} 로 변경 -->
-<select id="reservemyPageListDetailData" resultMap="rDetailMap" parameterType="int">
-	SELECT d.reserve_id, seat_row, seat_col, grade_name, amount, schedule_id, 
-	TO_CHAR(reserve_time,'yyyy-mm-dd hh24:mi:ss') as dbday, match_seat_id
-	FROM reservation_detail d JOIN reservation r ON r.reserve_id=d.reserve_id
-	WHERE member_id=#{member_id}
-	ORDER BY d.reserve_id DESC
+<select id="matchInfo" resultMap="mMap" parameterType="int">
+	SELECT s.schedule_id, 
+	t1.emblem as home_em, t1.team_name as home,
+	t2.emblem as away_em, t2.team_name as away,
+	TO_CHAR(game_date,'yyyy"년 "mm"월" dd"일"') as dbday, game_time, name
+	FROM kleague_schedule s JOIN kleague_team t1 ON s.home_team_id=t1.team_id
+	JOIN kleague_team t2 ON s.away_team_id=t2.team_id
+    JOIN kleague_stadium g ON s.stadium_id=g.stadium_id
+    WHERE s.schedule_id=#{schedule_id}
 </select>
 <!-- 예매 취소 쿼리(3개) -->
 <update id="matchSeatStatusRemove" parameterType="hashmap">
@@ -118,10 +122,10 @@
 <delete id="reserveDelete" parameterType="hashmap">
 	DELETE FROM reservation WHERE reserve_id=#{reserve_id}
 </delete>
-<!-- 남은 좌석 수 -->
-<select id="matchSeatremainCount" resultType="int" parameterType="hashmap">
+<!-- 준비중 -->
+<select id="matchSeatCount" resultType="int" parameterType="int">
 	SELECT count(*)
-	FROM match_seat m JOIN stadium_seat s ON m.seat_id=s.seat_id
-	WHERE schedule_id=1223 AND grade_id=7 AND seat_status='Y'
+	FROM kleague_schedule s JOIN match_seat m ON s.schedule_id=m.schedule_id
+	AND s.schedule_id=#{schedule_id}
 </select>
 </mapper>

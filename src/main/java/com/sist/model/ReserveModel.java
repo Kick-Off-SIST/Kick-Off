@@ -2,6 +2,8 @@ package com.sist.model;
 
 import com.sist.controller.Controller;
 import com.sist.controller.RequestMapping;
+
+import java.io.PrintWriter;
 import java.util.*;
 
 
@@ -58,6 +60,22 @@ public class ReserveModel {
 		return "../main/main.jsp";
 	}
 	
+	@RequestMapping("ticket/seat_count.do")
+	public void seat_count(HttpServletRequest request, HttpServletResponse response) {
+		// 스케쥴 id 받아서 stadium_id 알아오기
+		String sid=request.getParameter("sid");
+		int count=ReserveDAO.matchSeatCount(Integer.parseInt(sid));
+		String msg="NO";
+		if(count>0) msg="OK";
+		try {
+			response.setContentType("text/html;charset=UTF-8");
+			PrintWriter out=response.getWriter();
+			out.write(msg);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 	@RequestMapping("ticket/reserve_ticket.do")
 	public String ticket_reserve_ticket(HttpServletRequest request, HttpServletResponse response) {
 		// 스케쥴 id 받아서 stadium_id 알아오기
@@ -69,11 +87,10 @@ public class ReserveModel {
 		if(session.getAttribute("user")!=null) {
 			MatchVO vo=ReserveDAO.scheduleDetailData(Integer.parseInt(sid));
 			List<MatchSeatVO> list=ReserveDAO.seatGradeListData(vo.getSchedule_id());
-			System.out.println("스케쥴: "+vo.getSchedule_id());
-			System.out.println("리스트: "+list);
-			System.out.println("개수: "+list.size());
+			MatchVO match=ReserveDAO.matchInfo(Integer.parseInt(sid));
 			request.setAttribute("sid", sid);
 			request.setAttribute("list", list);
+			request.setAttribute("match", match);
 			request.setAttribute("main_jsp", "../ticket/reserve_ticket.jsp");
 			msg="../main/main.jsp";
 		}

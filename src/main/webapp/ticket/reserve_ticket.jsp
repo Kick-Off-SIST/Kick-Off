@@ -106,18 +106,22 @@ $(function(){
 
 
 	<h1>
-		울산 VS 수원<br>
+		<img src="${match.homeVo.emblem }" style="height: 80px">
+		${match.homeVo.team_name } vs 
+		${match.awayVo.team_name }
+		<img src="${match.awayVo.emblem }" style="height: 80px">
+		<br>
 		
 	</h1>
-	<h2>
+	<h3>
 		<span style="color:#22c55e;">
-			울산 경기장
+			${match.svo.name }
 		</span>
-	</h2>
+	</h3>
 
 
 	<p>
-		2026년 7월 21일 19시 30분
+		${match.dbday } ${match.game_time }
 	</p>
 
 

@@ -17,22 +17,47 @@ $(function(){
 	// 예매하기 버튼을 눌렀을때 처리
 	$('.reserve').on('click',function(){
 		let sid=$(this).attr('data-id')
+		let msg="NO"
+		$.ajax({
+			type:'post',
+			url:'../ticket/seat_count.do',
+			data:{"sid":sid},
+			async:false,
+			success:function(result){
+				if(result.trim()==='OK') {
+					msg="YES"
+				}
+			}
+		})
 		
-		// 임시
-		/* if(sid!=1199) {
-			alert("준비중입니다...")
-			return
-		} */
-		
-		// 로그인 처리
-		if("${sessionScope.user}"!==''){
-			location.href="../ticket/reserve_ticket.do?sid="+sid; // ?sid='스케쥴 id'
+		if(msg==='NO') {
+			$('#modal-text').text('준비중입니다....')
+			$('#modal').modal('show')
+		}
+		else if("${sessionScope.user}"===''){
+			
+			$('#modal-text').text('로그인이 필요한 서비스입니다.')
+			$('#modal').modal('show')
 		}
 		else {
-			$('#loginRequiredModal').modal('show')
+			location.href="../ticket/reserve_ticket.do?sid="+sid;
 		}
 	})
 })
+/* async function check() {
+	let msg="NO"
+	await $.ajax({
+		type:'post',
+		url:'../ticket/seat_count.do',
+		data:{"sid":sid},
+		success:function(result){
+			if(result==='YES') {
+				msg="YES"
+			}
+		}
+	})
+	return msg
+} */
 </script>
 </head>
 <body>
@@ -49,7 +74,7 @@ $(function(){
     		
     	</div>
     </div>
-    <div class="row" style="margin-top: 40px">
+    <div class="row mt-5">
     <div class="row">
     	<h4>예매 일정</h4>
     </div>
@@ -90,6 +115,7 @@ $(function(){
     		</div>
     	</c:forEach>
     </c:if>
+    <a href="javascript:history.back()" class="btn btn-lg btn-primary mt-5">목록</a>
     </div>
     </div>
     <div class="row" style="margin-top: 50px">
@@ -99,16 +125,16 @@ $(function(){
     	</div>
     </div>
 </div>
-<div class="modal fade" id="loginRequiredModal" tabindex="-1" aria-labelledby="loginRequiredModalLabel" aria-hidden="true">
+<div class="modal fade" id="modal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" style="max-width: 360px;">
         <div class="modal-content border-0" style="border-radius: 16px; overflow: hidden;">
             <div class="modal-header border-0 pt-4 px-4 pb-2">
-                <h5 class="modal-title fw-bold text-dark mb-0" id="loginRequiredModalLabel" style="font-size: 1.2rem;">
+                <h5 class="modal-title fw-bold text-dark mb-0" id="modalLabel" style="font-size: 1.2rem;">
                     안내
                 </h5>
             </div>
-            <div class="modal-body border-0 px-4 pb-4 pt-2 text-secondary" style="font-size: 0.95rem; line-height: 1.5;">
-                로그인이 필요한 서비스입니다.
+            <div id="modal-text" class="modal-body border-0 px-4 pb-4 pt-2 text-secondary" style="font-size: 0.95rem; line-height: 1.5;">
+                
             </div>
             <div class="modal-footer border-0 px-4 pb-4 pt-0 m-0">
                 <button type="button" class="btn btn-secondary flex-grow-1" data-bs-dismiss="modal">확인</button>

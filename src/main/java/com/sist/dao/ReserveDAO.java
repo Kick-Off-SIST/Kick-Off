@@ -138,20 +138,6 @@ public class ReserveDAO {
 		session.close();
 	}
 
-	/*
-	<select id="reservemyPageListDetailData" resultMap="rDetailMap" parameterType="int">
-		SELECT d.reserve_id, seat_row, seat_col, grade_name, amount
-		FROM reservation_detail d JOIN reservation r ON r.reserve_id=d.reserve_id
-		WHERE member_id=#{member_id}
-	</select>
-	 */
-
-		public static List<ReserveDetailVO> reservemyPageListDetailData(int member_id){
-			SqlSession session=ssf.openSession();
-			List<ReserveDetailVO> list=session.selectList("reservemyPageListDetailData",member_id);
-			session.close();
-			return list;
-		}	
 /*
 <update id="matchSeatStatusRemove">
 	UPDATE match_seat SET seat_status='Y' WHERE match_seat_id=#{match_seat_id};
@@ -172,16 +158,34 @@ public class ReserveDAO {
 			session.close();
 		}
 /*
-<select id="matchSeatremainCount" resultType="int" parameterType="hashmap">
+<select id="matchSeatCount" resultType="int" parameterType="int">
 	SELECT count(*)
-	FROM match_seat m JOIN stadium_seat s ON m.seat_id=s.seat_id
-	WHERE schedule_id=1223 AND grade_id=7 AND seat_status='Y'
+	FROM kleague_schedule s JOIN match_seat m ON s.schedule_id=m.schedule_id
+	AND s.schedule_id=#{schedule_id}
 </select>
  */
-		public static int matchSeatremainCount(Map map) {
+		public static int matchSeatCount(int schedule_id){
 			SqlSession session=ssf.openSession();
-			int count=session.selectOne("matchSeatremainCount",map);
+			int count=session.selectOne("matchSeatCount",schedule_id);
 			session.close();
 			return count;
+		}	
+/*
+<select id="matchInfo" resultMap="mMap" parameterType="int">
+	SELECT s.schedule_id, 
+	t1.emblem as home_em, t1.team_name as home,
+	t2.emblem as away_em, t2.team_name as away,
+	TO_CHAR(game_date,'yyyy-mm-dd') as dbday, game_time, name
+	FROM kleague_schedule s JOIN kleague_team t1 ON s.home_team_id=t1.team_id
+	JOIN kleague_team t2 ON s.away_team_id=t2.team_id
+    JOIN kleague_stadium g ON s.stadium_id=g.stadium_id
+    WHERE s.schedule_id=#{schedule_id}
+</select>
+ */
+		public static MatchVO matchInfo(int schedule_id) {
+			SqlSession session=ssf.openSession();
+			MatchVO vo=session.selectOne("matchInfo",schedule_id);
+			session.close();
+			return vo;
 		}
 }
