@@ -195,8 +195,8 @@ body {
   <header class="admin-header">
     <h1>관리자 페이지</h1>
     <div class="admin-user">
-      <span>${sessionScope.name }
-      (${sessionScope.admin=='y'?"관리자":"일반사용자"})님 환영합니다</span>
+      <span>${sessionScope.user.name }
+      (${sessionScope.user.isAdmin=='Y'?"관리자":"일반사용자"})님 환영합니다</span>
       <button onclick="location.href='../main/main.do'">홈으로</button>
       <button onclick="location.href='../member/logout.do'">로그아웃</button>
      
@@ -206,9 +206,9 @@ body {
   <!-- 🔹 좌측 메뉴 -->
   <aside class="admin-sidebar">
     <ul>
-      <li class="active"><a href="../adminpage/admin_main.do">대시보드</a></li>
-      <li><a href="../adminpage/member_list.do">회원관리</a></li>
-      <li><a href="../adminpage/admin_list.do">공지관리</a></li>
+      <li class="${activeMenu==1?'active':'' }"><a href="../adminpage/admin_main.do">대시보드</a></li>
+      <li class="${activeMenu==2?'active':'' }"><a href="../adminpage/member_list.do">회원관리</a></li>
+      <li class="${activeMenu==3?'active':'' }"><a href="../adminpage/admin_list.do">공지관리</a></li>
       <li><a href="../adminpage/admin_reserve.do">예약관리</a></li>
       <li><a href="boardManage.jsp">묻고답하기관리</a></li>
       <li><a href="stats.jsp">통계관리</a></li>

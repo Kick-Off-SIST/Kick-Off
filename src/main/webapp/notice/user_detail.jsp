@@ -196,7 +196,7 @@ body{
 
 
 <div>
-${vo.regdate}
+${vo.dbday}
 </div>
 
 

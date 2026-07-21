@@ -40,6 +40,7 @@ public class NoticeModel {
 		   request.setAttribute("totalpage", totalpage);
 		   request.setAttribute("today", 
 				   new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+		   request.setAttribute("activeMenu", "3");
 		   request.setAttribute("admin_jsp", "../notice/admin_list.jsp");
 		   return "../adminpage/admin_main.jsp";
 	  }

@@ -17,4 +17,21 @@
     grade=#{grade}
     WHERE login_id=#{login_id}
   </update>
+  <select id="adminRecentMemberList" resultType="MemberVO">
+  	SELECT member_id,name,sex,addr1,addr2,email,phone,dbday
+  	FROM (
+  		SELECT member_id,name,sex,addr1,addr2,email,phone,TO_CHAR(regdate,'yyyy-mm-dd') AS dbday
+	  	FROM member
+	  	ORDER BY regdate DESC
+  		)
+  	WHERE ROWNUM &lt;=10
+  </select>
+  <select id="adminMemberCount" resultType="int">
+  	SELECT COUNT(*)
+  	FROM member
+  </select>
+  <select id="adminReservationCount" resultType="int">
+  	SELECT COUNT(*)
+  	FROM reservation
+  </select>
 </mapper>

@@ -17,6 +17,13 @@ public class MyPageModel {
 		HttpSession session=request.getSession();
 		int member_id=(int)session.getAttribute("member_id");
 		MemberVO vo=MyPageDAO.mypageInfoData(member_id);
+		switch (vo.getGrade()) {
+			case 1->vo.setSgrade("축린이");
+			case 2->vo.setSgrade("아마추어");
+			case 3->vo.setSgrade("프로");
+			case 4->vo.setSgrade("월드클래스");
+			case 5->vo.setSgrade("GOAT");
+		}
 		int rcount=MyPageDAO.mypageReserveCount(member_id);
 		request.setAttribute("menu", 1);
 		request.setAttribute("vo", vo);

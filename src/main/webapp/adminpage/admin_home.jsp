@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,7 +15,7 @@
     <div class="card-container">
       <div class="card">
         <h3>총 회원 수</h3>
-        <p>1,240명</p>
+        <p>${mTotal }명</p>
       </div>
       <div class="card">
         <h3>오늘 주문 수</h3>
@@ -25,18 +26,18 @@
         <p>32개</p>
       </div>
       <div class="card">
-        <h3>방문자 수</h3>
-        <p>2,430명</p>
+        <h3>예매 수</h3>
+        <p>${rTotal }건</p>
       </div>
     </div>
 
     <section class="recent-section">
       <h3>📅 최근 등록된 회원</h3>
       <table>
-        <tr><th>이름</th><th>이메일</th><th>가입일</th></tr>
-        <tr><td>홍길동</td><td>hong@test.com</td><td>2025-11-10</td></tr>
-        <tr><td>이영희</td><td>lee@test.com</td><td>2025-11-09</td></tr>
-        <tr><td>박철수</td><td>park@test.com</td><td>2025-11-09</td></tr>
+        <tr><th>이름</th><th>성별</th><th>이메일</th><th>주소</th><th>연락처</th><th>가입일</th></tr>
+        <c:forEach var="vo" items="${rList }">
+        <tr><td>${vo.name }</td><td>${vo.sex }</td><td>${vo.email }</td><td>${vo.addr1 } ${vo.addr2 }</td><td>${vo.phone }</td><td>${vo.dbday }</td></tr>
+        </c:forEach>
       </table>
     </section>
 

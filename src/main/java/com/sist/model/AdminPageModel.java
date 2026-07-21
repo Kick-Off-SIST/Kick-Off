@@ -8,16 +8,24 @@ import jakarta.servlet.http.HttpServletResponse;
 import com.sist.dao.*;
 import com.sist.vo.*;
 import java.io.*;
+import java.text.DecimalFormat;
 import java.util.*;
 @Controller
 public class AdminPageModel {
 	@RequestMapping("adminpage/admin_main.do")
 	public String admin_main(HttpServletRequest request,
 			   HttpServletResponse response)
-	  {
-		  request.setAttribute("admin_jsp", "../adminpage/admin_home.jsp");
-		  return "../adminpage/admin_main.jsp";
-	  }
+	{
+		List<MemberVO> rList=AdminDAO.adminRecentMemberList();
+		int mTotal=AdminDAO.adminMemberCount();
+		int rTotal=AdminDAO.adminReservationCount();
+		request.setAttribute("mTotal", mTotal);
+		request.setAttribute("rList", rList);
+		request.setAttribute("rTotal", rTotal);
+		request.setAttribute("activeMenu", "1");
+		request.setAttribute("admin_jsp", "../adminpage/admin_home.jsp");
+		return "../adminpage/admin_main.jsp";
+	}
 	@RequestMapping("adminpage/member_list.do")
 	public String admin_member(HttpServletRequest request,
 			   HttpServletResponse response)
@@ -37,6 +45,7 @@ public class AdminPageModel {
 		request.setAttribute("mList", list);
 		request.setAttribute("curpage", curpage);
 		request.setAttribute("totalpage", totalpage);
+		request.setAttribute("activeMenu", "2");
 		request.setAttribute("admin_jsp", "../adminpage/member_list.jsp");
 		return "../adminpage/admin_main.jsp";
 	}

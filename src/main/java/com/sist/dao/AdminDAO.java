@@ -57,5 +57,41 @@ public class AdminDAO {
 		session.close();
 		return count;
 	}
+//	<select id="adminRecentMemberList" resultType="MemberVO">
+//	  	SELECT member_id,name,sex,addr1,email,phone,dbday
+//	  	FROM (
+//	  		SELECT member_id,name,sex,addr1,email,phone,TO_CHAR(regdate,'yyyy-mm-dd') AS dbday
+//		  	FROM member
+//		  	ORDER BY regdate DESC
+//	  		)
+//	  	WHERE ROWNUM &lt;=10
+//	  	
+//	  </select>
+	public static List<MemberVO> adminRecentMemberList(){
+		SqlSession session=ssf.openSession();
+		List<MemberVO> list=session.selectList("adminRecentMemberList");
+		session.close();
+		return list;
+	}
+//	<select id="adminMemberCount" resultType="int">
+//	  	SELECT COUNT(*)
+//	  	FROM member
+//	  </select>
+	public static int adminMemberCount() {
+		SqlSession session=ssf.openSession();
+		int total=session.selectOne("adminMemberCount");
+		session.close();
+		return total;
+	}
+//	<select id="adminReservationCount" resultType="int">
+//	  	SELECT COUNT(*)
+//	  	FROM reservation
+//	  </select>
+	public static int adminReservationCount() {
+		SqlSession session=ssf.openSession();
+		int total=session.selectOne("adminReservationCount");
+		session.close();
+		return total;
+	}
 	
 }
