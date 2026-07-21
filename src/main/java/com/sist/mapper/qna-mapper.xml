@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sist.mapper.qna-mapper">
+  <select id="qnaListData" resultType="QnaVO" parameterType="int">
+    SELECT no,title,content,login_id,TO_CHAR(regdate,'YYYY-MM-DD') as dbday,
+    hit,state
+    FROM QNA
+    WHERE step=0
+    ORDER BY no DESC , step ASC
+    OFFSET #{start} ROWS FETCH NEXT 10 ROWS ONLY
+  </select>
+  <select id="qnaTotalPage" resultType="int">
+    SELECT CEIL(COUNT(*)/10.0)
+    FROM QNA
+    WHERE step=0
+  </select>
+  <insert id="qnaInsert" parameterType="QnaVO">
+    INSERT INTO qna(no,login_id,title,content,pwd,group_id,step,indent,state) VALUES(
+    qna_no_seq.nextval,
+      #{login_id},
+      #{title},
+      #{content},
+      #{pwd},
+      qna_no_seq.currval,
+      0,
+      0,
+      0
+    )
+  </insert>
+  <update id="qnahitIncrement" parameterType="int">
+    UPDATE qna SET
+    hit=hit+1
+    WHERE no=#{no}
+  </update>
+  <select id="qnaDetailData" resultType="qnaVO" parameterType="int">
+    SELECT no, title, content,
+               TO_CHAR(regdate,'YYYY-MM-DD') as dbday,
+               hit, login_id, state, group_id
+        FROM qna
+        WHERE no = #{no}
+  </select>
+  <select id="qnaGetPassword" resultType="string" parameterType="int">
+    SELECT pwd
+    FROM qna
+    WHERE no = #{no}
+  </select>
+  <delete id="qnaDelete" parameterType="int">
+    DELETE FROM qna
+    WHERE no=#{no}
+  </delete>
+  <update id="qnaUpdate" parameterType="qnaVO">
+    UPDATE qna SET
+    title=#{title},content=#{content}
+    WHERE no=#{no}
+  </update>
+  <insert id="qnaReply" parameterType="QnaVO">
+     INSERT INTO qna(no, login_id, title, content,pwd, group_id, step, indent, state)
+    VALUES(qna_no_seq.nextval, '관리자', #{title}, #{content}, 'admin',  #{group_id}, 1, 1, 1)
+  </insert>
+  <select id="qnaReplyData" resultType="QnaVO" parameterType="int">
+    SELECT no,title,content,login_id,TO_CHAR(regdate,'YYYY-MM-DD') as dbday
+    FROM qna
+    WHERE group_id = #{group_id} AND step = 1
+  </select>
+  <update id="qnaStateUpdate" parameterType="int">
+    UPDATE qna SET state=1 WHERE no=#{no}
+  </update>
+</mapper>

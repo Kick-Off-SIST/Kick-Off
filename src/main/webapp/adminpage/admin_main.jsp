@@ -46,18 +46,33 @@ body {
   font-size: 14px;
 }
 
-.admin-user button {
-  background: #ff6b81;
+admin-user button {
   border: none;
   color: white;
   padding: 7px 15px;
   border-radius: 8px;
   cursor: pointer;
-  transition: background 0.3s;
+  transition: 0.3s;
+  margin-left: 5px;
 }
 
-.admin-user button:hover {
-  background: #ff4757;
+/* 홈으로 버튼 */
+.home-btn {
+  background: #40739e;
+}
+
+.home-btn:hover {
+  background: #487eb0;
+}
+
+
+/* 로그아웃 버튼 */
+.logout-btn {
+  background: #e84118;
+}
+
+.logout-btn:hover {
+  background: #c23616;
 }
 
 /* 🔹 사이드바 */
@@ -197,8 +212,14 @@ body {
     <div class="admin-user">
       <span>${sessionScope.user.name }
       (${sessionScope.user.isAdmin=='Y'?"관리자":"일반사용자"})님 환영합니다</span>
-      <button onclick="location.href='../main/main.do'">홈으로</button>
-      <button onclick="location.href='../member/logout.do'">로그아웃</button>
+      <button class="home-btn"
+        onclick="location.href='../main/main.do'">
+	    홈으로
+	  </button>
+
+      <button class="logout-btn" onclick="location.href='../member/logout.do'">
+		    로그아웃
+	  </button>
      
     </div>
   </header>
@@ -210,7 +231,7 @@ body {
       <li class="${activeMenu==2?'active':'' }"><a href="../adminpage/member_list.do">회원관리</a></li>
       <li class="${activeMenu==3?'active':'' }"><a href="../adminpage/admin_list.do">공지관리</a></li>
       <li><a href="../adminpage/admin_reserve.do">예약관리</a></li>
-      <li><a href="boardManage.jsp">묻고답하기관리</a></li>
+      <li><a href="../adminpage/qna_list.do">묻고답하기관리</a></li>
       <li><a href="stats.jsp">통계관리</a></li>
     </ul>
   </aside>
