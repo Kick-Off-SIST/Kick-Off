@@ -72,9 +72,9 @@ public class ReserveDAO {
 	SELECT * FROM seat_grade WHERE stadium_id=#{id}
 </select>
  */
-	public static List<SeatGradeVO> seatGradeListData(int id) {
+	public static List<MatchSeatVO> seatGradeListData(int schedule_id) {
 		SqlSession session=ssf.openSession();
-		List<SeatGradeVO> list=session.selectList("seatGradeListData",id);
+		List<MatchSeatVO> list=session.selectList("seatGradeListData",schedule_id);
 		session.close();
 		return list;
 	}
@@ -170,5 +170,18 @@ public class ReserveDAO {
 			session.delete("reserveDelete",map);
 			session.commit();
 			session.close();
+		}
+/*
+<select id="matchSeatremainCount" resultType="int" parameterType="hashmap">
+	SELECT count(*)
+	FROM match_seat m JOIN stadium_seat s ON m.seat_id=s.seat_id
+	WHERE schedule_id=1223 AND grade_id=7 AND seat_status='Y'
+</select>
+ */
+		public static int matchSeatremainCount(Map map) {
+			SqlSession session=ssf.openSession();
+			int count=session.selectOne("matchSeatremainCount",map);
+			session.close();
+			return count;
 		}
 }

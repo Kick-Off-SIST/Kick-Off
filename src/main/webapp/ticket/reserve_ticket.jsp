@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -134,14 +135,17 @@ $(function(){
             	<table class="table table-hover align-middle">
 					<tbody>
 					  <c:forEach var="vo" items="${list }">
-						<tr class="seat-grade" data-gid="${vo.grade_id }">
+						<tr class="seat-grade" data-gid="${vo.svo.grade_id }">
 							<td width="10%">
-								<div class="" style="background-color:#B5D692; width: 15px; height: 15px;"></div>
+								<div style="background-color:#B5D692; width: 15px; height: 15px;"></div>
 							</td>
-							<td>
-								<strong>${vo.grade_name }</strong>
-								&nbsp;&nbsp;<span>|</span>&nbsp;&nbsp;
-								<strong style="color: red">${vo.totalseat }석</strong>
+							<td width="70%">
+								<strong>${vo.svo.gvo.grade_name }</strong>
+								&nbsp;<span>|</span>&nbsp;
+								<strong style="color: red">${vo.remain }석</strong>	
+							</td>
+							<td width="20%" class="text-end">
+								<span class="small text-secondary"><fmt:formatNumber value="${vo.svo.gvo.amount}" type="number" />원</span>
 							</td>
 						</tr>
 					  </c:forEach>

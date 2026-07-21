@@ -11,7 +11,7 @@ SEAT_ID                NUMBER
  */
 @Data
 public class MatchSeatVO {
-	private int match_seat_id,schedule_id,seat_id;
+	private int match_seat_id,schedule_id,seat_id,remain;
 	private String seat_status;
 	private MatchVO mvo=new MatchVO();
 	private StadiumSeatVO svo=new StadiumSeatVO();

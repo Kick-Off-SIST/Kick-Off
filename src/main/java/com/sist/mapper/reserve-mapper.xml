@@ -45,13 +45,24 @@
 	AND home_team_id=#{id}
 	ORDER BY s.game_date ASC
 </select>
-<!-- 수정 필요 -->
-<select id="seatGradeListData" resultType="SeatGradeVO" parameterType="int">
-	SELECT grade_id, grade_name, amount, totalseat, max_row, max_col
-	FROM seat_grade WHERE stadium_id=#{id}
+<!-- 남은 좌석 수 -->
+<resultMap type="MatchSeatVO" id="mgMap">
+	<result property="svo.grade_id" column="grade_id" />
+	<result property="svo.gvo.grade_name" column="grade_name" />
+	<result property="svo.gvo.amount" column="amount" />
+	<result property="svo.gvo.max_row" column="max_row" />
+	<result property="svo.gvo.max_col" column="max_col" />
+</resultMap>
+<select id="seatGradeListData" resultMap="mgMap" parameterType="int">
+	SELECT s.grade_id, grade_name, amount, count(*) as remain
+	FROM match_seat m JOIN stadium_seat s ON m.seat_id=s.seat_id
+	JOIN seat_grade g ON s.grade_id=g.grade_id
+	AND schedule_id=#{schedule_id} AND seat_status='Y'
+	GROUP BY s.grade_id, grade_name, amount, max_row, max_col
+	ORDER BY s.grade_id ASC
 </select>
 <select id="scheduleDetailData" resultType="MatchVO" parameterType="int">
-	SELECT stadium_id
+	SELECT schedule_id,stadium_id
 	FROM kleague_schedule
 	WHERE schedule_id=#{id}
 </select>
@@ -107,5 +118,10 @@
 <delete id="reserveDelete" parameterType="hashmap">
 	DELETE FROM reservation WHERE reserve_id=#{reserve_id}
 </delete>
-
+<!-- 남은 좌석 수 -->
+<select id="matchSeatremainCount" resultType="int" parameterType="hashmap">
+	SELECT count(*)
+	FROM match_seat m JOIN stadium_seat s ON m.seat_id=s.seat_id
+	WHERE schedule_id=1223 AND grade_id=7 AND seat_status='Y'
+</select>
 </mapper>

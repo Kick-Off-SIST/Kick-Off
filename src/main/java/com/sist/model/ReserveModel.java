@@ -68,7 +68,10 @@ public class ReserveModel {
 		// 로그인 처리
 		if(session.getAttribute("user")!=null) {
 			MatchVO vo=ReserveDAO.scheduleDetailData(Integer.parseInt(sid));
-			List<SeatGradeVO> list=ReserveDAO.seatGradeListData(vo.getStadium_id());
+			List<MatchSeatVO> list=ReserveDAO.seatGradeListData(vo.getSchedule_id());
+			System.out.println("스케쥴: "+vo.getSchedule_id());
+			System.out.println("리스트: "+list);
+			System.out.println("개수: "+list.size());
 			request.setAttribute("sid", sid);
 			request.setAttribute("list", list);
 			request.setAttribute("main_jsp", "../ticket/reserve_ticket.jsp");
