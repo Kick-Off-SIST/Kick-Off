@@ -48,7 +48,7 @@ $(function(){
                     		<div class="card-body d-flex flex-column">
                     			<h5 class="card-title fw-bold text-center">${vo.team_name }</h5>
                     			<p class="text-center" style="color: gray">${vo.svo.name }</p>
-                    			<a href="../ticket/reserve_list.do?id=${vo.team_id }" class="btn btn-sm btn-primary">예매하기</a>
+                    			<a href="../ticket/reserve_list.do?id=${vo.team_id }" class="btn btn-lg btn-primary">예매하기</a>
                     		</div>
                     	</div>
                     </div>

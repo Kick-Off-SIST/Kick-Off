@@ -37,8 +37,7 @@ public class MyPageModel {
 	public String mypage_reserve(HttpServletRequest request, HttpServletResponse response) {
 		HttpSession session=request.getSession();
 		int member_id=(int)session.getAttribute("member_id");
-		//List<ReserveDetailVO> list=ReserveDAO.reservemyPageListDetailData(member_id);
-		//System.out.println(list);
+
 		List<ReserveDetailVO> list=MyPageDAO.mypageReserveListData(member_id);
 		request.setAttribute("menu", 4);
 		request.setAttribute("list", list);
