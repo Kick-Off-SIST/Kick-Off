@@ -1,9 +1,12 @@
 package com.sist.model;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sist.controller.Controller;
 import com.sist.controller.RequestMapping;
 import com.sist.dao.*;
 import com.sist.vo.*;
+
+import java.io.PrintWriter;
 import java.util.*;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -25,13 +28,66 @@ public class MyPageModel {
 			case 5->vo.setSgrade("GOAT");
 		}
 		int rcount=MyPageDAO.mypageReserveCount(member_id);
+		int bcount=MyPageDAO.mypageBoardCount(member_id);
 		request.setAttribute("menu", 1);
 		request.setAttribute("vo", vo);
+		request.setAttribute("bcount", bcount);
 		request.setAttribute("rcount", rcount);
 		request.setAttribute("mypage_jsp", "../mypage/mypage_home.jsp");
 		request.setAttribute("main_jsp", "../mypage/mypage.jsp");
 		return "../main/main.jsp";
 	}
+	
+	@RequestMapping("mypage/update.do")
+	public void mypage_update(HttpServletRequest request, HttpServletResponse response) {
+		HttpSession session=request.getSession();
+		int member_id=(int)session.getAttribute("member_id");
+		MemberVO vo=MyPageDAO.mypageUpdateListData(member_id);
+		
+		try {
+			ObjectMapper mapper=new ObjectMapper();
+			String json=mapper.writeValueAsString(vo);
+			
+			response.setContentType("text/plain;charset=UTF-8");
+			PrintWriter out=response.getWriter();
+			out.print(json);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@RequestMapping("mypage/update_ok.do")
+	public void mypage_update_vue(HttpServletRequest request, HttpServletResponse response) {
+		String pwd=request.getParameter("pwd");
+		String name=request.getParameter("name");
+		String sex=request.getParameter("sex");
+		String email=request.getParameter("email");
+		String addr1=request.getParameter("addr1");
+		String content=request.getParameter("content");
+		String phone=request.getParameter("phone");
+		String addr2=request.getParameter("addr2");
+		String birthday=request.getParameter("birthday");
+		String post=request.getParameter("post");
+		
+		HttpSession session=request.getSession();
+		int member_id=(int)session.getAttribute("member_id");
+		
+		MemberVO vo=new MemberVO();
+		vo.setMember_id(member_id);
+		vo.setPwd(pwd);
+		vo.setName(name);
+		vo.setSex(sex);
+		vo.setEmail(email);
+		vo.setAddr1(addr1);
+		vo.setContent(content);
+		vo.setPhone(phone);
+		vo.setAddr2(addr2);
+		vo.setBirthday(birthday);
+		vo.setPost(post);
+		
+		MyPageDAO.mypageUpdate(vo);
+	}
+
 	
 	@RequestMapping("mypage/mypage_reserve.do")
 	public String mypage_reserve(HttpServletRequest request, HttpServletResponse response) {

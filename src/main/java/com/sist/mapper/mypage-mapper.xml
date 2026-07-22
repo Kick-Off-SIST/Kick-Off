@@ -7,8 +7,27 @@
 	FROM Member
 	WHERE member_id=#{member_id}
 </select>
+<select id="mypageBoardCount" resultType="int" parameterType="int">
+	SELECT COUNT(*) FROM board WHERE member_id=#{member_id}
+</select>
 <select id="mypageReserveCount" resultType="int" parameterType="int">
 	SELECT COUNT(*) FROM reservation WHERE member_id=#{member_id}
+</select>
+<!-- 수정하기 전 정보 -->
+<select id="mypageUpdateListData" resultType="MemberVO" parameterType="int">
+	SELECT member_id,login_id,name,sex,email,addr1,addr2,post,phone,birthday,content FROM member WHERE member_id=#{member_id}
+</select>
+<!-- 수정 -->
+<update id="mypageUpdate" parameterType="MemberVO">
+	UPDATE member SET
+	pwd=#{pwd},name=#{name},sex=#{sex},email=#{email},addr1=#{addr1},
+	content=#{content},phone=#{phone},addr2=#{addr2},birthday=#{birthday},
+	post=#{post}
+	WHERE member_id=#{member_id}
+</update>
+<!-- 삭제 시 필요 -->
+<select id="mypageGetPassword" resultType="string" parameterType="int">
+	SELECT pwd FROM member where member_id=#{member_id}
 </select>
 
 <!-- 예약 정보 -->
