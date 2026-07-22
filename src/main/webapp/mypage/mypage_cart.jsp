@@ -6,11 +6,14 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script type="text/javascript" src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<script type="text/javascript" src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
 </head>
 <body>
 <main class="mb-4">
     <h4>장바구니</h4>
-    <div class="mt-4">
+    <div id="cart" class="mt-4">
     	<table class="table table-hover w-100">
     	  <thead>
     		<tr>
@@ -50,9 +53,9 @@
 	    			<span class="fw-bold text-primary">${vo.gvo.price*vo.count}원</span>
 	    			</td>
 	    			<td width="10%" class="text-center">
-	    				<a class="delBtn btn btn-outline-success btn-sm rounded-3 px-3 fw-semibold" 
+	    				<a class="btn btn-outline-success btn-sm rounded-3 px-3 fw-semibold" 
 	    				style="font-size: 0.75rem; letter-spacing: -0.5px;"
-	    				data-mid="" data-rid=""
+	    				@click="buyBtn('${vo.gvo.goodsName}',${vo.goods_no },${vo.count },${vo.gvo.price })"
 	    				>구매하기</a>
 	    				<a class="delBtn btn btn-outline-danger btn-sm rounded-3 px-3 fw-semibold" 
 	    				style="font-size: 0.75rem; letter-spacing: -0.5px; margin-top: 4px"
@@ -67,5 +70,53 @@
     	</table>
     </div>
 </main>
+<script>
+let IMP = window.IMP; 
+IMP.init();  // 반드시 삭제!!!!!!
+let cart=Vue.createApp({
+	data(){
+		return {
+			
+		}
+	},
+	mounted(){
+		
+	},
+	methods:{
+		buyBtn(gname,goods_no,count,price) {
+			this.requestPay(gname,goods_no,count,price)
+		},
+		requestPay(gname,goods_no,count,price) {
+		    IMP.request_pay({
+		        pg: "html5_inicis",
+		        pay_method: "card",
+		        merchant_uid: "ORD20180131-0000011",   // 주문번호
+		        name: gname,
+		        amount: count*price,         // 숫자 타입
+		        buyer_email: '',
+		        buyer_name: '',
+		        buyer_tel: '',
+		        buyer_addr: '',
+		        buyer_postcode: '' 
+		    }, function (rsp) { // callback
+		    	
+		    	//window.location.href="../mypage/buy_list.do"
+		    	//parent.Shadowbox.close()
+		    	axios.post('../order/insert.do',{},{
+		    		params:{
+		    			goods_no:goods_no,
+		    			count:count,
+		    			price:price,
+		    			goods_name:gname
+		    		}
+		    	}).then(response=>{
+			    	alert("구매가 완료되었습니다.\n마이페이지에서 확인하세요")
+		    		window.location.href="../mypage/mypage.do"
+		    	})
+		   });
+		}
+	}
+}).mount('#cart')
+</script>
 </body>
 </html>

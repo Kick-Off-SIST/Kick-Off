@@ -36,7 +36,7 @@ body {
             
             <nav class="nav flex-column">
                 <a class="nav-link ${menu==1?'active':'' }" href="../mypage/mypage.do">회원정보 관리</a>
-                <a class="nav-link ${menu==2?'active':'' }" href="#">구매/배송 조회</a>
+                <a class="nav-link ${menu==2?'active':'' }" href="../mypage/mypage_order.do">구매/배송 조회</a>
                 <a class="nav-link ${menu==3?'active':'' }" href="../mypage/mypage_cart.do">장바구니</a>
                 <a class="nav-link ${menu==4?'active':'' }" href="../mypage/mypage_reserve.do">티켓 내역</a>
                 <a class="nav-link ${menu==5?'active':'' }" href="#">문의 내역</a>

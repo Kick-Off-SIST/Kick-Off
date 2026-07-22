@@ -88,6 +88,18 @@ public class MyPageModel {
 		MyPageDAO.mypageUpdate(vo);
 	}
 
+	@RequestMapping("mypage/mypage_order.do")
+	public String mypage_order(HttpServletRequest request, HttpServletResponse response) {
+		HttpSession session=request.getSession();
+		int member_id=(int)session.getAttribute("member_id");
+		List<OrderDetailVO> list=MyPageDAO.mypageOrderListData(member_id);
+		request.setAttribute("menu", 2);
+		request.setAttribute("list", list);
+		
+		request.setAttribute("mypage_jsp", "../mypage/mypage_order.jsp");
+		request.setAttribute("main_jsp", "../mypage/mypage.jsp");
+		return "../main/main.jsp";
+	}
 	
 	@RequestMapping("mypage/mypage_reserve.do")
 	public String mypage_reserve(HttpServletRequest request, HttpServletResponse response) {

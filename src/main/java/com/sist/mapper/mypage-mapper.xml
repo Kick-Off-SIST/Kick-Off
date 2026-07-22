@@ -25,6 +25,19 @@
 	post=#{post}
 	WHERE member_id=#{member_id}
 </update>
+<!-- 주문 내역 조회 -->
+<resultMap type="OrderDetailVO" id="oMap">
+	<result property="ovo.orders_date" column="orders_date" />
+	<result property="gvo.imageUrl" column="image_url" />
+	<result property="ovo.orders_date" column="orders_date" />
+	<result property="ovo.dbday" column="dbday" />
+</resultMap>
+<select id="mypageOrderListData" resultMap="oMap" parameterType="int">
+	SELECT d.goods_no,d.count,d.price,total,d.goods_name,TO_CHAR(orders_date,'yyyy-mm-dd hh24:mi:ss') as dbday,image_url
+	FROM orders_detail d JOIN orders o ON d.orders_id=o.orders_id
+	JOIN goods g ON d.goods_no=g.goods_no
+	WHERE member_id=#{member_id}
+</select>
 <!-- 삭제 시 필요 -->
 <select id="mypageGetPassword" resultType="string" parameterType="int">
 	SELECT pwd FROM member where member_id=#{member_id}

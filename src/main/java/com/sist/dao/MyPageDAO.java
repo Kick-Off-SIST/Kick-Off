@@ -87,6 +87,20 @@ public class MyPageDAO {
 		return list;
 	}
 /*
+<select id="mypageOrderListData" resultMap="oMap" parameterType="int">
+	SELECT d.goods_no,d.count,d.price,total,d.goods_name,orders_date,image_url
+	FROM orders_detail d JOIN orders o ON d.orders_id=o.orders_id
+	JOIN goods g ON d.goods_no=g.goods_no
+	WHERE member_id=#{member_id}
+</select>
+ */
+	public static List<OrderDetailVO> mypageOrderListData(int member_id) {
+		SqlSession session=ssf.openSession();
+		List<OrderDetailVO> list=session.selectList("mypageOrderListData",member_id);
+		session.close();
+		return list;
+	}
+/*
 <select id="mypageReserveListData" resultMap="rMap" parameterType="int" >
 	SELECT d.reserve_id, r.schedule_id, t1.team_name as home, t2.team_name as away,
 	TO_CHAR(game_date,'yyyy-mm-dd') as gday, game_time, 
