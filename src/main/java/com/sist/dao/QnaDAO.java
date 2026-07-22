@@ -44,6 +44,13 @@ public class QnaDAO {
 		session.close();
 		return total;
 	}
+	public static int qnaTotalCount()
+	{
+		SqlSession session=ssf.openSession();
+		int total=session.selectOne("qnaTotalCount");
+		session.close();
+		return total;
+	}
 	public static void qnaInsert(QnaVO vo)
 	{
 		SqlSession session=ssf.openSession(true);

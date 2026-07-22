@@ -137,9 +137,10 @@
         </thead>
 
         <tbody>
+        	<c:set var="count" value="${count }"/>
             <c:forEach var="vo" items="${list}">
                 <tr class="dataTr">
-                    <td class="text-center">${vo.no}</td>
+                    <td class="text-center">${count}</td>
 
                     <td>
                         <a href="../adminpage/qna_detail.do?no=${vo.no}">
@@ -174,6 +175,7 @@
                         </c:choose>
                     </td>
                 </tr>
+                <c:set var="count" value="${count-1 }"/> 
             </c:forEach>
 
             <c:if test="${empty list}">

@@ -25,9 +25,9 @@ public class QnaModel {
 		final int ROWSIZE=10;
 		int start=(ROWSIZE*curpage)-ROWSIZE;
 		List<QnaVO> list=QnaDAO.qnaListData(start);
-		int count=QnaDAO.qnaTotalPage();
-		int totalpage=(int)(Math.ceil(count/(double)ROWSIZE));
-		count=count-((curpage*ROWSIZE)-ROWSIZE);
+		int totalcount=QnaDAO.qnaTotalCount();
+		int totalpage=(int)(Math.ceil(totalcount/(double)ROWSIZE));		
+		int count= totalcount-((curpage*ROWSIZE)-ROWSIZE);
 		
 		request.setAttribute("list", list);
 		request.setAttribute("count", count);
@@ -166,11 +166,14 @@ public class QnaModel {
 	    int start = (ROWSIZE * curpage) - ROWSIZE;
 
 	    List<QnaVO> list = QnaDAO.qnaListData(start);
-	    int totalpage = QnaDAO.qnaTotalPage();
+	    int totalCount = QnaDAO.qnaTotalCount();
+	    int totalpage = (int)(Math.ceil(totalCount/(double)ROWSIZE));
+	    int count = totalCount - ((curpage*ROWSIZE)-ROWSIZE);
 
 	    request.setAttribute("list", list);
 	    request.setAttribute("curpage", curpage);
 	    request.setAttribute("totalpage", totalpage);
+	    request.setAttribute("count", count);
 	    request.setAttribute("admin_jsp", "../qna/admin_list.jsp");
 	    return "../adminpage/admin_main.jsp";
 	}

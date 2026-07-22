@@ -14,6 +14,9 @@
     FROM QNA
     WHERE step=0
   </select>
+  <select id="qnaTotalCount" resultType="int">
+    SELECT COUNT(*) FROM qna WHERE step = 0
+  </select>
   <insert id="qnaInsert" parameterType="QnaVO">
     INSERT INTO qna(no,login_id,title,content,pwd,group_id,step,indent,state) VALUES(
     qna_no_seq.nextval,

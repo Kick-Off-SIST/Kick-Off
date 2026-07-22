@@ -232,7 +232,6 @@ admin-user button {
       <li class="${activeMenu==3?'active':'' }"><a href="../adminpage/admin_list.do">공지관리</a></li>
       <li><a href="../adminpage/admin_reserve.do">예약관리</a></li>
       <li><a href="../adminpage/qna_list.do">묻고답하기관리</a></li>
-      <li><a href="stats.jsp">통계관리</a></li>
     </ul>
   </aside>
 
