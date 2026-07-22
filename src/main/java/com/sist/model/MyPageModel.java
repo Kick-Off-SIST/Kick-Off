@@ -1,9 +1,12 @@
 package com.sist.model;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sist.controller.Controller;
 import com.sist.controller.RequestMapping;
 import com.sist.dao.*;
 import com.sist.vo.*;
+
+import java.io.PrintWriter;
 import java.util.*;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -25,13 +28,34 @@ public class MyPageModel {
 			case 5->vo.setSgrade("GOAT");
 		}
 		int rcount=MyPageDAO.mypageReserveCount(member_id);
+		int bcount=MyPageDAO.mypageBoardCount(member_id);
 		request.setAttribute("menu", 1);
 		request.setAttribute("vo", vo);
+		request.setAttribute("bcount", bcount);
 		request.setAttribute("rcount", rcount);
 		request.setAttribute("mypage_jsp", "../mypage/mypage_home.jsp");
 		request.setAttribute("main_jsp", "../mypage/mypage.jsp");
 		return "../main/main.jsp";
 	}
+	
+	@RequestMapping("mypage/update.do")
+	public void mypage_update(HttpServletRequest request, HttpServletResponse response) {
+		HttpSession session=request.getSession();
+		int member_id=(int)session.getAttribute("member_id");
+		MemberVO vo=MyPageDAO.mypageUpdateListData(member_id);
+		
+		try {
+			ObjectMapper mapper=new ObjectMapper();
+			String json=mapper.writeValueAsString(vo);
+			
+			response.setContentType("text/plain;charset=UTF-8");
+			PrintWriter out=response.getWriter();
+			out.print(json);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	
 	@RequestMapping("mypage/mypage_reserve.do")
 	public String mypage_reserve(HttpServletRequest request, HttpServletResponse response) {

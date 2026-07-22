@@ -28,6 +28,18 @@ public class MyPageDAO {
 		return vo;
 	}
 	
+/*
+<select id="mypageBoardCount" resultType="int" parameterType="int">
+	SELECT COUNT(*) FROM board WHERE member_id=#{member_id}
+</select>
+ */
+	public static int mypageBoardCount(int member_id) {
+		SqlSession session=ssf.openSession();
+		int count=session.selectOne("mypageBoardCount",member_id);
+		session.close();
+		return count;
+	}
+	
 	public static int mypageReserveCount(int member_id) {
 		SqlSession session=ssf.openSession();
 		int count=session.selectOne("mypageReserveCount",member_id);
@@ -35,6 +47,17 @@ public class MyPageDAO {
 		return count;
 	}
 	
+/*
+<select id="mypageUpdateListData" resultType="MemberVO" parameterType="int">
+	SELECT member_id,login_id,name,sex,email,addr1,addr2,post,phone,birthday FROM member WHERE member_id=#{member_id}
+</select>	
+ */
+	public static MemberVO mypageUpdateListData(int member_id) {
+		SqlSession session=ssf.openSession();
+		MemberVO vo=session.selectOne("mypageUpdateListData",member_id);
+		session.close();
+		return vo;
+	}
 /*
 <select id="cartGoodsDetailData" resultMap="CartMap" parameterType="int">
 	SELECT c.goods_no,cart_id,count,goods_name, price, image_url

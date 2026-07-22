@@ -5,9 +5,24 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script type="text/javascript" src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<script type="text/javascript" src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script type="text/javascript" src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script type="text/javascript">
+$(function(){
+	$('#postBtn').on('click',function(){
+		new daum.Postcode({
+			oncomplete(data){
+				$('#postcode').val(data.zonecode)
+				$('#addr1').val(data.address)
+			}
+		}).open()
+	})
+})
+</script>
 </head>
 <body>
-<!-- <div class="container py-5" style="max-width: 850px;"> -->
+<div class="container py-5" id="home">
         
         <div class="card border-0 p-4 mb-4" style="box-shadow: none;">
             <div class="d-flex flex-column flex-md-row align-items-center justify-content-between gap-4">
@@ -30,8 +45,8 @@
                         </p>
                     </div>
                 </div>
-                <button id="btn-edit-profile" class="btn btn-dark btn-md px-4 rounded-3 fw-semibold w-md-auto">
-                    프로필 편집
+                <button @click="toggle" id="toggleBtn" class="btn btn-dark btn-md px-4 rounded-3 fw-semibold" style="width: 130px">
+                    {{isshow?'닫기':'프로필 편집'}}
                 </button>
             </div>
         </div>
@@ -39,25 +54,164 @@
         <div class="row g-3 mb-4">
             <div class="col-4">
                 <div class="card border-0 p-3 text-center">
-                    <span class="text-muted d-block mb-1" style="font-size: 1rem; box-shadow: none;border: 1px solid var(--line)">구매 목록(예시)</span>
+                    <span class="text-muted d-block mb-1" style="font-size: 1rem">구매 목록(예시)</span>
                     <span class="fs-5 fw-bold text-dark">12 개</span>
                 </div>
             </div>
             <div class="col-4">
                 <div class="card border-0 p-3 text-center">
-                    <span class="text-muted d-block mb-1" style="font-size: 1rem; box-shadow: none;border: 1px solid var(--line)">내 글(예시)</span>
-                    <span class="fs-5 fw-bold text-dark">42 개</span>
+                    <span class="text-muted d-block mb-1" style="font-size: 1rem">내 글</span>
+                    <span class="fs-5 fw-bold text-dark">${bcount } 개</span>
                 </div>
             </div>
             <div class="col-4">
                 <div class="card border-0 p-3 text-center">
-                    <span class="text-muted d-block mb-1" style="font-size: 1rem; box-shadow: none;border: 1px solid var(--line)">티켓 예매 목록</span>
+                    <span class="text-muted d-block mb-1" style="font-size: 1rem">티켓 예매 목록</span>
                     <span class="fs-5 fw-bold text-dark">${rcount } 개</span>
                 </div>
             </div>
         </div>
+		<div id="updateForm" v-show="isshow">
+		<div class="card border-0 shadow-sm p-4 mb-4">
+		
+    <div class="border-bottom pb-3 mb-4 d-flex align-items-center justify-content-between">
+        <div>
+            <h2 class="h4 mb-1 text-dark fw-bold">프로필 편집</h2>
+        </div>
+    </div>
 
+    <form id="profile-edit-form" action="#" method="post" enctype="multipart/form-data">
+        <div class="row g-3">
+            <div class="col-md-6">
+                <label class="form-label fw-semibold text-dark small">아이디</label>
+                <input type="text" class="form-control bg-light rounded-start-3 text-secondary" id="login_id" name="login_id" v-model=login_id readonly>
+            </div>
+            
+            <div class="col-md-6">
+                <label for="name" class="form-label fw-semibold text-dark small">이름</label>
+                <input type="text" class="form-control input-sm" id="name" name="name" v-model=name required>
+            </div>
+            
+            <div class="col-md-6">
+                <label for="pwd" class="form-label fw-semibold text-dark small">새 비밀번호</label>
+                <input type="password" class="form-control input-sm" id="pwd" name="pwd" v-model=pwd  placeholder="8자 이상 입력" required>
+            </div>
 
-<!--     </div> -->
+            <div class="col-md-6">
+                <label for="pwd-check" class="form-label fw-semibold text-dark small">새 비밀번호 확인</label>
+                <input type="password" class="form-control input-sm" id="pwd-check" placeholder="비밀번호 재입력" required>
+            </div>
+            
+            <div class="col-md-12">
+                <label for="sex" class="form-label fw-semibold text-dark small">성별</label>
+                <div class="d-flex align-items-center gap-4 pt-1">
+        			<div class="form-check">
+            			<input class="form-check-input" type="radio" name="sex" value="M" ${vo.sex == 'M' ? 'checked' : ''}>
+            			남자
+        			</div>
+        			<div class="form-check">
+            			<input class="form-check-input" type="radio" name="sex" value="F" ${vo.sex == 'F' ? 'checked' : ''}>
+            			여자
+        			</div>
+    			</div>
+            </div>
+            
+            <div class="col-md-12">
+                <label for="email" class="form-label fw-semibold text-dark small">이메일 주소</label>
+                <input type="email" class="form-control input-sm" id="email" name="email" v-model=email required>
+            </div>
+            
+            <div class="col-md-7">
+            	<label for="phone" class="form-label fw-semibold text-dark small">우편번호</label>
+                <div class="row">
+                	<div class="col-sm-8">
+                		<input type="text" class="form-control bg-light text-secondary" id="postcode" name="postcode" v-model=postcode readonly>
+                	</div>
+                	<div class="col-sm-4">
+                		<button type="button" id="postBtn" class="btn btn-outline-primary">우편번호 검색</button>
+                	</div>
+            	</div>
+            </div>
+            
+            <div class="col-md-6">
+                <label for="phone" class="form-label fw-semibold text-dark small">주소</label>
+                <input type="text" class="form-control bg-light text-secondary" id="addr1" name="addr1" v-model=addr1 readonly>
+            </div>
+            
+            <div class="col-md-6">
+                <label for="phone" class="form-label fw-semibold text-dark small">상세주소</label>
+                <input type="text" class="form-control input-sm" id="addr2" name="addr2" v-model=addr2 required>
+            </div>
+            
+            <div class="col-md-6">
+                <label for="phone" class="form-label fw-semibold text-dark small">전화번호</label>
+                <input type="text" class="form-control input-sm" id="phone" name="phone" v-model=phone required>
+            </div>
+            
+            <div class="col-md-6">
+                <label for="birthday" class="form-label fw-semibold text-dark small">생년월일</label>
+                <input type="date" name="birthday"  id="birthday" class="form-control input-sm" v-model=birthday required>
+            </div>
+
+			<div class="col-md-12">
+                <label for="birthday" class="form-label fw-semibold text-dark small">소개</label>
+				<textarea draggable="false" rows="10" class="form-control" id="content" name="content" v-model=content required></textarea>
+            </div>
+        </div>
+
+        <!-- 하단 제출 버튼 영역 -->
+        <div class="d-flex align-items-center justify-content-end gap-2 mt-4 pt-3 border-top">
+            <button type="submit" class="btn btn-dark px-4 fw-semibold">수정하기</button>
+        </div>
+    </form>
+</div>
+		</div>
+
+</div>
+<script>
+	let home=Vue.createApp({
+		data(){
+			return {
+				isshow:false,
+				login_id:'',
+				name:'',
+				pwd:'',
+				email:'',
+				postcode:'',
+				addr1:'',
+				addr2:'',
+				phone:'',
+				content:'',
+				birthday:''
+			}
+		},
+		methods:{
+			toggle(){
+				this.isshow=!this.isshow
+				if(this.isshow===true){
+					axios.post('../mypage/update.do',{},{
+						params:{
+							
+						}
+					}).then(response=>{
+						//console.log(response.data)
+						this.login_id=response.data.login_id
+						this.name=response.data.name
+						this.email=response.data.email
+						this.postcode=response.data.post
+						this.addr1=response.data.addr1
+						this.addr2=response.data.addr2
+						this.phone=response.data.phone
+						this.birthday=response.data.birthday
+						this.content=response.data.content
+					})
+				}
+			},
+			update(){
+				
+			}
+		}
+	}).mount('#home')
+</script>
 </body>
 </html> 
