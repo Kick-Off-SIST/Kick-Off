@@ -13,8 +13,10 @@ $(function(){
 	$('#postBtn').on('click',function(){
 		new daum.Postcode({
 			oncomplete(data){
-				$('#postcode').val(data.zonecode)
-				$('#addr1').val(data.address)
+				//$('#postcode').val(data.zonecode)
+				//$('#addr1').val(data.address)
+				home.postcode=data.zonecode
+				home.addr1=data.address
 			}
 		}).open()
 	})
@@ -80,37 +82,37 @@ $(function(){
         </div>
     </div>
 
-    <form id="profile-edit-form" action="#" method="post" enctype="multipart/form-data">
+    <!-- <form id="profile-edit-form" action="#" method="post" enctype="multipart/form-data"> -->
         <div class="row g-3">
             <div class="col-md-6">
                 <label class="form-label fw-semibold text-dark small">아이디</label>
-                <input type="text" class="form-control bg-light rounded-start-3 text-secondary" id="login_id" name="login_id" v-model=login_id readonly>
+                <input type="text" class="form-control bg-light rounded-start-3 text-secondary" v-model=login_id readonly>
             </div>
             
             <div class="col-md-6">
                 <label for="name" class="form-label fw-semibold text-dark small">이름</label>
-                <input type="text" class="form-control input-sm" id="name" name="name" v-model=name required>
+                <input type="text" class="form-control input-sm" ref="nameRef" v-model=name>
             </div>
             
             <div class="col-md-6">
                 <label for="pwd" class="form-label fw-semibold text-dark small">새 비밀번호</label>
-                <input type="password" class="form-control input-sm" id="pwd" name="pwd" v-model=pwd  placeholder="8자 이상 입력" required>
+                <input type="password" class="form-control input-sm" ref="pwdRef" v-model=pwd  placeholder="새로운 비밀번호 입력">
             </div>
 
             <div class="col-md-6">
                 <label for="pwd-check" class="form-label fw-semibold text-dark small">새 비밀번호 확인</label>
-                <input type="password" class="form-control input-sm" id="pwd-check" placeholder="비밀번호 재입력" required>
+                <input type="password" class="form-control input-sm" ref="pwdCRef" v-model=pwdcheck placeholder="비밀번호 재입력">
             </div>
             
             <div class="col-md-12">
                 <label for="sex" class="form-label fw-semibold text-dark small">성별</label>
                 <div class="d-flex align-items-center gap-4 pt-1">
         			<div class="form-check">
-            			<input class="form-check-input" type="radio" name="sex" value="M" ${vo.sex == 'M' ? 'checked' : ''}>
+            			<input class="form-check-input" type="radio" name="sex" value="M" v-model="sex">
             			남자
         			</div>
         			<div class="form-check">
-            			<input class="form-check-input" type="radio" name="sex" value="F" ${vo.sex == 'F' ? 'checked' : ''}>
+            			<input class="form-check-input" type="radio" name="sex" value="F" v-model="sex">
             			여자
         			</div>
     			</div>
@@ -118,7 +120,7 @@ $(function(){
             
             <div class="col-md-12">
                 <label for="email" class="form-label fw-semibold text-dark small">이메일 주소</label>
-                <input type="email" class="form-control input-sm" id="email" name="email" v-model=email required>
+                <input type="email" class="form-control input-sm" ref="emailRef" v-model=email>
             </div>
             
             <div class="col-md-7">
@@ -140,30 +142,30 @@ $(function(){
             
             <div class="col-md-6">
                 <label for="phone" class="form-label fw-semibold text-dark small">상세주소</label>
-                <input type="text" class="form-control input-sm" id="addr2" name="addr2" v-model=addr2 required>
+                <input type="text" class="form-control input-sm" ref="addr2Ref" v-model=addr2>
             </div>
             
             <div class="col-md-6">
                 <label for="phone" class="form-label fw-semibold text-dark small">전화번호</label>
-                <input type="text" class="form-control input-sm" id="phone" name="phone" v-model=phone required>
+                <input type="text" class="form-control input-sm" ref="phoneRef" v-model=phone>
             </div>
             
             <div class="col-md-6">
                 <label for="birthday" class="form-label fw-semibold text-dark small">생년월일</label>
-                <input type="date" name="birthday"  id="birthday" class="form-control input-sm" v-model=birthday required>
+                <input type="date" ref="birthdayRef"  class="form-control input-sm" v-model=birthday>
             </div>
 
 			<div class="col-md-12">
                 <label for="birthday" class="form-label fw-semibold text-dark small">소개</label>
-				<textarea draggable="false" rows="10" class="form-control" id="content" name="content" v-model=content required></textarea>
+				<textarea draggable="false" rows="10" class="form-control" ref="contentRef" v-model=content></textarea>
             </div>
         </div>
 
         <!-- 하단 제출 버튼 영역 -->
         <div class="d-flex align-items-center justify-content-end gap-2 mt-4 pt-3 border-top">
-            <button type="submit" class="btn btn-dark px-4 fw-semibold">수정하기</button>
+            <button type="button" @click="update" class="btn btn-dark px-4 fw-semibold">수정하기</button>
         </div>
-    </form>
+    <!-- </form> -->
 </div>
 		</div>
 
@@ -176,13 +178,15 @@ $(function(){
 				login_id:'',
 				name:'',
 				pwd:'',
+				pwdcheck:'',
 				email:'',
 				postcode:'',
 				addr1:'',
 				addr2:'',
 				phone:'',
 				content:'',
-				birthday:''
+				birthday:'',
+				sex:'',
 			}
 		},
 		methods:{
@@ -194,7 +198,7 @@ $(function(){
 							
 						}
 					}).then(response=>{
-						//console.log(response.data)
+						console.log(response.data)
 						this.login_id=response.data.login_id
 						this.name=response.data.name
 						this.email=response.data.email
@@ -204,11 +208,62 @@ $(function(){
 						this.phone=response.data.phone
 						this.birthday=response.data.birthday
 						this.content=response.data.content
+						this.sex=response.data.sex
 					})
 				}
 			},
 			update(){
+				if(this.name.trim()==='') {
+					this.$refs.nameRef.focus()
+					return
+				}
+				else if(this.pwd.trim()==='') {
+					this.$refs.pwdRef.focus()
+					return
+				}
+				else if(this.pwdcheck.trim()==='' || this.pwd!==this.pwdcheck) {
+					this.pwdcheck=''
+					this.$refs.pwdCRef.focus()
+					return
+				}
+				else if(this.email.trim()==='') {
+					this.$refs.emailRef.focus()
+					return
+				}
+				else if(this.addr2.trim()==='') {
+					this.$refs.addr2Ref.focus()
+					return
+				}
+				else if(this.phone.trim()==='') {
+					this.$refs.phoneRef.focus()
+					return
+				}
+				else if(this.birthday.trim()==='') {
+					this.$refs.birthdayRef.focus()
+					return
+				}
+				else if(this.content.trim()==='') {
+					this.$refs.contentRef.focus()
+					return
+				}
 				
+				axios.post('../mypage/update_ok.do',{},{
+					params:{
+						name:this.name,
+						pwd:this.pwd,
+						sex:this.sex,
+						email:this.email,
+						post:this.postcode,
+						addr1:this.addr1,
+						addr2:this.addr2,
+						phone:this.phone,
+						birthday:this.birthday,
+						content:this.content
+					}
+				}).then(response=>{
+					alert("수정 완료!!")
+					window.location.href="../mypage/mypage.do"
+				})
 			}
 		}
 	}).mount('#home')

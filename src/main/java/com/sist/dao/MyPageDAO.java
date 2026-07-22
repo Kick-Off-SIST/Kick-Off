@@ -58,6 +58,21 @@ public class MyPageDAO {
 		session.close();
 		return vo;
 	}
+	
+/*
+<update id="mypageUpdate" parameterType="MemberVO">
+	UPDATE member SET
+	pwd=#{pwd},name=#{name},sex=#{sex},email=#{email},addr1=#{addr1},
+	content=#{content},phone=#{phone},addr2=#{addr2},birthday=#{birthday},
+	post=#{post}
+	WHERE member_id=#{member_id}
+</update>
+ */
+	public static void mypageUpdate(MemberVO vo) {
+		SqlSession session=ssf.openSession(true);
+		session.update("mypageUpdate",vo);
+		session.close();
+	}
 /*
 <select id="cartGoodsDetailData" resultMap="CartMap" parameterType="int">
 	SELECT c.goods_no,cart_id,count,goods_name, price, image_url
