@@ -1,5 +1,6 @@
 package com.sist.model;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sist.controller.Controller;
 import com.sist.controller.RequestMapping;
 
@@ -20,19 +21,25 @@ import jakarta.servlet.http.HttpSession;
 public class ReserveModel {
 	@RequestMapping("ticket/reserve_team.do")
 	public String ticket_reserve_team(HttpServletRequest request, HttpServletResponse response) {
-		List<TeamVO> list=ReserveDAO.reserveTeam("team_id");
-		System.out.println(list);
-		request.setAttribute("list", list);
+		//List<TeamVO> list=ReserveDAO.reserveTeam("team_id");
+		//System.out.println(list);
+		//request.setAttribute("list", list);
 		request.setAttribute("main_jsp", "../ticket/reserve_team.jsp");
 		return "../main/main.jsp";
 	}
 	
 	@RequestMapping("ticket/reserve_team_vue.do")
 	public void ticket_reserve_team_vue(HttpServletRequest request, HttpServletResponse response) {
-		
+		String column=request.getParameter("column");
+		List<TeamVO> list=ReserveDAO.reserveTeam(column);
 		
 		try {
+			ObjectMapper mapper=new ObjectMapper();
+			String json=mapper.writeValueAsString(list);
+			
 			response.setContentType("text/plain;charset=UTF-8");
+			PrintWriter out=response.getWriter();
+			out.write(json);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

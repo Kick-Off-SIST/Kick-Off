@@ -20,6 +20,7 @@
 <main class="mb-4" id="qna">
     <h4>문의 내역</h4>
       <div class="mt-4 d-flex flex-column justify-content-between" style="height: 600px">
+    	<div v-if="count>0">
     	<table class="table table-hover w-100">
     	  <thead>
     		<tr>
@@ -98,6 +99,10 @@
 				{{curPage}} page / {{totalPage}} pages
 			<button class="btn btn-sm btn-primary" type="button" @click="next()">다음</button>
 		</div>
+		</div>
+	  <div v-if="count==0" class="py-5 text-center">
+      	<p class="fs-5">문의한 게시글이 없습니다.</p>
+	  </div>
     </div>
 </main>
 <script>
