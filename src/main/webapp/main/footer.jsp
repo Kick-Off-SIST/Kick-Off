@@ -26,7 +26,7 @@
 				<ul class="list-inline mb-0 fw-bold" style="font-size: 15px;">
 					<li class="list-inline-item me-4"><a href="#" class="footer-link">이용약관</a></li>
 					<li class="list-inline-item me-4"><a href="#" class="footer-link text-success">개인정보처리방침</a></li>
-					<li class="list-inline-item"><a href="#" class="footer-link">고객센터</a></li>
+					<li class="list-inline-item"><a href="../qna/list.do" class="footer-link">고객센터</a></li>
 				</ul>
 			</div>
 		</div>

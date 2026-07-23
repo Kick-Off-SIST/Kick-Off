@@ -15,6 +15,7 @@ body {
 	color: #ffffff;
 	padding: 40px 0;
 	margin-bottom: 40px;
+	cursor: default;
 }
 .team-emblem {
 	width: 150px;
@@ -279,7 +280,7 @@ body {
 	
 					<div class="text-center">
 						<div style="font-size: 14px; color: #666666; margin-bottom: 5px;">공식 유니폼 & 굿즈</div>
-						<a href="../goods/list.do?team_id=${vo.team_id }" class="btn btn-dark w-100" style="font-weight: bold;">
+						<a href="../goods/find.do" class="btn btn-dark w-100" style="font-weight: bold;">
 							<i class="bi bi-shop me-2"></i>구단 스토어 바로가기
 						</a>
 					</div>

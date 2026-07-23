@@ -19,6 +19,7 @@ body {
 	color: #ffffff;
 	padding: 40px 0;
 	margin-bottom: 40px;
+	cursor:default;
 }
 .player-img {
 	width: 180px;
@@ -71,10 +72,12 @@ body {
                     ${vo.name }
                     <span style="font-size: 20px; color: #aaaaaa; font-weight: normal; margin-left: 10px;">${vo.name_eng }</span>
                 </h2>
-                <div style="font-size: 18px; color: #cccccc; margin-top: 15px;">
-                    <img src="${vo.tvo.emblem }" style="width: 25px; margin-right: 5px; vertical-align: middle;"> 
-                    ${vo.tvo.team_name }
-                </div>
+				<div style="font-size: 18px; color: #cccccc; margin-top: 15px;">
+					<a href="../team/detail.do?team_id=${vo.tvo.team_id }" style="color: #cccccc;text-decoration: none;">
+						<img src="${vo.tvo.emblem }" style="width: 25px; margin-right: 5px; vertical-align: middle;"> 
+						${vo.tvo.team_name }
+					</a>
+				</div>
             </div>
         </div>
     </div>

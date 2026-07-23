@@ -21,6 +21,7 @@ body{
 	color:white;
 	position:relative;
 	overflow:hidden;
+	cursor:default;
 }
 .team-hero:after{
 	content:"";

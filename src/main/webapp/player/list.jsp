@@ -9,6 +9,7 @@
 	color:white;
 	position:relative;
 	overflow:hidden;
+	cursor:default;
 }
 .player-hero:after{
 	content:"";

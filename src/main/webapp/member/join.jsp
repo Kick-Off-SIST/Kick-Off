@@ -25,20 +25,29 @@
     .form-label {
         font-size: 14px;
     }
+    .feedback-msg {
+        font-size: 12px;
+        margin-top: 5px;
+        font-weight: bold;
+    }
 </style>
-</head>
-<%--INSERT INTO Member (login_id,pwd,name,sex,birthday,email,addr1,addr2,content,phone)VALUES(
-			#{login_id},#{pwd},#{name},#{sex},#{birthday},#{email},#{addr1},#{addr2},#{content},#{phone}
-		)--%>
 <script type="text/javascript">
 $((e)=>{
 	let isIdValid=false
+	
+	const showGlobalError=(msg)=>{
+		$('#errorText').text(msg)
+		$('#globalError').slideDown(200)
+	}
+	const clearGlobalError=()=>{
+		$('#globalError').slideUp(200)
+	}
     $('#loginId').on('input',(e)=>{
         $('#idMsg').text('').removeClass('text-success text-danger')
         clearGlobalError()
         isIdValid=false
     })
-    $('#pwd, #pwdConfirm, #name').on('input', (e)=>{
+    $('#joinpwd, #pwdConfirm, #name, input[name="phone2"]').on('input', (e)=>{
         clearGlobalError()
     })
     $('#postBtn').on('click',(e)=>{
@@ -46,21 +55,31 @@ $((e)=>{
 			oncomplete(data){
 				$('#post').val(data.zonecode)
 				$('#addr1').val(data.address)
+				$('#addr2').focus()
 			}
 		}).open()
 	})
-    $('#pwd, #pwdConfirm').on('keyup',(e)=>{
-        let pwd=$('#pwd').val()
-        let pwdConfirm=$('#pwdConfirm').val()
-
+	$('#joinpwd, #pwdConfirm').on('input',(e)=>{
+		let pwd=$('#joinpwd').val()
+		let pwdConfirm=$('#pwdConfirm').val()
+//		console.log("현재 입력값 ➡️ 비밀번호: [" + pwd + "] / 확인: [" + pwdConfirm + "]")
+		
+        if (!pwd && !pwdConfirm) {
+            $('#pwdMsg').text('').removeClass('text-success text-danger')
+            return
+        }
+        
+        if (pwd && !pwdConfirm) {
+            $('#pwdMsg').text('비밀번호 확인을 입력해주세요.').removeClass('text-success').addClass('text-danger')
+            return
+        }
+        
         if (pwd && pwdConfirm) {
             if (pwd!==pwdConfirm) {
                 $('#pwdMsg').text('비밀번호가 일치하지 않습니다.').removeClass('text-success').addClass('text-danger')
             } else {
                 $('#pwdMsg').text('비밀번호가 일치합니다.').removeClass('text-danger').addClass('text-success')
             }
-        } else {
-            $('#pwdMsg').text('').removeClass('text-success text-danger')
         }
     })
     $('#btnIdCheck').on('click',(e)=>{
@@ -94,20 +113,29 @@ $((e)=>{
             }
         })
     })
-    $('#submitBtn').on('click',(e)=>{
-    	const id=$('#loginId').val().trim()
-    	$('#joinForm').trigger('submit')
+    $('#joinForm').on('submit',(e)=>{
+    	if(!isIdValid){
+    		e.preventDefault()
+    		showGlobalError('아이디 중복확인을 완료해주세요')
+    		$('#loginId').focus()
+    		return false
+    	}
+    	let pwd=$('#joinpwd').val()
+    	let pwdConfirm=$('#pwdConfirm').val()
+    	if(pwd!==pwdConfirm){
+    		e.preventDefault()
+    		showGlobalError('비밀번호가 일치하지 않습니다')
+    		$('#pwdConfirm').focus()
+    		return false
+    	}
+    	
     })
-    const showGlobalError=(msg)=>{
-        $('#errorText').text(msg)
-        $('#globalError').show()
-    }
-    const clearGlobalError=()=>{
-        $('#globalError').hide()
-        $('#errorText').text('')
-    }
 })
 </script>
+</head>
+<%--INSERT INTO Member (login_id,pwd,name,sex,birthday,email,addr1,addr2,content,phone)VALUES(
+			#{login_id},#{pwd},#{name},#{sex},#{birthday},#{email},#{addr1},#{addr2},#{content},#{phone}
+		)--%>
 <body>
 	<div class="container">
     <div class="join-wrapper">
@@ -127,7 +155,7 @@ $((e)=>{
 
             <div class="mb-3">
                 <label for="pwd" class="form-label fw-bold text-secondary">비밀번호</label>
-                <input type="password" class="form-control" id="pwd" name="pwd" placeholder="비밀번호를 입력하세요" required>
+                <input type="password" class="form-control" id="joinpwd" name="pwd" placeholder="비밀번호를 입력하세요" required>
             </div>
 
             <div class="mb-3">

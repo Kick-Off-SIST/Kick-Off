@@ -28,7 +28,8 @@
                         뉴스
                     </a>                 
                     <ul class="dropdown-menu" aria-labelledby="videoDropdown">   
-                      <li><a class="dropdown-item" href="../news/find.do">뉴스</a></li>
+                      <li><a class="dropdown-item" href="../news/find.do">실시간 뉴스</a></li>
+                      <li><hr class="dropdown-divider"></li>
                       <li><a class="dropdown-item" href="../notice/user_list.do">공지사항</a></li>
                     </ul>
                 </li>

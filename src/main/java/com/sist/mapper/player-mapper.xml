@@ -5,6 +5,7 @@
 		<association property="tvo" javaType="TeamVO">
             <result property="team_name" column="team_name"/>
             <result property="emblem" column="emblem"/>
+            <result property="team_id" column="team_id"/>
         </association>
 	</resultMap>
 	<select id="playerListData" resultMap="PlayerMap" parameterType="hashmap">
