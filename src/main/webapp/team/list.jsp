@@ -22,6 +22,8 @@ body{
 	position:relative;
 	overflow:hidden;
 	cursor:default;
+	background-image:linear-gradient(rgba(17, 24, 39, 0.4), rgba(17, 24, 39, 0.4)), 
+        url("../team/team1.jpg");
 }
 .team-hero:after{
 	content:"";

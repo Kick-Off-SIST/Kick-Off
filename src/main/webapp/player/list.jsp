@@ -3,6 +3,8 @@
 <style type="text/css">
 .player-hero{
 	background:#111827;
+	background-image:linear-gradient(rgba(17, 24, 39, 0.4), rgba(17, 24, 39, 0.4)), 
+        url("../player/test.jpg");
 	border-radius:18px;
 	padding:45px 50px;
 	margin-bottom:40px;
@@ -333,6 +335,7 @@
 			</ul>
     	</div>
 	</div>
+</div>
 <script>
 	const playerList=Vue.createApp({
 		data(){
