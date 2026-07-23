@@ -113,4 +113,16 @@ public class NoticeDAO {
 		session.close();
 		
 	}
+//	<select id="noticeHomeList" resultType="NoticeVO">
+//		SELECT no,type,name,title, TO_CHAR(regdate,'yyyy-MM-dd') as dbday,hit
+//	  	FROM notice
+//	  	ORDER BY no DESC
+//	  	WHERE ROWNUM&lt;=5
+//	</select>
+	public static List<NoticeVO> noticeHomeList() {
+		SqlSession session=ssf.openSession();
+		List<NoticeVO> list=session.selectList("noticeHomeList");
+		session.close();
+		return list;
+	}
 }

@@ -117,6 +117,7 @@ $(function() {
 		<div class="card-body p-4 p-md-5"> 
 			<div class="d-flex justify-content-between align-items-end mb-4 border-bottom pb-3">
 				<div>
+					<div class="kickoff-hero-eyebrow"><span class="pulse"></span> Live</div>
 					<h2>실시간 K리그 뉴스</h2>
 				</div>
 				<div class="text-muted small fw-medium" id="updateTime">

@@ -13,25 +13,15 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="matchDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a class="nav-link" href="../match/list.do" aria-expanded="false">
                         경기
                     </a>
-                    <ul class="dropdown-menu" aria-labelledby="matchDropdown">
-                        <li><a class="dropdown-item" href="#">빠른예매</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="../match/list.do">경기목록</a></li>
-                    </ul>
                 </li>
 
                 <li class="nav-item dropdown">
-                	<a class="nav-link dropdown-toggle" href="#" id="matchDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                	<a class="nav-link" href="../news/find.do"aria-expanded="false">
                         뉴스
-                    </a>                 
-                    <ul class="dropdown-menu" aria-labelledby="videoDropdown">   
-                      <li><a class="dropdown-item" href="../news/find.do">실시간 뉴스</a></li>
-                      <li><hr class="dropdown-divider"></li>
-                      <li><a class="dropdown-item" href="../notice/user_list.do">공지사항</a></li>
-                    </ul>
+                    </a>
                 </li>
 
                 <li class="nav-item dropdown">
@@ -60,6 +50,8 @@
                         커뮤니티
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="communityDropdown">
+                    	<li><a class="dropdown-item" href="../notice/user_list.do">공지사항</a></li>
+                    	<li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="../board/list.do">자유게시판</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="../qna/list.do">QnA 게시판</a></li>

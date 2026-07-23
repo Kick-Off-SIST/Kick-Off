@@ -380,7 +380,64 @@ body{
     letter-spacing: 1px;
     white-space: nowrap;
 }
-
+.notice-card{
+	background:#ffffff;
+	border-radius:12px;
+	padding:30px;
+	border: 1px solid #e5e7eb;
+	box-shadow:none
+}
+.notice-table{
+	border-collapse:separate;
+	border-spacing:0;
+	overflow:hidden;
+	border-radius:15px;
+}
+.notice-table thead th{
+	background:#111827;
+	color:white;
+	padding:15px;
+	border:none;
+}
+.notice-table tbody td{
+	padding:18px 12px;
+	vertical-align:middle;
+	border-bottom:1px solid #eee;
+}
+.notice-table tbody tr:hover{
+	background:#f8fafc;
+}
+.notice-title{
+	color:#111827;
+	font-weight:600;
+	text-decoration:none;
+}
+.notice-title:hover{
+	color:#16a34a;
+}
+.notice-category {
+	display:inline-block;
+	padding:5px 14px;
+	border-radius:20px;
+	font-size:13px;
+	font-weight:700;
+	color:white;
+}
+.service{
+	background:#2563eb;
+}
+.event{
+	background:#ec4899;
+}
+.policy{
+	background:#f59e0b;
+}
+.operation{
+	background:#10b981;
+}
+.schedule{
+	background:#8b5cf6;
+}
 /* 날짜 및 시간 영역 */
 .k-match-date {
     flex: 0 0 75px;

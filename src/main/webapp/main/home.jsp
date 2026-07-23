@@ -241,7 +241,72 @@
 		<button class="btn btn-success btn-lg flex-shrink-0 ml-3" disabled>로그인이 필요한 서비스입니다</button>
 	</c:if>
 </div>
-
+	<section class="mb-5">
+		<div class="kickoff-section-head">
+			<div>
+				<div class="eyebrow" style="color: var(--green)">
+					NOTICE
+				</div>
+				<h2>공지 사항</h2>
+			</div>
+			<div class="text-end">
+				<a href="../notice/user_list.do" class="small text-muted text-decoration-none text-right">전체보기</a>
+			</div>
+		</div>
+		<div class="notice-card p-4">
+			<div class="table-responsive">
+				<table class="notice-table table align-middle mb-0">
+					<thead>
+						<tr>
+							<th class="text-center" style="width: 10%">번호</th>
+							<th style="width: 50%">제목</th>
+							<th class="text-center" style="width: 15%">작성자</th>
+							<th class="text-center" style="width: 15%">등록일</th>
+							<th class="text-center" style="width: 10%">조회수</th>
+						</tr>
+					</thead>
+					<c:forEach var="vo" items="${nList}">
+						<tr>
+							<td class="text-center fw-bold">${vo.no}</td>
+							<td>
+								<c:choose>
+									<c:when test="${vo.type==1}">
+										<span class="notice-category service">
+											서비스/점검
+										</span>
+									</c:when>
+									<c:when test="${vo.type==2}">
+										<span class="notice-category event">
+											이벤트
+										</span>
+									</c:when>
+									<c:when test="${vo.type==3}">
+										<span class="notice-category policy">
+											정책변경
+										</span>
+									</c:when>
+									<c:when test="${vo.type==4}">
+										<span class="notice-category operation">
+											영업/운영
+										</span>
+									</c:when>
+									<c:when test="${vo.type==5}">
+										<span class="notice-category schedule">
+											행사/일정
+										</span>
+									</c:when>
+								</c:choose>
+								<a class="notice-title ms-2" href="../notice/detail.do?no=${vo.no}">${vo.title}</a>
+							</td>
+							<td class="text-center">${vo.name}</td>
+							<td class="text-center text-muted">${vo.dbday}</td>
+							<td class="text-center">${vo.hit}</td>
+						</tr>
+					</c:forEach>
+				</table>
+			</div>
+		</div>
+	</section>
   <!-- 뉴스 -->
 	<section class="mb-5">
 		<div class="kickoff-section-head">

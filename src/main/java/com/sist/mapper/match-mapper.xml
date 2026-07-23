@@ -56,7 +56,7 @@
 			JOIN kleague_team t2 ON m.away_team_id=t2.team_id
 			JOIN kleague_stadium s ON m.stadium_id=s.stadium_id
 			WHERE game_date&gt;=SYSDATE
-			ORDER BY game_date DESC)
+			ORDER BY game_date ASC)
 		WHERE ROWNUM=1
 	</select>
 </mapper>

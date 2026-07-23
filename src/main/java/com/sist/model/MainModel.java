@@ -3,6 +3,7 @@ package com.sist.model;
 import com.sist.controller.Controller;
 import com.sist.controller.RequestMapping;
 import com.sist.dao.GoodsDAO;
+import com.sist.dao.NoticeDAO;
 import com.sist.service.MatchService;
 import com.sist.service.MatchServiceImpl;
 import com.sist.service.TeamService;
@@ -24,7 +25,7 @@ public class MainModel {
 		List<GoodsVO> glist=GoodsDAO.goodsListData(0);
 		String currentDate=java.time.LocalDate.now().toString();
 		List<MatchVO> mlist=mService.matchRecentData(currentDate);
-		
+		List<NoticeVO> nlist=NoticeDAO.noticeHomeList();
 		MatchVO vo=mService.matchCloseData();
 		
 		String youtubeAPI="";
@@ -42,6 +43,7 @@ public class MainModel {
 		request.setAttribute("mList", mlist);
 		request.setAttribute("rList", rlist);
 		request.setAttribute("gList", glist);
+		request.setAttribute("nList", nlist);
 		request.setAttribute("youtubeAPI", youtubeAPI);
 		request.setAttribute("main_jsp", "../main/home.jsp");
 		return "../main/main.jsp";
