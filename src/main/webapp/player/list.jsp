@@ -154,6 +154,20 @@
     font-weight: 800;
     color: #495057;
 }
+.pagination .page-item .page-link {
+	color: #4b5563;
+	border-color: #e5e7eb;
+}
+.pagination .page-item .page-link:hover {
+	color: #15803d;
+	background-color: #f0fdf4;
+	border-color: #bbf7d0;
+}
+.pagination .page-item.active .page-link {
+	background-color: #22c55e !important;
+	border-color: #22c55e !important;
+	color: #ffffff !important;
+}
 </style>
 <script type="text/javascript" src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 <script type="text/javascript" src="https://unpkg.com/axios/dist/axios.min.js"></script>

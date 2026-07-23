@@ -34,6 +34,9 @@
 <script type="text/javascript">
 $((e)=>{
 	let isIdValid=false
+	let isAddress=false
+	let isPhone=false
+	let isEmail=false
 	
 	const showGlobalError=(msg)=>{
 		$('#errorText').text(msg)
@@ -45,16 +48,28 @@ $((e)=>{
     $('#loginId').on('input',(e)=>{
         $('#idMsg').text('').removeClass('text-success text-danger')
         clearGlobalError()
+        let id=$('#loginId').val()
+        const idPattern=/^[a-zA-Z0-9]+$/
+        if(!idPattern.test(id.trim())){
+        	$('#idMsg').text('영문자와 숫자만 사용 가능합니다.').removeClass('text-success').addClass('text-danger')
+            return
+        }else{
+        	$('#idMsg').text('').removeClass('text-success text-danger')
+        }
         isIdValid=false
     })
     $('#joinpwd, #pwdConfirm, #name, input[name="phone2"]').on('input', (e)=>{
         clearGlobalError()
+    })
+    $('#name').on('input',(e)=>{
+    	let name=$(e.currentTarget).val()
     })
     $('#postBtn').on('click',(e)=>{
 		new daum.Postcode({
 			oncomplete(data){
 				$('#post').val(data.zonecode)
 				$('#addr1').val(data.address)
+				isAddress=true
 				$('#addr2').focus()
 			}
 		}).open()
@@ -62,7 +77,7 @@ $((e)=>{
 	$('#joinpwd, #pwdConfirm').on('input',(e)=>{
 		let pwd=$('#joinpwd').val()
 		let pwdConfirm=$('#pwdConfirm').val()
-//		console.log("현재 입력값 ➡️ 비밀번호: [" + pwd + "] / 확인: [" + pwdConfirm + "]")
+//		console.log("현재 입력값 ➡️ 비밀번호: ["+pwd+"]/확인:["+pwdConfirm+"]")
 		
         if (!pwd && !pwdConfirm) {
             $('#pwdMsg').text('').removeClass('text-success text-danger')
@@ -113,11 +128,65 @@ $((e)=>{
             }
         })
     })
+    $('#email').on('input',(e)=>{
+    	let email=$(e.currentTarget).val().trim()
+    	const pattern=/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
+    	if(email===''){
+    		isEmail=false
+    		return
+    	}
+    	if(!pattern.test(email)){
+    		$('#emailMsg').text('올바른 이메일 형식이 아닙니다.').removeClass('text-success').addClass('text-danger')
+    		isEmail=false
+    		return
+    	}else{
+    		$('#emailMsg').text('').removeClass('text-success text-danger')
+    		isEmail=true
+    	}
+    })
+    $('#phone2').on('input',(e)=>{
+    	let val=$(e.currentTarget).val().replace(/[^0-9]/g,'')
+    	if(val.length<8){
+    		isPhone=false
+    	}else{
+	    	if(val.length>8){
+	    		val=val.substring(0,8)
+	    	}
+	    	if(val.length>4){
+	    		val=val.substring(0,4)+'-'+val.substring(4)
+	    	}
+	    	$(e.currentTarget).val(val)
+	    	isPhone=true
+    	}
+    })
     $('#joinForm').on('submit',(e)=>{
     	if(!isIdValid){
     		e.preventDefault()
     		showGlobalError('아이디 중복확인을 완료해주세요')
     		$('#loginId').focus()
+    		return false
+    	}
+    	if(!name || name===''){
+    		e.preventDefault()
+    		showGlobalError('이름을 입력해주세요')
+    		$('#name').focus()
+    		return false
+    	}
+    	if(!isAddress){
+    		e.preventDefault()
+    		showGlobalError('우편번호 검색을 해주세요')
+    		return false
+    	}
+    	if(!isEmail){
+    		e.preventDefault()
+    		showGlobalError('이메일을 입력해주세요')
+    		$('#email').focus()
+    		return false
+    	}
+    	if(!isPhone){
+    		e.preventDefault()
+    		showGlobalError('연락처를 입력해주세요')
+    		$('#phone2').focus()
     		return false
     	}
     	let pwd=$('#joinpwd').val()
@@ -183,6 +252,7 @@ $((e)=>{
             <div class="mb-3">
                 <label for="email" class="form-label fw-bold text-secondary">이메일</label>
                 <input type="text" class="form-control" id="email" name="email" placeholder="example@email.com" required>
+                <div id="emailMsg" class="feedback-msg"></div>
             </div>
             
             <div class="mb-4">
@@ -210,7 +280,7 @@ $((e)=>{
 				    	<option>016</option>
 				    </select>
 				    <span class="text-secondary">-</span>
-	                <input type="text" name="phone2" class="form-control form-control-sm flex-grow-1" placeholder="####-####" required>
+	                <input type="text" name="phone2" id="phone2" class="form-control form-control-sm flex-grow-1" placeholder="####-####" maxlength="9" required>
             	</div>
             </div>
             
