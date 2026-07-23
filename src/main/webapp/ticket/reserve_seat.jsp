@@ -13,6 +13,14 @@
 </style>
 <script type="text/javascript">
 $(function(){
+	const colors = ['#B5D692', '#A3CCA2', '#D5E6F5'];
+    
+    //$('.ticket-color').each(function(index) {
+    //    $(this).css('background-color', colors[index]);
+    //})
+    let index=(${gid}-1)%3
+    $('.seat-able').css('background-color', colors[index]);
+	
 	// 선택할 수 있는 최대 좌석 수
 	const maxCount=1
 	let count=0
@@ -89,8 +97,7 @@ $(function(){
 		       					data-id="${seat.match_seat_id }" data-row="${seat.svo.seat_row }"
 		       					data-col="${seat.svo.seat_col }" data-gname="${seat.svo.gvo.grade_name}"
 		       					data-amount="${seat.svo.gvo.amount}"
-		       					style="background-color:${gid==1?'#B5D692':'#EBE7F5'};
-		       					width: 15px; height: 15px;"></div>
+		       					style="width: 15px; height: 15px;"></div>
 		       			</c:if>
 		       			<c:if test="${seat.seat_status=='N' }">
 		       				<div class="seat-unable" data-row=${seat.svo.seat_row } data-col=${seat.svo.seat_col }

@@ -52,6 +52,12 @@ body {
 </style>
 <script type="text/javascript">
 $(function(){
+	const colors = ['#B5D692', '#A3CCA2', '#D5E6F5'];
+    
+    $('.ticket-color').each(function(index) {
+        $(this).css('background-color', colors[index]);
+    })
+    
 	$('.seat-grade').on('click',function(){
  		let gid=$(this).attr('data-gid')
  		let sid="${sid}"
@@ -141,7 +147,7 @@ $(function(){
 					  <c:forEach var="vo" items="${list }">
 						<tr class="seat-grade" data-gid="${vo.svo.grade_id }">
 							<td width="10%">
-								<div style="background-color:#B5D692; width: 15px; height: 15px;"></div>
+								<div class="ticket-color" style="width: 15px; height: 15px;"></div>
 							</td>
 							<td width="70%">
 								<strong>${vo.svo.gvo.grade_name }</strong>
