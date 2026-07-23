@@ -7,24 +7,19 @@
     padding: 45px 50px;
     margin-bottom: 40px;
     color: white;
+    background-image: url("../image/banner9.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
     position: relative;
     overflow: hidden;
 }
-.community-hero:after {
-    content: "";
-    position: absolute;
-    right: -80px;
-    top: -80px;
-    width: 280px;
-    height: 280px;
-    border-radius: 50%;
-    background: rgba(34,197,94,.15);
-}
+
 .community-eyebrow {
     font-size: 13px;
     font-weight: 800;
     letter-spacing: 2px;
-    color: #22c55e;
+    color: #1a69df;
     margin-bottom: 15px;
 }
 .community-hero h1 {
@@ -36,7 +31,7 @@
     z-index: 1;
 }
 .community-hero p {
-    color: #d1d5db;
+    color: black;
     font-size: 16px;
     line-height: 1.7;
     position: relative;
@@ -60,7 +55,7 @@
     <!-- Community Hero -->
     <div class="community-hero">
         <div class="community-eyebrow">COMMUNITY</div>
-        <h1>팬들과 함께 만드는<br><span style="color:#22c55e;">KICK-OFF QnA게시판</span></h1>
+        <h1>팬들과 함께 만드는<br><span style="color: #1a69df;">KICK-OFF QnA게시판</span></h1>
         <p>궁금한 모든걸 물어보고<br>경기 이야기와 다양한 의견을 나누는 공간입니다.</p>
     </div>
 

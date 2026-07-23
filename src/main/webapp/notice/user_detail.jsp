@@ -16,7 +16,6 @@ body{
     background:#f8f9fa;
 }
 
-
 /* 상단 배너 */
 .notice-hero{
     background:#111827;
@@ -37,13 +36,11 @@ body{
     box-shadow:0 10px 25px rgba(0,0,0,.06);
 }
 
-
 .notice-title{
     font-size:28px;
     font-weight:800;
     margin-bottom:25px;
 }
-
 
 .notice-info{
     display:grid;
@@ -52,12 +49,10 @@ body{
     border-bottom:1px solid #eee;
 }
 
-
 .notice-info div{
     padding:15px;
     border-bottom:1px solid #eee;
 }
-
 
 .notice-label{
     font-weight:700;
@@ -65,14 +60,12 @@ body{
     text-align:center;
 }
 
-
 .notice-content{
     min-height:250px;
     padding:30px 10px;
     font-size:16px;
     line-height:1.8;
 }
-
 
 /* 카테고리 */
 .notice-category{
@@ -83,7 +76,6 @@ body{
     font-size:13px;
     font-weight:700;
 }
-
 
 .service{
     background:#2563eb;
@@ -105,14 +97,11 @@ body{
     background:#8b5cf6;
 }
 
-
 </style>
 
 </head>
 
-
 <body>
-
 
 <section class="notice-hero">
     <div class="container">
@@ -125,128 +114,94 @@ body{
     </div>
 </section>
 
-
-
 <div class="container mb-5">
 
-<div class="notice-card">
+    <div class="notice-card">
 
+        <div class="notice-title">
+            ${vo.title}
+        </div>
 
-<div class="notice-title">
-    ${vo.title}
-</div>
+        <div class="notice-info">
 
+            <div class="notice-label">
+                공지종류
+            </div>
 
+            <div>
+                <c:choose>
+                    <c:when test="${vo.type==1}">
+                        <span class="notice-category service">
+                            서비스/점검
+                        </span>
+                    </c:when>
 
-<div class="notice-info">
+                    <c:when test="${vo.type==2}">
+                        <span class="notice-category event">
+                            이벤트
+                        </span>
+                    </c:when>
 
+                    <c:when test="${vo.type==3}">
+                        <span class="notice-category policy">
+                            정책변경
+                        </span>
+                    </c:when>
 
-<div class="notice-label">
-    공지종류
-</div>
+                    <c:when test="${vo.type==4}">
+                        <span class="notice-category operation">
+                            영업/운영
+                        </span>
+                    </c:when>
 
-<div>
+                    <c:when test="${vo.type==5}">
+                        <span class="notice-category schedule">
+                            행사/일정
+                        </span>
+                    </c:when>
+                </c:choose>
+            </div>
 
-<c:choose>
+            <div class="notice-label">
+                작성일
+            </div>
 
-<c:when test="${vo.type==1}">
-<span class="notice-category service">
-서비스/점검
-</span>
-</c:when>
+            <div>
+                ${vo.dbday}
+            </div>
 
+            <div class="notice-label">
+                작성자
+            </div>
 
-<c:when test="${vo.type==2}">
-<span class="notice-category event">
-이벤트
-</span>
-</c:when>
+            <div>
+                ${vo.name}
+            </div>
 
+            <div class="notice-label">
+                조회수
+            </div>
 
-<c:when test="${vo.type==3}">
-<span class="notice-category policy">
-정책변경
-</span>
-</c:when>
+            <div>
+                ${vo.hit}
+            </div>
 
+        </div>
 
-<c:when test="${vo.type==4}">
-<span class="notice-category operation">
-영업/운영
-</span>
-</c:when>
+        <div class="notice-content">
+            ${vo.content}
+        </div>
 
+        <div class="text-end">
+            <a href="../notice/user_list.do"
+               class="btn btn-success px-4">
+                목록
+            </a>
+        </div>
 
-<c:when test="${vo.type==5}">
-<span class="notice-category schedule">
-행사/일정
-</span>
-</c:when>
-
-
-</c:choose>
-
-</div>
-
-
-
-<div class="notice-label">
-작성일
-</div>
-
-
-<div>
-${vo.dbday}
-</div>
-
-
-
-<div class="notice-label">
-작성자
-</div>
-
-
-<div>
-${vo.name}
-</div>
-
-
-<div class="notice-label">
-조회수
-</div>
-
-
-<div>
-${vo.hit}
-</div>
-
+    </div>
 
 </div>
-
-
-
-<div class="notice-content">
-
-${vo.content}
-
-</div>
-
-
-
-<div class="text-end">
-
-<a href="../notice/user_list.do"
-class="btn btn-success px-4">
-목록
-</a>
-
-</div>
-
-
-</div>
-
-</div>
-
 
 </body>
 </html>
