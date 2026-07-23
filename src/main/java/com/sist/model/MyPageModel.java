@@ -6,6 +6,7 @@ import com.sist.controller.RequestMapping;
 import com.sist.dao.*;
 import com.sist.vo.*;
 
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -214,11 +215,16 @@ public class MyPageModel {
 	
 	@RequestMapping("mypage/mypage_cart.do")
 	public String mypage_cart(HttpServletRequest request, HttpServletResponse response) {
-		//HttpSession session=request.getSession();
-		//int member_id=(int)session.getAttribute("member_id");
-		//List<CartVO> list=MyPageDAO.cartGoodsDetailData(member_id);
-		//request.setAttribute("menu", 3);
-		//request.setAttribute("list", list);
+		Properties prop=new Properties();
+		try(InputStream is=Thread.currentThread().getContextClassLoader().getResourceAsStream("api.properties")){
+			if(is!=null) {
+				prop.load(is);
+				String portoneAPI=prop.getProperty("portone.API");
+				request.setAttribute("portoneAPI", portoneAPI);
+			}
+		}catch(Exception ex) {
+			ex.printStackTrace();
+		}
 		
 		request.setAttribute("mypage_jsp", "../mypage/mypage_cart.jsp");
 		request.setAttribute("main_jsp", "../mypage/mypage.jsp");
@@ -241,12 +247,12 @@ public class MyPageModel {
 		int totalPage=(int)(Math.ceil(count/4.0));
 		count=count-start;
 		
-		
 		map=new HashMap();
 		map.put("curPage", curPage);
 		map.put("count", count);
 		map.put("list", list);
 		map.put("totalPage", totalPage);
+		
 		
 		try {
 			ObjectMapper mapper=new ObjectMapper();

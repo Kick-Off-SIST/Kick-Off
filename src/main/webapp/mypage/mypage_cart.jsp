@@ -126,7 +126,7 @@
 </main>
 <script>
 let IMP = window.IMP; 
-IMP.init("");  // 반드시 삭제!!!!!!
+IMP.init("${portoneAPI}");
 let cart=Vue.createApp({
 	data(){
 		return {
@@ -144,6 +144,8 @@ let cart=Vue.createApp({
 			this.requestPay(vo)
 		},
 		requestPay(vo) {
+			//let IMP = window.IMP; 
+			//IMP.init(this.api)
 		    IMP.request_pay({
 		        pg: "html5_inicis",
 		        pay_method: "card",
@@ -201,6 +203,7 @@ let cart=Vue.createApp({
 				this.curPage=response.data.curPage
 				this.totalPage=response.data.totalPage
 				this.count=response.data.count
+				this.api=response.data.portoneAPI
 			})
 		},
 		prev(){

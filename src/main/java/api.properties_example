@@ -4,4 +4,4 @@ kakao.mapAPI=API키 입력
 naver.ID=네이버 Client ID입력
 naver.Secret=네이버 Client Secret 입력
 youtube.API=유튜브API
-
+portone.API=포트원API

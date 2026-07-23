@@ -317,7 +317,7 @@
 
 <script>
     var IMP = window.IMP;
-    IMP.init("");
+    IMP.init("${portoneAPI}");
     let detail=Vue.createApp({
     	data(){
     		return {

@@ -17,6 +17,7 @@ public class GoodsModel {
 	public String goods_list(HttpServletRequest request,
 			   HttpServletResponse response)
 	{
+		
 		    return "../goods/list.jsp";  // ← 여기서 포워드할 때 위 데이터 같이 넘어감
 	}
 	@RequestMapping("goods/list_vue.do")
@@ -139,6 +140,17 @@ public class GoodsModel {
 
 		        request.setAttribute("check", check);
 		        request.setAttribute("count", count);
+		        
+		        Properties prop=new Properties();
+				try(InputStream is=Thread.currentThread().getContextClassLoader().getResourceAsStream("api.properties")){
+					if(is!=null) {
+						prop.load(is);
+						String portoneAPI=prop.getProperty("portone.API");
+						request.setAttribute("portoneAPI", portoneAPI);
+					}
+				}catch(Exception ex) {
+					ex.printStackTrace();
+				}
 		    }
 		    else
 		    {
