@@ -180,7 +180,7 @@ body {
 				</div>
 	
 				<div class="col-md-3 text-md-end">
-					<a v-if="vo.game_status!='A'" :href="'../ticket/reserve_list.do?id='+vo.homeVo.team_id" class="btn btn-success fw-bold px-4 py-2 w-100">
+					<a v-if="vo.game_status!='A'" :href="'../ticket/reserve_ticket.do?sid='+vo.schedule_id" class="btn btn-success fw-bold px-4 py-2 w-100">
 						티켓 예매 <i class="bi bi-ticket-perforated ms-1"></i>
 					</a>
 					<button v-else type="button" class="btn btn-secondary fw-bold px-4 py-2 w-100" disabled>
