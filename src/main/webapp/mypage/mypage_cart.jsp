@@ -126,7 +126,7 @@
 </main>
 <script>
 let IMP = window.IMP; 
-IMP.init("imp33007782");  // 반드시 삭제!!!!!!
+IMP.init("");  // 반드시 삭제!!!!!!
 let cart=Vue.createApp({
 	data(){
 		return {
