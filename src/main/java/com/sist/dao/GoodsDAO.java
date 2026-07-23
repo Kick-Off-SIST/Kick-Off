@@ -33,7 +33,20 @@ public class GoodsDAO {
 		session.close();
 		return total;
 	}
-	
+	/*
+	 * <select id="teamListData" resultType="TeamVO">
+	    SELECT team_id, team_name,emblem
+	    FROM kleague_team
+	    ORDER BY team_name
+	  </select>
+	 */
+	public static List<TeamVO> goodsteamListData()
+	{
+		SqlSession session=ssf.openSession();
+		List<TeamVO> list=session.selectList("goodsteamListData");
+		session.close();
+		return list;
+	}
 	public static GoodsVO goodsDetailData(int no)
 	{
 		SqlSession session=ssf.openSession();

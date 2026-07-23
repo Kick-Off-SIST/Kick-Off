@@ -62,6 +62,8 @@ public class GoodsModel {
 		public String goods_find(HttpServletRequest request,
 				   HttpServletResponse response)
 		{
+			List<TeamVO> teamList = GoodsDAO.goodsteamListData();
+			request.setAttribute("teamList", teamList);
 			request.setAttribute("main_jsp", "../goods/find.jsp");
 		    return "../main/main.jsp";
 		}
@@ -73,12 +75,13 @@ public class GoodsModel {
 			String page=request.getParameter("page");
 		    String category=request.getParameter("category");
 		    String ss=request.getParameter("ss");
-		    
+		    String team_id=request.getParameter("team_id");
 		 // JSP => 서버 => 새로운 JSP 출력 (기존에 있는 JSP 자동으로 메모리 해제)
 		    // Vue / Ajax ==> 화면 변경이 없이 그자리에서 처리 (JSP를 그대로 유지)
 		    int curpage=Integer.parseInt(page);
 		    int start=(curpage*12)-12;
 		    Map map=new HashMap();
+		    map.put("team_id", team_id);
 		    map.put("start", start);
 		    map.put("category", category);
 		    map.put("ss", ss);
@@ -169,5 +172,17 @@ public class GoodsModel {
 				ex.printStackTrace();
 			}
 		}
-		
+		@RequestMapping("goods/team_list.do")
+		public void goods_team_list(HttpServletRequest request,
+		        HttpServletResponse response)
+		{
+		    List<TeamVO> list = GoodsDAO.goodsteamListData();
+		    try {
+		        ObjectMapper mapper = new ObjectMapper();
+		        String json = mapper.writeValueAsString(list);
+		        Commons.sendData(response, "text/plain", json);
+		    } catch(Exception ex) {
+		        ex.printStackTrace();
+		    }
+		}
 }

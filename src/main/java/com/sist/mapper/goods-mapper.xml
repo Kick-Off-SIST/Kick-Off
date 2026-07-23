@@ -13,6 +13,12 @@
   <select id="goodsTotalPage" resultType="int">
     SELECT CEIL(COUNT(*)/12.0) FROM goods
   </select>
+  <select id="goodsteamListData" resultType="TeamVO">
+    SELECT team_id, team_name,emblem
+    FROM kleague_team
+    WHERE league = 'K1'
+    ORDER BY team_name
+  </select>
   <select id="goodsDetailData" resultType="GoodsVO" parameterType="int">
     SELECT goods_no as goodsNo,
            goods_id as goodsId,
@@ -40,6 +46,9 @@
     FROM goods g
     JOIN kleague_team t ON g.team_id = t.team_id
     WHERE 1=1
+    <if test="team_id != null and team_id != ''">
+        AND g.team_id = #{team_id}
+    </if>
     <if test="category != null and category != ''">
         AND category = #{category}
     </if>
@@ -51,8 +60,11 @@
   </select>
   <select id="goodsFindTotalPage" resultType="int" parameterType="hashmap">
    SELECT CEIL(COUNT(*)/12.0) 
-   FROM goods
+   FROM goods g
    WHERE 1=1
+   <if test="team_id != null and team_id != ''">
+        AND g.team_id = #{team_id}
+    </if>
    <if test="category != null and category != ''">
        AND category = #{category}
    </if>

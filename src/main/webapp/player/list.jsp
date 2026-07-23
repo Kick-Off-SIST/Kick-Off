@@ -82,91 +82,149 @@
 #team-link:hover{
 	color:gray
 }
-.team-filter-wrapper {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+.team-filter-wrapper{
+    display:flex;
+    align-items:center;
+    gap:10px;
 }
-.team-scroll-btn {
-    background-color: #fff;
-    border: 1px solid #dee2e6;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-    transition: all 0.2s;
-    flex-shrink: 0;
-    color: #495057;
+
+
+.team-scroll-btn{
+    width:38px;
+    height:38px;
+    border-radius:50%;
+    border:1px solid #dee2e6;
+    background:white;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    color:#6b7280;
+    cursor:pointer;
+
+    flex-shrink:0;
+    transition:.2s;
 }
-.team-scroll-btn:hover {
-    background-color: #f8f9fa;
-    border-color: #adb5bd;
-    color: #212529;
+
+
+.team-scroll-btn:hover{
+    background:#22c55e;
+    color:white;
+    border-color:#22c55e;
 }
-.scroll-filter-container {
-    display: flex;
-    overflow-x: auto;
-    white-space: nowrap;
-    gap: 12px;
-    padding: 15px 7px;
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-    flex: 1;
-    scroll-behavior: smooth;
+
+
+.team-filter-container-simple{
+    flex:1;
+    display:flex;
+    align-items:center;
+    gap:15px;
+
+    overflow-x:auto;
+    overflow-y:hidden;
+
+    padding:30px 5px;
+
+    scrollbar-width:none;
+    white-space:nowrap;
 }
-.scroll-filter-container::-webkit-scrollbar {
+
+.team-filter-container-simple::-webkit-scrollbar {
     display: none;
 }
-.team-logo-label {
-    width: 65px;
-    height: 65px;
-    border-radius: 50%;
-    border: 2px solid #dee2e6;
-    background-color: #fff;
+
+.team-filter-container-simple.active {
+    cursor: grabbing;
+}
+.team-filter-container-simple::-webkit-scrollbar {
+    display: none;
+}
+
+/* 로고 아이템 기본 스타일 */
+.team-logo-only {
     cursor: pointer;
+    transition: all 0.3s ease;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.2s ease-in-out;
-    padding: 5px;
-    flex-shrink: 0;
+    flex-shrink:0;
 }
-.team-logo-label img {
-    width: 100%;
-    height: 100%;
+
+/* 로고 이미지 크기 */
+.team-logo-only img {
+    width: 60px;
+    height: 60px;
     object-fit: contain;
 }
-.team-logo-label:hover {
-    border-color: #adb5bd;
-    transform: scale(1.05);
+
+/* '전체(ALL)' 텍스트 스타일 */
+.team-logo-only {
+    font-size:25px;
+    font-weight:800;
+    color:#4b5563;
+
+    width:65px;
+    height:65px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    padding:0;
+    background:transparent;
+    border:none;
+
+    transition:all .2s ease;	
 }
-.btn-check:checked + .team-logo-label {
-    border-color: rgb(0, 128, 0)255, 0);
-    box-shadow: 0 0 10px rgb(0, 128, 0);
+.all-text{
+	font-size:25px;
+    font-weight:800;
+    color:#4b5563;
+
+    width:65px;
+    height:65px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    padding:0;
+    background:transparent;
+    border:none;
+
+    transition:all .2s ease;	
+}
+
+/* 마우스 호버 시 */
+.team-logo-only:hover {
+    opacity: 0.8;
+    filter: grayscale(50%);
     transform: scale(1.1);
 }
-.team-all-text {
-    font-size: 13px;
-    font-weight: 800;
-    color: #495057;
+
+/*선택되었을 때 (컬러 복구 + 크기 강조) */
+.btn-check:checked + .team-logo-only {
+
+    
+    transform: scale(1.2);
 }
-.pagination .page-item .page-link {
-	color: #4b5563;
-	border-color: #e5e7eb;
+
+.btn-check:checked + .team-logo-only.all-text {
+    color: #22c55e; /* 전체 선택 시 포인트 컬러 */
 }
-.pagination .page-item .page-link:hover {
-	color: #15803d;
-	background-color: #f0fdf4;
-	border-color: #bbf7d0;
-}
-.pagination .page-item.active .page-link {
-	background-color: #22c55e !important;
-	border-color: #22c55e !important;
-	color: #ffffff !important;
+
+/* 반응형: 화면이 작아지면 로고 크기 살짝 조절 */
+@media (max-width: 768px) {
+    .team-filter-container-simple {
+        justify-content: flex-start;
+        padding: 20px 10px;
+        gap: 12px;
+    }
+    .team-logo-only img {
+        width: 38px;
+        height: 38px;
+    }
 }
 </style>
 <script type="text/javascript" src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
@@ -209,30 +267,36 @@
 					            <option value="GK">골키퍼 (GK)</option>
 					        </select>
 					    </div>
-					    
-					    <div class="team-filter-wrapper mb-4">
-							<button type="button" class="team-scroll-btn" @click="scrollTrack(-250)">
-								<i class="bi bi-chevron-left"></i>
-							</button>
-						    <div class="scroll-filter-container" ref="teamTrack">
-							    <input type="radio" class="btn-check" name="teamFilter" id="team_all" v-model="team_id" value="" @change="filterChange">
-							    <label class="team-logo-label" for="team_all" title="전체 팀">
-							        <span class="team-all-text">ALL</span>
-							    </label>
-								
-								<template v-for="team in teamList" :key="team.team_id">
-								    <input type="radio" class="btn-check" name="teamFilter" :id='"team_"+team.team_id' v-model="team_id" :value="team.team_id" @change="filterChange">
-								    <label class="team-logo-label" :for='"team_"+team.team_id' :title="team.team_name">
-								        <img :src="team.emblem">
-								    </label>
-							    </template>
-							</div>
-							<button type="button" class="team-scroll-btn" @click="scrollTrack(250)">
-								<i class="bi bi-chevron-right"></i>
-							</button>
-						</div>
+					    <div class="team-filter-wrapper">
+
+						    <button type="button"
+						            class="team-scroll-btn"
+						            @click="scrollTrack(-250)">
+						        <i class="bi bi-chevron-left"></i>
+						    </button>
+					    <div class="team-filter-container-simple" ref="teamTrack">
+					    <!-- 전체 -->
+					    <input type="radio" class="btn-check" name="teamFilter" id="team_all" 
+					           v-model="team_id" value="" @change="filterChange">
+					    <label class="team-logo-only all-text" for="team_all">ALL</label>
+					
+					    <!-- 팀 리스트 (한 줄 노출) -->
+					    <template v-for="team in teamList" :key="team.team_id">
+					        <input type="radio" class="btn-check" name="teamFilter" :id="'team_'+team.team_id" 
+					               v-model="team_id" :value="team.team_id" @change="filterChange">
+					        <label class="team-logo-only" :for="'team_'+team.team_id">
+					            <img :src="team.emblem" :alt="team.team_name" :title="team.team_name">
+					        </label>
+					    </template>
+					</div>
+					<button type="button"
+				            class="team-scroll-btn"
+				            @click="scrollTrack(250)">
+				        <i class="bi bi-chevron-right"></i>
+				    </button>
 					   
 					</div>
+
             	<div class="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-6 g-3">
                     <div class="col" v-for="vo in list" :key="vo.player_id">
                         <div class="card h-100 shadow-sm border-0 grid-card">
@@ -291,6 +355,7 @@
 			}
 			this.dataRecv()
 			this.teamDataRecv()
+			
 		},
 		methods:{
 			async dataRecv(){
@@ -335,9 +400,14 @@
 			},
 			scrollTrack(amount) {
 				const track=this.$refs.teamTrack;
-				if(track) {
-					track.scrollLeft+=amount;
-				}
+
+			    if(track){
+			        track.scrollBy({
+			            left: amount,
+			            behavior:'smooth'
+			        });
+			    }
+
 			}
 		}
 	}).mount('#playerListApp')
