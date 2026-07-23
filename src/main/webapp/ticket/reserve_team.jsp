@@ -11,21 +11,9 @@ body {
 }
 </style>
 <script type="text/javascript" src="http://code.jquery.com/jquery-4.0.0.min.js"></script>
-<script type="text/javascript">
-$(function(){
-	$.ajax({
-		method:'get',
-		data:{'col':'team_id'},
-		url:'../ticket/reserve_team_vue.do',
-		successs:function(result){
-			
-		}
-	})
-})
-</script>
 </head>
 <body>
-	<div class="container my-5" id="res">
+	<div class="container my-5" id="rest">
 		<div class="row">
 			<div class="col-11">
         	<h4 class="mb-4 fw-bold text-dark">구단별 예매</h4>
@@ -57,13 +45,13 @@ $(function(){
 		</div>
 	</div>
 <script>
-let res=Vue.createApp({
+let rest=Vue.createApp({
 	data() {
 		return {
 			//curPage:1,
 			//totalPage:0,
             //count:null,
-            column:'team_id',
+            column:"team_id",
 			list:[]
 		}
 	},
@@ -85,7 +73,7 @@ let res=Vue.createApp({
 			this.dataRecv()
 		}
 	}
-}).mount('#res')
+}).mount('#rest')
 </script>
 </body>
 </html>

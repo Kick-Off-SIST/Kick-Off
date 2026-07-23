@@ -31,6 +31,8 @@ public class ReserveModel {
 	@RequestMapping("ticket/reserve_team_vue.do")
 	public void ticket_reserve_team_vue(HttpServletRequest request, HttpServletResponse response) {
 		String column=request.getParameter("column");
+		if(column==null) column="team_id";
+		//System.out.println("처음 시작 : "+column);
 		List<TeamVO> list=ReserveDAO.reserveTeam(column);
 		
 		try {
