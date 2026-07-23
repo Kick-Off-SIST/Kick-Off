@@ -23,11 +23,13 @@ import java.io.*;
 public class NewsServer {
 	private static Set<Session> clients=ConcurrentHashMap.newKeySet();
 	private static ScheduledExecutorService scheduler=Executors.newScheduledThreadPool(1);
+	private static String latestNewsJson=null;
 	static {
 		scheduler.scheduleAtFixedRate(()->{
 			try {
 				String json=NewsManagerRT.newsRealTimeData("K리그");
 				if (json != null) {
+					latestNewsJson=json;
 	                broadcast(json);
 	            }
 			}catch(IllegalStateException e){
@@ -42,6 +44,13 @@ public class NewsServer {
 	public void onOpen(Session session) {
 		clients.add(session);
 		System.out.println("클라이언트 접속:"+session.getId());
+		if(latestNewsJson!=null) {
+			try {
+				session.getBasicRemote().sendText(latestNewsJson);
+			}catch(Exception ex) {
+				ex.printStackTrace();
+			}
+		}
 	}
 	@OnClose
 	public void onClose(Session session) {
@@ -61,6 +70,11 @@ public class NewsServer {
 					ex.printStackTrace();
 				}
 			}
+		}
+	}
+	public static void shutdownScheduler() {
+		if(scheduler!=null && !scheduler.isShutdown()) {
+			scheduler.shutdownNow();
 		}
 	}
 }
