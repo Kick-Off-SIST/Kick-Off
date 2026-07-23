@@ -93,11 +93,22 @@ public class MyPageDAO {
 	WHERE member_id=#{member_id}
 </select>
  */
-	public static List<CartVO> cartGoodsDetailData(int member_id) {
+	public static List<CartVO> cartGoodsDetailData(Map map) {
 		SqlSession session=ssf.openSession();
-		List<CartVO> list=session.selectList("cartGoodsDetailData",member_id);
+		List<CartVO> list=session.selectList("cartGoodsDetailData",map);
 		session.close();
 		return list;
+	}
+/*
+<select id="mypageCartCount" resultType="int" parameterType="int">
+	SELECT COUNT(*) FROM cart WHERE member_id=#{member_id}
+</select>
+ */
+	public static int mypageCartCount(int member_id) {
+		SqlSession session=ssf.openSession();
+		int count=session.selectOne("mypageCartCount",member_id);
+		session.close();
+		return count;
 	}
 /*
 <select id="mypageOrderListData" resultMap="oMap" parameterType="int">
@@ -107,12 +118,13 @@ public class MyPageDAO {
 	WHERE member_id=#{member_id}
 </select>
  */
-	public static List<OrderDetailVO> mypageOrderListData(int member_id) {
+	public static List<OrderDetailVO> mypageOrderListData(Map map) {
 		SqlSession session=ssf.openSession();
-		List<OrderDetailVO> list=session.selectList("mypageOrderListData",member_id);
+		List<OrderDetailVO> list=session.selectList("mypageOrderListData",map);
 		session.close();
 		return list;
 	}
+
 /*
 <select id="mypageReserveListData" resultMap="rMap" parameterType="int" >
 	SELECT d.reserve_id, r.schedule_id, t1.team_name as home, t2.team_name as away,
@@ -126,9 +138,9 @@ public class MyPageDAO {
 	ORDER BY reserve_id DESC
 </select>
  */
-	public static List<ReserveDetailVO> mypageReserveListData(int member_id) {
+	public static List<ReserveDetailVO> mypageReserveListData(Map map) {
 		SqlSession session=ssf.openSession();
-		List<ReserveDetailVO> list=session.selectList("mypageReserveListData",member_id);
+		List<ReserveDetailVO> list=session.selectList("mypageReserveListData",map);
 		session.close();
 		return list;
 	}
@@ -152,9 +164,9 @@ public class MyPageDAO {
 	WHERE login_id=#{login_id}
 </select>
  */
-	public static List<QnaVO> mypageQnaListData(String login_id) {
+	public static List<QnaVO> mypageQnaListData(Map map) {
 		SqlSession session=ssf.openSession();
-		List<QnaVO> list=session.selectList("mypageQnaListData",login_id);
+		List<QnaVO> list=session.selectList("mypageQnaListData",map);
 		session.close();
 		return list;
 	}

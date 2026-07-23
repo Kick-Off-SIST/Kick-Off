@@ -9,11 +9,21 @@
 <script type="text/javascript" src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 <script type="text/javascript" src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
+<style type="text/css">
+.table-link {
+	color: black;
+	text-decoration: none
+}
+.table-link:hover {
+	font-weight: bold;
+}
+</style> 
 </head>
 <body>
 <main class="mb-4">
     <h4>장바구니</h4>
-    <div id="cart" class="mt-4">
+    <div id="cart" v-cloak class="mt-4 d-flex flex-column justify-content-between" style="height: 600px">
+      <div v-if="count>0">
     	<table class="table table-hover w-100">
     	  <thead>
     		<tr>
@@ -28,7 +38,40 @@
     		</tr>
     	  </thead>
     	  <tbody>
-    	  	<c:set var="no" value="1"/>
+    			<tr class="border-bottom-custom" v-for="(vo,index) in list" key="index">
+    				<td width="5%" class="text-muted small text-center">{{count-index }}</td>
+	    			<td width="10%" class="text-muted small text-center">{{vo.goods_no }}</td>
+	    			<td width="15%" class="text-center">
+	    				<img :src="vo.gvo.imageUrl" style="width: 100px">
+	    			</td>
+	    			<td width="20%" class="text-center">
+	    				<div class="d-flex align-items-center gap-2">
+	    				  <a class="table-link" :href="'../goods/detail.do?no='+vo.goods_no">
+                        	{{vo.gvo.goodsName}}
+                          </a>
+                        </div>
+	    			</td>
+	    			<td width="15%" class="text-center">
+	    			<span class="fw-bold text-primary">{{vo.gvo.price}}원</span>
+	    			</td>
+	    			<td width="5%" class="text-center">
+	    			<span class="fw-bold text-dark">{{vo.count}}</span>
+	    			</td>
+	    			<td width="15%" class="text-center">
+	    			<span class="fw-bold text-primary">{{vo.gvo.price*vo.count}}원</span>
+	    			</td>
+	    			<td width="10%" class="text-center">
+	    				<a class="btn btn-outline-success btn-sm rounded-3 px-3 fw-semibold" 
+	    				style="font-size: 0.75rem; letter-spacing: -0.5px;"
+	    				@click="buyBtn(vo)"
+	    				>구매하기</a>
+	    				<a class="delBtn btn btn-outline-danger btn-sm rounded-3 px-3 fw-semibold" 
+	    				style="font-size: 0.75rem; letter-spacing: -0.5px; margin-top: 4px"
+	    				@click="removeBtn(vo.cart_id)"
+	    				>삭제하기</a>
+	    			</td>
+    			</tr>
+    	  	<%-- <c:set var="no" value="1"/>
     		<c:forEach var="vo" items="${list }">
     			<tr class="border-bottom-custom">
     				<td width="5%" class="text-muted small text-center">${no }</td>
@@ -67,34 +110,46 @@
     			</tr>
     			
     	  	<c:set var="no" value="${no+1 }"/>
-    		</c:forEach>
+    		</c:forEach> --%>
     	  </tbody>
     	</table>
+    	<div class="text-center py-3">
+			<button class="btn btn-sm btn-primary" type="button" @click="prev()">이전</button>
+				{{curPage}} page / {{totalPage}} pages
+			<button class="btn btn-sm btn-primary" type="button" @click="next()">다음</button>
+		</div>
+	  </div>
+	  <div v-if="count==0" class="py-5 text-center">
+      	<p class="fs-5">장바구니에 상품이 없습니다.</p>
+	  </div>
     </div>
 </main>
 <script>
 let IMP = window.IMP; 
-IMP.init("");  // 반드시 삭제!!!!!!
+IMP.init("imp33007782");  // 반드시 삭제!!!!!!
 let cart=Vue.createApp({
 	data(){
 		return {
-			
+			curPage:1,
+			totalPage:0,
+            count:null,
+			list:[]
 		}
 	},
 	mounted(){
-		
+		this.dataRecv()
 	},
 	methods:{
-		buyBtn(gname,goods_no,count,price,cart_id) {
-			this.requestPay(gname,goods_no,count,price,cart_id)
+		buyBtn(vo) {
+			this.requestPay(vo)
 		},
-		requestPay(gname,goods_no,count,price,cart_id) {
+		requestPay(vo) {
 		    IMP.request_pay({
 		        pg: "html5_inicis",
 		        pay_method: "card",
 		        merchant_uid: "ORD20180131-0000011",   // 주문번호
-		        name: gname,
-		        amount: count*price,         // 숫자 타입
+		        name: vo.gvo.goodsName,
+		        amount: vo.count*vo.gvo.price,         // 숫자 타입
 		        buyer_email: '',
 		        buyer_name: '',
 		        buyer_tel: '',
@@ -106,15 +161,15 @@ let cart=Vue.createApp({
 		    	//parent.Shadowbox.close()
 		    	axios.post('../order/insert.do',{},{
 		    		params:{
-		    			goods_no:goods_no,
-		    			count:count,
-		    			price:price,
-		    			goods_name:gname
+		    			goods_no:vo.goods_no,
+		    			count:vo.count,
+		    			price:vo.gvo.price,
+		    			goods_name:vo.gvo.goodsName
 		    		}
 		    	}).then(response=>{
 		    		axios.get('../cart/delete.do',{
 			    		params:{
-			    			cart_id:cart_id
+			    			cart_id:vo.cart_id
 			    		}
 			    	}).then(response=>{
 
@@ -134,6 +189,27 @@ let cart=Vue.createApp({
 	    		alert("장바구니가 삭제되었습니다")
 	    		window.location.href="../mypage/mypage_cart.do"
 	    	})
+		},
+		async dataRecv(){
+			await axios.get('../mypage/mypage_cart_vue.do',{
+				params:{
+					page:this.curPage
+				}
+			}).then(response=>{
+				console.log(response.data)
+				this.list=response.data.list
+				this.curPage=response.data.curPage
+				this.totalPage=response.data.totalPage
+				this.count=response.data.count
+			})
+		},
+		prev(){
+			this.curPage=this.curPage>1?this.curPage-1:this.curPage
+			this.dataRecv()
+		},
+		next(){
+			this.curPage=this.curPage<this.totalPage?this.curPage+1:this.curPage
+			this.dataRecv()
 		}
 	}
 }).mount('#cart')

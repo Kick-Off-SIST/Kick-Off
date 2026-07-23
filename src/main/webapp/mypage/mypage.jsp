@@ -34,12 +34,17 @@ body {
                 <h2 class="fw-bold m-0" style="font-size: 1.8rem;">MY PAGE</h2>
             </div>
             
-            <nav class="nav flex-column">
-                <a class="nav-link ${menu==1?'active':'' }" href="../mypage/mypage.do">회원정보 관리</a>
+            <nav class="nav flex-column" id="mypagemenu">
+            	<a class="nav-link" :class="{ active: currentUrl.includes('mypage.do') }" href="../mypage/mypage.do">회원정보 관리</a>
+                <a class="nav-link" :class="{ active: currentUrl.includes('mypage_order.do') }" href="../mypage/mypage_order.do">구매/배송 조회</a>
+                <a class="nav-link" :class="{ active: currentUrl.includes('mypage_cart.do') }" href="../mypage/mypage_cart.do">장바구니</a>
+                <a class="nav-link" :class="{ active: currentUrl.includes('mypage_reserve.do') }" href="../mypage/mypage_reserve.do">티켓 내역</a>
+                <a class="nav-link" :class="{ active: currentUrl.includes('mypage_qna.do') }" href="../mypage/mypage_qna.do">문의 내역</a>
+<%--                 <a class="nav-link ${menu==1?'active':'' }" href="../mypage/mypage.do">회원정보 관리</a>
                 <a class="nav-link ${menu==2?'active':'' }" href="../mypage/mypage_order.do">구매/배송 조회</a>
                 <a class="nav-link ${menu==3?'active':'' }" href="../mypage/mypage_cart.do">장바구니</a>
                 <a class="nav-link ${menu==4?'active':'' }" href="../mypage/mypage_reserve.do">티켓 내역</a>
-                <a class="nav-link ${menu==5?'active':'' }" href="../mypage/mypage_qna.do">문의 내역</a>
+                <a class="nav-link ${menu==5?'active':'' }" href="../mypage/mypage_qna.do">문의 내역</a> --%>
             </nav>
             
         </div>
@@ -49,5 +54,14 @@ body {
         </div>
     </div>
 </div>
+<script>
+let menu=Vue.createApp({
+	data(){
+		return {
+			currentUrl:window.location.href
+		}
+	}
+}).mount('#mypagemenu')
+</script>
 </body>
 </html>

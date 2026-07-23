@@ -13,6 +13,9 @@
 <select id="mypageReserveCount" resultType="int" parameterType="int">
 	SELECT COUNT(*) FROM reservation WHERE member_id=#{member_id}
 </select>
+<select id="mypageCartCount" resultType="int" parameterType="int">
+	SELECT COUNT(*) FROM cart WHERE member_id=#{member_id}
+</select>
 <!-- 수정하기 전 정보 -->
 <select id="mypageUpdateListData" resultType="MemberVO" parameterType="int">
 	SELECT member_id,login_id,name,sex,email,addr1,addr2,post,phone,birthday,content FROM member WHERE member_id=#{member_id}
@@ -31,14 +34,17 @@
 	<result property="gvo.imageUrl" column="image_url" />
 	<result property="ovo.orders_date" column="orders_date" />
 	<result property="ovo.dbday" column="dbday" />
+	<result property="ovo.status" column="status" />
 </resultMap>
-<select id="mypageOrderListData" resultMap="oMap" parameterType="int">
-	SELECT d.goods_no,d.count,d.price,total,d.goods_name,TO_CHAR(orders_date,'yyyy-mm-dd hh24:mi:ss') as dbday,image_url
+<select id="mypageOrderListData" resultMap="oMap" parameterType="hashmap">
+	SELECT d.goods_no,d.count,d.price,total,d.goods_name,TO_CHAR(orders_date,'yyyy-mm-dd hh24:mi:ss') as dbday,image_url,status
 	FROM orders_detail d JOIN orders o ON d.orders_id=o.orders_id
 	JOIN goods g ON d.goods_no=g.goods_no
-	WHERE member_id=#{member_id}
+	AND member_id=#{member_id}
 	ORDER BY d.orders_id DESC
+	OFFSET #{start} ROWS FETCH NEXT 4 ROWS ONLY
 </select>
+
 <!-- 삭제 시 필요 -->
 <select id="mypageGetPassword" resultType="string" parameterType="int">
 	SELECT pwd FROM member where member_id=#{member_id}
@@ -58,8 +64,8 @@
 	<result property="rvo.dbday" column="rday" />
 	<result property="rvo.total_amount" column="total_amount" />
 </resultMap>
-<select id="mypageReserveListData" resultMap="rMap" parameterType="int" >
-	SELECT d.reserve_id, r.schedule_id, 
+<select id="mypageReserveListData" resultMap="rMap" parameterType="hashmap" >
+	SELECT match_seat_id, d.reserve_id, r.schedule_id, 
 	t1.emblem as home_em, t1.team_name as home,
 	t2.emblem as away_em, t2.team_name as away,
 	TO_CHAR(game_date,'yyyy-mm-dd') as gday, game_time, 
@@ -70,6 +76,7 @@
 	JOIN kleague_team t2 ON s.away_team_id=t2.team_id
 	WHERE member_id=#{member_id}
 	ORDER BY reserve_id DESC
+	OFFSET #{start} ROWS FETCH NEXT 8 ROWS ONLY
 </select>
 
 
@@ -79,11 +86,12 @@
 	<result property="gvo.price" column="price" />
 	<result property="gvo.imageUrl" column="image_url" />
 </resultMap>
-<select id="cartGoodsDetailData" resultMap="CartMap" parameterType="int">
+<select id="cartGoodsDetailData" resultMap="CartMap" parameterType="hashmap">
 	SELECT c.goods_no,cart_id,count,goods_name, price, image_url
 	FROM cart c JOIN goods g ON c.goods_no = g.goods_no
 	WHERE member_id=#{member_id}
 	ORDER BY cart_id DESC
+	OFFSET #{start} ROWS FETCH NEXT 4 ROWS ONLY
 </select>
 <!-- 문의 목록 -->
 <select id="mypageQnaCount" resultType="int" parameterType="string">
@@ -91,10 +99,11 @@
 	FROM qna
 	WHERE login_id=#{login_id}
 </select>
-<select id="mypageQnaListData" resultType="QnaVO" parameterType="string">
+<select id="mypageQnaListData" resultType="QnaVO" parameterType="map">
 	SELECT no,title,TO_CHAR(regdate,'yyyy-mm-dd') as dbday,state
 	FROM qna
 	WHERE login_id=#{login_id}
+	OFFSET #{start} ROWS FETCH NEXT 8 ROWS ONLY
 </select>
 <select id="orderCount" resultType="int" parameterType="int">
 	SELECT COUNT(*)

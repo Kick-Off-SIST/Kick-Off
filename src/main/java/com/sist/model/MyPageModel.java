@@ -7,6 +7,8 @@ import com.sist.dao.*;
 import com.sist.vo.*;
 
 import java.io.PrintWriter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -92,30 +94,113 @@ public class MyPageModel {
 
 	@RequestMapping("mypage/mypage_order.do")
 	public String mypage_order(HttpServletRequest request, HttpServletResponse response) {
-		HttpSession session=request.getSession();
-		int member_id=(int)session.getAttribute("member_id");
-		List<OrderDetailVO> list=MyPageDAO.mypageOrderListData(member_id);
-		request.setAttribute("menu", 2);
-		request.setAttribute("list", list);
+		//HttpSession session=request.getSession();
+		//int member_id=(int)session.getAttribute("member_id");
+		//List<OrderDetailVO> list=MyPageDAO.mypageOrderListData(member_id);
+		//request.setAttribute("menu", 2);
+		//request.setAttribute("list", list);
 		
 		request.setAttribute("mypage_jsp", "../mypage/mypage_order.jsp");
 		request.setAttribute("main_jsp", "../mypage/mypage.jsp");
 		return "../main/main.jsp";
 	}
 	
-	@RequestMapping("mypage/mypage_reserve.do")
-	public String mypage_reserve(HttpServletRequest request, HttpServletResponse response) {
+	@RequestMapping("mypage/mypage_order_vue.do")
+	public void mypage_order_vue(HttpServletRequest request, HttpServletResponse response) {
 		HttpSession session=request.getSession();
 		int member_id=(int)session.getAttribute("member_id");
-
-		List<ReserveDetailVO> list=MyPageDAO.mypageReserveListData(member_id);
-		request.setAttribute("menu", 4);
-		request.setAttribute("list", list);
 		
+		String page=request.getParameter("page");
+		int curPage=Integer.parseInt(page);
+		int start=(curPage*4)-4;
+		Map map=new HashMap();
+		map.put("start", start);
+		map.put("member_id", member_id);
+		List<OrderDetailVO> list=MyPageDAO.mypageOrderListData(map);
+		int count=MyPageDAO.orderCount(member_id);
+		int totalPage=(int)(Math.ceil(count/4.0));
+		count=count-start;
+		
+		
+		map=new HashMap();
+		map.put("curPage", curPage);
+		map.put("count", count);
+		map.put("list", list);
+		map.put("totalPage", totalPage);
+		
+		try {
+			ObjectMapper mapper=new ObjectMapper();
+			String json=mapper.writeValueAsString(map);
+			
+			response.setContentType("text/plain;charset=UTF-8");
+			PrintWriter out=response.getWriter();
+			out.write(json);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@RequestMapping("mypage/mypage_reserve.do")
+	public String mypage_reserve(HttpServletRequest request, HttpServletResponse response) {
 		request.setAttribute("mypage_jsp", "../mypage/mypage_reserve.jsp");
 		request.setAttribute("main_jsp", "../mypage/mypage.jsp");
 		return "../main/main.jsp";
 	}
+	
+	@RequestMapping("mypage/mypage_reserve_vue.do")
+	public void mypage_reserve_vue(HttpServletRequest request, HttpServletResponse response) {
+		HttpSession session=request.getSession();
+		int member_id=(int)session.getAttribute("member_id");
+
+		String page=request.getParameter("page");
+		int curPage=Integer.parseInt(page);
+		int start=(curPage*8)-8;
+		Map map=new HashMap();
+		map.put("start", start);
+		map.put("member_id", member_id);
+		List<ReserveDetailVO> list=MyPageDAO.mypageReserveListData(map);
+		int count=MyPageDAO.mypageReserveCount(member_id);
+		int totalPage=(int)(Math.ceil(count/8.0));
+		count=count-start;
+		
+		for(ReserveDetailVO vo: list) {
+			// yyyy-mm-dd
+			// rvo.mmvo.dbday
+			String str=vo.getRvo().getMmvo().getDbday().split(" ")[0];
+			SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+			try {
+				Date rdate = sdf.parse(str);
+				Date today=sdf.parse(sdf.format(new Date()));
+				if(rdate.before(today)) {
+					vo.setIsexpired("YES");
+				}
+				else {
+					vo.setIsexpired("NO");
+				}
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+			
+		}
+		
+		map=new HashMap();
+		map.put("curPage", curPage);
+		map.put("count", count);
+		map.put("list", list);
+		map.put("totalPage", totalPage);
+		
+		try {
+			ObjectMapper mapper=new ObjectMapper();
+			String json=mapper.writeValueAsString(map);
+			
+			response.setContentType("text/plain;charset=UTF-8");
+			PrintWriter out=response.getWriter();
+			out.write(json);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 	
 	@RequestMapping("mypage/reserve_delete.do")
 	public void reserve_delete(HttpServletRequest request, HttpServletResponse response) {
@@ -129,32 +214,104 @@ public class MyPageModel {
 	
 	@RequestMapping("mypage/mypage_cart.do")
 	public String mypage_cart(HttpServletRequest request, HttpServletResponse response) {
-		HttpSession session=request.getSession();
-		int member_id=(int)session.getAttribute("member_id");
-		List<CartVO> list=MyPageDAO.cartGoodsDetailData(member_id);
-		request.setAttribute("menu", 3);
-		request.setAttribute("list", list);
+		//HttpSession session=request.getSession();
+		//int member_id=(int)session.getAttribute("member_id");
+		//List<CartVO> list=MyPageDAO.cartGoodsDetailData(member_id);
+		//request.setAttribute("menu", 3);
+		//request.setAttribute("list", list);
 		
 		request.setAttribute("mypage_jsp", "../mypage/mypage_cart.jsp");
 		request.setAttribute("main_jsp", "../mypage/mypage.jsp");
 		return "../main/main.jsp";
 	}
 	
+	@RequestMapping("mypage/mypage_cart_vue.do")
+	public void mypage_cart_vue(HttpServletRequest request, HttpServletResponse response) {
+		HttpSession session=request.getSession();
+		int member_id=(int)session.getAttribute("member_id");
+		
+		String page=request.getParameter("page");
+		int curPage=Integer.parseInt(page);
+		int start=(curPage*4)-4;
+		Map map=new HashMap();
+		map.put("start", start);
+		map.put("member_id", member_id);
+		List<CartVO> list=MyPageDAO.cartGoodsDetailData(map);
+		int count=MyPageDAO.mypageCartCount(member_id);
+		int totalPage=(int)(Math.ceil(count/4.0));
+		count=count-start;
+		
+		
+		map=new HashMap();
+		map.put("curPage", curPage);
+		map.put("count", count);
+		map.put("list", list);
+		map.put("totalPage", totalPage);
+		
+		try {
+			ObjectMapper mapper=new ObjectMapper();
+			String json=mapper.writeValueAsString(map);
+			
+			response.setContentType("text/plain;charset=UTF-8");
+			PrintWriter out=response.getWriter();
+			out.write(json);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
+	
 	@RequestMapping("mypage/mypage_qna.do")
 	public String mypage_qna(HttpServletRequest request, HttpServletResponse response) {
-		HttpSession session=request.getSession();
-		//int member_id=(int)session.getAttribute("member_id");
-		String login_id=(String)session.getAttribute("login_id");
-		int count=MyPageDAO.mypageQnaCount(login_id);
-		if(count>0) {
-			List<QnaVO> list=MyPageDAO.mypageQnaListData(login_id);
-			request.setAttribute("list", list);
-		}
-		request.setAttribute("count", count);
-		request.setAttribute("menu", 5);
+		/*
+		 * HttpSession session=request.getSession(); //int
+		 * member_id=(int)session.getAttribute("member_id"); String
+		 * login_id=(String)session.getAttribute("login_id"); int
+		 * count=MyPageDAO.mypageQnaCount(login_id); if(count>0) { List<QnaVO>
+		 * list=MyPageDAO.mypageQnaListData(login_id); request.setAttribute("list",
+		 * list); } request.setAttribute("count", count); request.setAttribute("menu",
+		 * 5);
+		 */
 		
 		request.setAttribute("mypage_jsp", "../mypage/mypage_qna.jsp");
 		request.setAttribute("main_jsp", "../mypage/mypage.jsp");
 		return "../main/main.jsp";
+	}
+	
+	@RequestMapping("mypage/mypage_qna_vue.do")
+	public void mypage_qna_vue(HttpServletRequest request, HttpServletResponse response) {
+		HttpSession session=request.getSession();
+		//int member_id=(int)session.getAttribute("member_id");
+		String login_id=(String)session.getAttribute("login_id");
+		System.out.println("vue 호출");
+		String page=request.getParameter("page");
+		int curPage=Integer.parseInt(page);
+		int start=(curPage*4)-4;
+		Map map=new HashMap();
+		map.put("start", start);
+		map.put("login_id", login_id);
+		List<QnaVO> list=MyPageDAO.mypageQnaListData(map);
+		int count=MyPageDAO.mypageQnaCount(login_id);
+		int totalPage=(int)(Math.ceil(count/8.0));
+		count=count-start;
+		
+		
+		map=new HashMap();
+		map.put("curPage", curPage);
+		map.put("count", count);
+		map.put("list", list);
+		map.put("totalPage", totalPage);
+		
+		try {
+			ObjectMapper mapper=new ObjectMapper();
+			String json=mapper.writeValueAsString(map);
+			
+			response.setContentType("text/plain;charset=UTF-8");
+			PrintWriter out=response.getWriter();
+			out.write(json);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
