@@ -361,14 +361,14 @@
     			window.history.back()
     		},
     		buyBtn(){
-    			this.requestPay(this.vo.goodsName,this.vo.price)
+    			this.requestPay(this.vo.goodsName,this.no,this.vo.price)
     		},
-    		requestPay(name,price) {
+    		requestPay(gname,goods_no,price) {
     		   IMP.request_pay({
     		        pg: "html5_inicis",
     		        pay_method: "card",
     		        merchant_uid: "ORD20180131-0000011",   // 주문번호
-    		        name: name ,
+    		        name: gname ,
     		        amount: price,         // 숫자 타입
     		        buyer_email:'',
     		        buyer_name: '',
@@ -376,10 +376,17 @@
     		        buyer_addr: '',
     		        buyer_postcode: ''
     		    }, function (rsp) { // callback
-
-    		    	alert("구매가 완료되었습니다.\n마이페이지에서 확인하세요")
-    		    	//window.location.href="../mypage/buy_list.do"
-    		    	//parent.Shadowbox.close()
+    		    	axios.post('../order/insert.do',{},{
+    		    		params:{
+    		    			goods_no:goods_no,
+    		    			count:1,
+    		    			price:price,
+    		    			goods_name:gname
+    		    		}
+    		    	}).then(response=>{
+    			    	alert("구매가 완료되었습니다.\n마이페이지에서 확인하세요")
+    		    		window.location.href="../mypage/mypage_order.do"
+    		    	})
     		   });
     		},
     		   likeClick(){

@@ -28,6 +28,19 @@ public class MyPageDAO {
 		return vo;
 	}
 	
+	/*
+	<select id="orderCount" resultType="int" parameterType="int">
+		SELECT COUNT(*)
+		FROM orders
+		WHERE member_id=#{member_id}
+	</select>
+	 */
+		public static int orderCount(int member_id) {
+			SqlSession session=ssf.openSession();
+			int count=session.selectOne("orderCount",member_id);
+			session.close();
+			return count;
+		}
 /*
 <select id="mypageBoardCount" resultType="int" parameterType="int">
 	SELECT COUNT(*) FROM board WHERE member_id=#{member_id}
@@ -116,6 +129,32 @@ public class MyPageDAO {
 	public static List<ReserveDetailVO> mypageReserveListData(int member_id) {
 		SqlSession session=ssf.openSession();
 		List<ReserveDetailVO> list=session.selectList("mypageReserveListData",member_id);
+		session.close();
+		return list;
+	}
+/*
+<select id="mypageQnaCount" resultType="int" parameterType="string">
+	SELECT COUNT(*)
+	FROM qna
+	WHERE login_id=#{login_id}
+</select>
+*/
+	public static int mypageQnaCount(String login_id) {
+		SqlSession session=ssf.openSession();
+		int count=session.selectOne("mypageQnaCount",login_id);
+		session.close();
+		return count;
+	}
+/*
+<select id="mypageQnaListData" resultType="QnaVO" parameterType="string">
+	SELECT no,title,TO_CHAR(regdate,'yyyy-mm-dd') as dbday,state
+	FROM qna
+	WHERE login_id=#{login_id}
+</select>
+ */
+	public static List<QnaVO> mypageQnaListData(String login_id) {
+		SqlSession session=ssf.openSession();
+		List<QnaVO> list=session.selectList("mypageQnaListData",login_id);
 		session.close();
 		return list;
 	}

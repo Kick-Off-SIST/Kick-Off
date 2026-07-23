@@ -38,10 +38,12 @@
 	    			</td>
 	    			<td width="20%" class="text-center">
 	    				<div class="d-flex align-items-center gap-2">
-                                    <span class="text-dark fw-medium small">
-                                        ${vo.gvo.goodsName}
-                                    </span>
-                                </div>
+	    				  <a href="../goods/detail.do?no=${vo.goods_no }">
+                        	<span class="text-dark fw-medium small">
+                        		${vo.gvo.goodsName}
+                        	</span>
+                          </a>
+                        </div>
 	    			</td>
 	    			<td width="15%" class="text-center">
 	    			<span class="fw-bold text-primary">${vo.gvo.price}원</span>
@@ -55,11 +57,11 @@
 	    			<td width="10%" class="text-center">
 	    				<a class="btn btn-outline-success btn-sm rounded-3 px-3 fw-semibold" 
 	    				style="font-size: 0.75rem; letter-spacing: -0.5px;"
-	    				@click="buyBtn('${vo.gvo.goodsName}',${vo.goods_no },${vo.count },${vo.gvo.price })"
+	    				@click="buyBtn('${vo.gvo.goodsName}',${vo.goods_no },${vo.count },${vo.gvo.price },${vo.cart_id })"
 	    				>구매하기</a>
 	    				<a class="delBtn btn btn-outline-danger btn-sm rounded-3 px-3 fw-semibold" 
 	    				style="font-size: 0.75rem; letter-spacing: -0.5px; margin-top: 4px"
-	    				data-mid="" data-rid=""
+	    				@click="removeBtn(${vo.cart_id })"
 	    				>삭제하기</a>
 	    			</td>
     			</tr>
@@ -72,7 +74,7 @@
 </main>
 <script>
 let IMP = window.IMP; 
-IMP.init();  // 반드시 삭제!!!!!!
+IMP.init("");  // 반드시 삭제!!!!!!
 let cart=Vue.createApp({
 	data(){
 		return {
@@ -83,10 +85,10 @@ let cart=Vue.createApp({
 		
 	},
 	methods:{
-		buyBtn(gname,goods_no,count,price) {
-			this.requestPay(gname,goods_no,count,price)
+		buyBtn(gname,goods_no,count,price,cart_id) {
+			this.requestPay(gname,goods_no,count,price,cart_id)
 		},
-		requestPay(gname,goods_no,count,price) {
+		requestPay(gname,goods_no,count,price,cart_id) {
 		    IMP.request_pay({
 		        pg: "html5_inicis",
 		        pay_method: "card",
@@ -110,10 +112,28 @@ let cart=Vue.createApp({
 		    			goods_name:gname
 		    		}
 		    	}).then(response=>{
-			    	alert("구매가 완료되었습니다.\n마이페이지에서 확인하세요")
-		    		window.location.href="../mypage/mypage.do"
+		    		axios.get('../cart/delete.do',{
+			    		params:{
+			    			cart_id:cart_id
+			    		}
+			    	}).then(response=>{
+
+			    		alert("구매가 완료되었습니다.\n마이페이지에서 확인하세요")
+			    		window.location.href="../mypage/mypage_order.do"
+			    	})
+		    		
 		    	})
 		   });
+		},
+		removeBtn(cart_id){
+	    	axios.get('../cart/delete.do',{
+	    		params:{
+	    			cart_id:cart_id
+	    		}
+	    	}).then(response=>{
+	    		alert("장바구니가 삭제되었습니다")
+	    		window.location.href="../mypage/mypage_cart.do"
+	    	})
 		}
 	}
 }).mount('#cart')

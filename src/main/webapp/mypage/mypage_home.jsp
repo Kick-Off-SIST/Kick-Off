@@ -56,8 +56,8 @@ $(function(){
         <div class="row g-3 mb-4">
             <div class="col-4">
                 <div class="card border-0 p-3 text-center">
-                    <span class="text-muted d-block mb-1" style="font-size: 1rem">구매 목록(예시)</span>
-                    <span class="fs-5 fw-bold text-dark">12 개</span>
+                    <span class="text-muted d-block mb-1" style="font-size: 1rem">구매 목록</span>
+                    <span class="fs-5 fw-bold text-dark">${ocount } 개</span>
                 </div>
             </div>
             <div class="col-4">

@@ -37,6 +37,7 @@
 	FROM orders_detail d JOIN orders o ON d.orders_id=o.orders_id
 	JOIN goods g ON d.goods_no=g.goods_no
 	WHERE member_id=#{member_id}
+	ORDER BY d.orders_id DESC
 </select>
 <!-- 삭제 시 필요 -->
 <select id="mypageGetPassword" resultType="string" parameterType="int">
@@ -82,8 +83,22 @@
 	SELECT c.goods_no,cart_id,count,goods_name, price, image_url
 	FROM cart c JOIN goods g ON c.goods_no = g.goods_no
 	WHERE member_id=#{member_id}
+	ORDER BY cart_id DESC
 </select>
-
-<!-- 경기 정보 가져오기 -->
-
+<!-- 문의 목록 -->
+<select id="mypageQnaCount" resultType="int" parameterType="string">
+	SELECT COUNT(*)
+	FROM qna
+	WHERE login_id=#{login_id}
+</select>
+<select id="mypageQnaListData" resultType="QnaVO" parameterType="string">
+	SELECT no,title,TO_CHAR(regdate,'yyyy-mm-dd') as dbday,state
+	FROM qna
+	WHERE login_id=#{login_id}
+</select>
+<select id="orderCount" resultType="int" parameterType="int">
+	SELECT COUNT(*)
+	FROM orders
+	WHERE member_id=#{member_id}
+</select>
 </mapper>

@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 
 import com.sist.commons.CreateSqlSessionFactory;
+import com.sist.vo.MemberVO;
 
 public class CartDAO {
 	private static SqlSessionFactory ssf;
@@ -61,6 +62,17 @@ public class CartDAO {
 		} catch (Exception e) {
 			System.err.println("오류3: "+e.getMessage());	
 		}
+		session.close();
+	}
+/*
+<delete id="cartDelete" parameterType="int">
+	DELETE FROM cart
+	WHERE cart_id=${cart_id}
+</delete>
+ */
+	public static void cartDelete(int cart_id) {
+		SqlSession session=ssf.openSession(true);
+		session.delete("cartDelete",cart_id);
 		session.close();
 	}
 }

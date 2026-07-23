@@ -13,4 +13,9 @@
 <update id="cartGoodsCountUpdate" parameterType="hashmap">
 	UPDATE cart SET count=count+1 WHERE member_id=#{member_id} AND goods_no=#{goods_no}
 </update>
+<!-- 장바구니 삭제 -->
+<delete id="cartDelete" parameterType="int">
+	DELETE FROM cart
+	WHERE cart_id=${cart_id}
+</delete>
 </mapper>

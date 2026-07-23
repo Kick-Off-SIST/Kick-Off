@@ -16,4 +16,5 @@
 	INSERT INTO orders_detail
 	VALUES(od_did_seq.nextval,#{oid},#{goods_no},#{count},#{price},#{total},#{goods_name})
 </insert>
+
 </mapper>

@@ -27,10 +27,12 @@ public class MyPageModel {
 			case 4->vo.setSgrade("월드클래스");
 			case 5->vo.setSgrade("GOAT");
 		}
+		int ocount=MyPageDAO.orderCount(member_id);
 		int rcount=MyPageDAO.mypageReserveCount(member_id);
 		int bcount=MyPageDAO.mypageBoardCount(member_id);
 		request.setAttribute("menu", 1);
 		request.setAttribute("vo", vo);
+		request.setAttribute("ocount", ocount);
 		request.setAttribute("bcount", bcount);
 		request.setAttribute("rcount", rcount);
 		request.setAttribute("mypage_jsp", "../mypage/mypage_home.jsp");
@@ -134,6 +136,24 @@ public class MyPageModel {
 		request.setAttribute("list", list);
 		
 		request.setAttribute("mypage_jsp", "../mypage/mypage_cart.jsp");
+		request.setAttribute("main_jsp", "../mypage/mypage.jsp");
+		return "../main/main.jsp";
+	}
+	
+	@RequestMapping("mypage/mypage_qna.do")
+	public String mypage_qna(HttpServletRequest request, HttpServletResponse response) {
+		HttpSession session=request.getSession();
+		//int member_id=(int)session.getAttribute("member_id");
+		String login_id=(String)session.getAttribute("login_id");
+		int count=MyPageDAO.mypageQnaCount(login_id);
+		if(count>0) {
+			List<QnaVO> list=MyPageDAO.mypageQnaListData(login_id);
+			request.setAttribute("list", list);
+		}
+		request.setAttribute("count", count);
+		request.setAttribute("menu", 5);
+		
+		request.setAttribute("mypage_jsp", "../mypage/mypage_qna.jsp");
 		request.setAttribute("main_jsp", "../mypage/mypage.jsp");
 		return "../main/main.jsp";
 	}

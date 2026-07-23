@@ -15,10 +15,10 @@ public class CartModel {
 	public void cart_insert_vue(HttpServletRequest request, HttpServletResponse response) {
 		String no=request.getParameter("no");
 		int goods_no=Integer.parseInt(no);
-		System.out.println("상품명: "+goods_no);
+		//System.out.println("상품명: "+goods_no);
 		HttpSession session=request.getSession();
 		int member_id=(int)session.getAttribute("member_id");
-		System.out.println("유저: "+member_id);
+		//System.out.println("유저: "+member_id);
 		Map map=new HashMap();
 		map.put("member_id", member_id);
 		map.put("goods_no", goods_no);
@@ -29,6 +29,13 @@ public class CartModel {
 		else {
 			CartDAO.cartInsert(map);
 		}
+	}
+	
+	@RequestMapping("cart/delete.do")
+	public void cart_delete(HttpServletRequest request, HttpServletResponse response) {
+		String cid=request.getParameter("cart_id");
+		int cart_id=Integer.parseInt(cid);
+		CartDAO.cartDelete(cart_id);
 	}
 	
 }
