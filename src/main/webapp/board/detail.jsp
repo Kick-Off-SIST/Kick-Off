@@ -9,7 +9,8 @@
 .board-card{
     border:none;
     border-radius:12px;
-    box-shadow:0 4px 12px rgba(0,0,0,.08);
+    box-shadow:none;
+    border: 1px solid #e5e7eb
 }
 .info-table{
     margin-bottom:0;

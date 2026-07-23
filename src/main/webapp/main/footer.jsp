@@ -24,8 +24,8 @@
             
 			<div class="col-md-4 text-center text-md-end">
 				<ul class="list-inline mb-0 fw-bold" style="font-size: 15px;">
-					<li class="list-inline-item me-4"><a href="#" class="footer-link">이용약관</a></li>
-					<li class="list-inline-item me-4"><a href="#" class="footer-link text-success">개인정보처리방침</a></li>
+					<li class="list-inline-item me-4"><a href="../main/terms.do" class="footer-link">이용약관</a></li>
+					<li class="list-inline-item me-4"><a href="../main/privacy.do" class="footer-link text-success">개인정보처리방침</a></li>
 					<li class="list-inline-item"><a href="../qna/list.do" class="footer-link">고객센터</a></li>
 				</ul>
 			</div>

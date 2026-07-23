@@ -48,4 +48,14 @@ public class MainModel {
 		request.setAttribute("main_jsp", "../main/home.jsp");
 		return "../main/main.jsp";
 	}
+	@RequestMapping("main/terms.do")
+	public String main_terms(HttpServletRequest request,HttpServletResponse response) {
+		request.setAttribute("main_jsp", "../commons/terms.jsp");
+		return "../main/main.jsp";
+	}
+	@RequestMapping("main/privacy.do")
+	public String main_privacy(HttpServletRequest request,HttpServletResponse response) {
+		request.setAttribute("main_jsp", "../commons/privacy.jsp");
+		return "../main/main.jsp";
+	}
 }
