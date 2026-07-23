@@ -2,6 +2,7 @@ package com.sist.model;
 
 import com.sist.controller.Controller;
 import com.sist.controller.RequestMapping;
+import com.sist.dao.GoodsDAO;
 import com.sist.service.MatchService;
 import com.sist.service.MatchServiceImpl;
 import com.sist.service.TeamService;
@@ -20,7 +21,7 @@ public class MainModel {
 	@RequestMapping("main/main.do")
 	public String main_main(HttpServletRequest request,HttpServletResponse response) {
 		List<TeamVO> rlist=tService.teamRankData();
-		
+		List<GoodsVO> glist=GoodsDAO.goodsListData(0);
 		String currentDate=java.time.LocalDate.now().toString();
 		List<MatchVO> mlist=mService.matchRecentData(currentDate);
 		
@@ -40,6 +41,7 @@ public class MainModel {
 		request.setAttribute("cvo", vo);
 		request.setAttribute("mList", mlist);
 		request.setAttribute("rList", rlist);
+		request.setAttribute("gList", glist);
 		request.setAttribute("youtubeAPI", youtubeAPI);
 		request.setAttribute("main_jsp", "../main/home.jsp");
 		return "../main/main.jsp";

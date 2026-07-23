@@ -33,15 +33,17 @@ body{
 	padding-top: 2rem;
 	padding-bottom: 3rem;
 }
-
+.main-content.home{
+	padding-top:0;
+}
 /* ========================= 홈 화면 ========================= */
 
 .kickoff-hero{
 	background: var(--dark-card);
 	color: #fff;
-	border-radius: 20px;
+	width:100%;
+	height:400px;
 	padding: 56px 40px;
-	margin-bottom: 28px;
 	position: relative;
 	overflow: hidden;
 }
@@ -387,4 +389,19 @@ body{
     color: var(--muted);
     line-height: 1.4;
     white-space: nowrap;
+}
+/* 굿즈 영역 */
+.goods-carousel .carousel-control-prev {
+    left: -60px;
+}
+
+.goods-carousel .carousel-control-next {
+    right: -60px;
+}
+
+.goods-carousel .carousel-control-prev-icon,
+.goods-carousel .carousel-control-next-icon {
+    background-color: rgba(0,0,0,.6);
+    border-radius: 50%;
+    padding: 18px;
 }

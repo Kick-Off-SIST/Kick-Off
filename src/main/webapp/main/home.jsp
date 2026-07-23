@@ -2,18 +2,94 @@
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
 
-<main class="container main-content">
+<main class="container main-content home">
+  <!-- 풀너비 캐러셀 히어로 -->
+<div id="heroCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="4000"
+     style="width:100vw; margin-left:calc(-50vw + 50%); margin-bottom:40px;">
 
-  <!-- 히어로: 블랙 카드 -->
-  <div class="kickoff-hero">
-    <div class="kickoff-hero-eyebrow"><span class="pulse"></span>D-3 · 이번 주말 라운드</div>
-    <h1>그라운드의 열기를<br>가장 가까이, <span class="accent">K-리그 포털</span></h1>
-    <p>실시간 경기 결과부터 순위, 굿즈, 티켓 예매까지 — 팬을 위한 모든 것을 한 곳에서.</p>
-    <div class="d-flex gap-2 mt-4">
-      <a href="../ticket/reserve_team.do" class="btn btn-success">티켓 예매하기</a>
-      <a href="../match/list.do" class="btn btn-outline-light">이번 달 일정 보기</a>
+    <div class="carousel-indicators">
+        <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active"></button>
+        <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1"></button>
+        <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2"></button>
     </div>
+
+    <div class="carousel-inner">
+
+        <!-- 슬라이드 1 -->
+        <div class="carousel-item active">
+            <div style="background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)),
+            url('../image/banner3.jpg') center/cover no-repeat;
+            height:550px; padding:80px 100px;">
+            <div style="width:500px; margin-left: 150px; margin-top: 50px;">
+                <div style="font-size:13px; font-weight:800; letter-spacing:2px; color:#22c55e; margin-bottom:15px;">
+                    <span class="pulse"></span> D-3 · 이번 주말 라운드
+                </div>
+                <h1 style="font-size:42px; font-weight:800; line-height:1.3; margin-bottom:20px;">
+                    그라운드의 열기를<br>가장 가까이, <span style="color:#22c55e;">K-리그 포털</span>
+                </h1>
+                <p style="color:#d1d5db; font-size:16px; margin-bottom:30px;">
+                    실시간 경기 결과부터 순위, 굿즈, 티켓 예매까지 — 팬을 위한 모든 것을 한 곳에서.
+                </p>
+                <div class="d-flex gap-2">
+                    <a href="../ticket/reserve_team.do" class="btn btn-success">티켓 예매하기</a>
+                    <a href="../match/list.do" class="btn btn-outline-light">이번 달 일정 보기</a>
+                </div>
+            </div>
+        </div>
+</div>
+        <!-- 슬라이드 2 -->
+        <div class="carousel-item">
+           <div style="background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)),
+            url('../image/banner1.jpg') center/cover no-repeat;
+            height:550px; padding:80px 100px; ">
+              <div style="width:500px; margin-left: 150px; margin-top: 50px;">
+                <div style="font-size:13px; font-weight:800; letter-spacing:2px; color:#3b82f6; margin-bottom:15px;">
+                    OFFICIAL GOODS
+                </div>
+                <h1 style="font-size:42px; font-weight:800; line-height:1.3; margin-bottom:20px;">
+                    나만의 응원 아이템을<br><span style="color:#3b82f6;">지금 바로 구매하세요</span>
+                </h1>
+                <p style="color:#d1d5db; font-size:16px; margin-bottom:30px;">
+                    각 팀의 공식 유니폼, 머플러, 응원용품을 한 곳에서.
+                </p>
+                <div class="d-flex gap-2" >
+                    <a href="../goods/find.do" class="btn btn-primary">굿즈 보러가기</a>
+                </div>
+            </div>
+        </div>
+	</div>
+        <!-- 슬라이드 3 -->
+        <div class="carousel-item">
+            <div style="background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)),
+            url('../image/banner8.jpg') center/cover no-repeat;
+            height:550px; padding:80px 100px;">
+              <div style="width:500px; margin-left: 150px; margin-top: 50px;" >
+                <div style="font-size:13px; font-weight:800; letter-spacing:2px; color:#ed3030; margin-bottom:15px;">
+                    COMMUNITY
+                </div>
+                <h1 style="font-size:42px; font-weight:800; line-height:1.3; margin-bottom:20px;">
+                    팬들과 함께<br><span style="color:#ed3030;">소통하고 응원해요</span>
+                </h1>
+                <p style="color:#fcfcfc; font-size:16px; margin-bottom:30px;">
+                    자유게시판, QnA, 공지사항까지 팬 커뮤니티의 모든 것.
+                </p>
+                <div class="d-flex gap-2">
+                    <a href="../board/list.do" class="btn btn-danger text-dark">커뮤니티 가기</a>
+                </div>
+            </div>
+        </div>
   </div>
+    </div>
+
+    <!-- 좌우 화살표 -->
+    <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon"></span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon"></span>
+    </button>
+
+</div>
 
   <!-- 최근 경기 스코어보드: 블랙 카드 -->
 	<div class="kickoff-score-controls">
@@ -215,24 +291,64 @@
 
   <!-- 인기 굿즈 -->
   <section class="mb-3">
-    <div class="kickoff-section-head">
-      <div><div class="eyebrow">GOODS SHOP</div><h2>인기 굿즈</h2></div>
-      <a href="../goods/find.do" class="small text-muted text-decoration-none">굿즈샵 바로가기</a>
+  <div class="kickoff-section-head">
+    <div>
+      <div class="eyebrow">GOODS SHOP</div>
+      <h2>인기 굿즈</h2>
     </div>
-    <div class="row row-cols-2 row-cols-md-4 g-4">
-      <c:forEach var="g" items="${goodsList}">
+    <a href="../goods/find.do" class="small text-muted text-decoration-none">굿즈샵 바로가기</a>
+  </div>
+  <div id="goodsCarousel"
+     class="carousel slide goods-carousel"
+     data-bs-ride="carousel"
+     data-bs-interval="3500">
+
+    <div class="carousel-inner">
+      <c:forEach var="g" items="${gList}" varStatus="st">
+        <c:if test="${st.index % 4 == 0}">
+          <div class="carousel-item ${st.index == 0 ? 'active' : ''}">
+            <div class="row row-cols-2 row-cols-md-4 g-4">
+        </c:if>
         <div class="col">
-          <a href="../goods/detail.do?no=${g.goodsId}" class="card h-100 shadow-sm border-0 text-decoration-none text-dark">
-            <div class="kickoff-goods-thumb"></div>
-            <div class="card-body">
-              <div class="small fw-medium mb-1">${g.goodsName}</div>
-              <div class="fw-bold text-success"><fmt:formatNumber value="${g.price}" pattern="#,###"/>원</div>
+          <a href="../goods/detail.do?no=${g.goodsNo}"
+             class="card h-100 shadow-sm border-0 text-decoration-none text-dark">
+            <div class="kickoff-goods-thumb"
+                 style="background:url('${g.imageUrl}') center/cover no-repeat;">
             </div>
+            <div class="card-body">
+              <div class="small fw-medium mb-1 text-truncate">
+                ${g.goodsName}
+              </div>
+              <div class="fw-bold text-success">
+                <fmt:formatNumber value="${g.price}" pattern="#,###"/>원
+              </div>
+            </div>
+
           </a>
         </div>
+        <c:if test="${st.index % 4 == 3 || st.last}">
+            </div>
+          </div>
+        </c:if>
       </c:forEach>
     </div>
-  </section>
+    
+    <button class="carousel-control-prev"
+            type="button"
+            data-bs-target="#goodsCarousel"
+            data-bs-slide="prev">
+      <span class="carousel-control-prev-icon"></span>
+    </button>
+    <button class="carousel-control-next"
+            type="button"
+            data-bs-target="#goodsCarousel"
+            data-bs-slide="next">
+      <span class="carousel-control-next-icon"></span>
+    </button> 
+    </div>
+ 
+ 
+</section>
 
 </main>
 <script>
