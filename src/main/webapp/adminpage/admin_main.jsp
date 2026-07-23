@@ -217,9 +217,6 @@ admin-user button {
 	    홈으로
 	  </button>
 
-      <button class="logout-btn" onclick="location.href='../member/logout.do'">
-		    로그아웃
-	  </button>
      
     </div>
   </header>

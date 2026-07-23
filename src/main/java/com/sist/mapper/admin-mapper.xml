@@ -34,4 +34,75 @@
   	SELECT COUNT(*)
   	FROM reservation
   </select>
+  <!-- 관리자 예약 전체 목록 -->
+	<resultMap type="ReserveDetailVO" id="adminRMap">
+	
+		<result property="reserve_detail_id" column="reserve_detail_id"/>
+		<result property="grade_name" column="grade_name"/>
+		<result property="seat_row" column="seat_row"/>
+		<result property="seat_col" column="seat_col"/>
+	
+		<result property="rvo.reserve_id" column="reserve_id"/>
+		<result property="rvo.member_id" column="member_id"/>
+		<result property="rvo.total_amount" column="total_amount"/>
+		<result property="rvo.dbday" column="rday"/>
+	
+		<result property="rvo.mvo.name" column="member_name"/>
+		
+		<result property="rvo.mmvo.homeVo.team_name" column="home"/>
+		<result property="rvo.mmvo.awayVo.team_name" column="away"/>
+		<result property="rvo.mmvo.homeVo.emblem" column="home_em"/>
+		<result property="rvo.mmvo.awayVo.emblem" column="away_em"/>
+		<result property="rvo.mmvo.dbday" column="gday"/>
+		<result property="rvo.mmvo.game_time" column="game_time"/>
+	
+	</resultMap>
+	<select id="adminReserveListData" resultMap="adminRMap">
+	SELECT 
+		d.reserve_detail_id,
+		d.reserve_id,
+		r.member_id,
+		r.total_amount,
+		s.schedule_id,
+		t1.team_name home,
+		t2.team_name away,
+		t1.emblem home_em,
+		t2.emblem away_em,
+		TO_CHAR(s.game_date,'yyyy-mm-dd') gday,
+		s.game_time,
+		d.grade_name,
+		d.seat_row,
+		d.seat_col,
+		TO_CHAR(r.reserve_time,'yyyy-mm-dd hh24:mi:ss') rday
+	FROM reservation_detail d
+	JOIN reservation r
+	ON d.reserve_id=r.reserve_id
+	JOIN kleague_schedule s
+	ON r.schedule_id=s.schedule_id
+	
+	JOIN kleague_team t1
+	ON s.home_team_id=t1.team_id
+	
+	JOIN kleague_team t2
+	ON s.away_team_id=t2.team_id
+	
+	ORDER BY r.reserve_id DESC
+	
+	OFFSET #{start} ROWS FETCH NEXT 10 ROWS ONLY
+	
+	</select>
+	<select id="adminReservationTotalPage" resultType="int">
+		SELECT CEIL(COUNT(*)/10.0)
+		FROM reservation_detail
+	</select>
+	<!-- 예매 취소 쿼리(3개) -->
+	<update id="adminmatchSeatStatusRemove" parameterType="hashmap">
+		UPDATE match_seat SET seat_status='Y' WHERE match_seat_id=#{match_seat_id}
+	</update>
+	<delete id="adminreserveDetailDelete" parameterType="hashmap">
+		DELETE FROM reservation_detail WHERE reserve_id=#{reserve_id}
+	</delete>
+	<delete id="adminreserveDelete" parameterType="hashmap">
+		DELETE FROM reservation WHERE reserve_id=#{reserve_id}
+	</delete>
 </mapper>

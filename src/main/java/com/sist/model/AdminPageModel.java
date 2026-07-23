@@ -49,6 +49,31 @@ public class AdminPageModel {
 		request.setAttribute("admin_jsp", "../adminpage/member_list.jsp");
 		return "../adminpage/admin_main.jsp";
 	}
+	@RequestMapping("adminpage/admin_reserve.do")
+	public String admin_reserve(HttpServletRequest request,
+			   HttpServletResponse response)
+	{
+		String page=request.getParameter("page");
+
+		if(page==null)
+			page="1";
+		int curpage=Integer.parseInt(page);
+
+		final int ROWSIZE=10;
+		int start=(ROWSIZE*curpage)-ROWSIZE;
+		List<ReserveDetailVO> list =
+				AdminDAO.adminReserveListData(start);
+		int totalpage =
+				AdminDAO.adminReservationTotalPage();
+		request.setAttribute("rList", list);
+		request.setAttribute("curpage", curpage);
+		request.setAttribute("totalpage", totalpage);
+
+		request.setAttribute("activeMenu", "3");
+		request.setAttribute("admin_jsp", "../adminpage/admin_reserve.jsp");
+
+		return "../adminpage/admin_main.jsp";
+	}
 	@RequestMapping("adminpage/member_update.do")
 	  public void member_update(HttpServletRequest request,
 			   HttpServletResponse response)
@@ -71,4 +96,23 @@ public class AdminPageModel {
 			ex.printStackTrace();
 		}
 	  }
+	@RequestMapping("adminpage/reserve_cancel.do")
+	public void reserve_cancel(HttpServletRequest request,
+			HttpServletResponse response)
+	{
+		int reserve_id=Integer.parseInt(request.getParameter("reserve_id"));
+		int match_seat_id=Integer.parseInt(request.getParameter("match_seat_id"));
+
+		AdminDAO.adminReserveCancel(reserve_id, match_seat_id);
+
+		try
+		{
+			response.sendRedirect("../adminpage/admin_reserve.do");
+		}
+		catch(Exception ex)
+		{
+			ex.printStackTrace();
+		}
+	}
+	
 }

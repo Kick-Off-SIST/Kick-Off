@@ -1,6 +1,8 @@
 package com.sist.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -93,5 +95,34 @@ public class AdminDAO {
 		session.close();
 		return total;
 	}
-	
+	// 관리자 예약 목록
+	public static List<ReserveDetailVO> adminReserveListData(int start)
+	{
+		SqlSession session=ssf.openSession();
+		List<ReserveDetailVO> list=
+				session.selectList("adminReserveListData",start);
+		session.close();
+		return list;
+	}
+	public static int adminReservationTotalPage()
+	{
+		SqlSession session=ssf.openSession();
+		int total=session.selectOne("adminReservationTotalPage");
+		session.close();
+		return total;
+	}
+	public static void adminReserveCancel(int reserve_id,int match_seat_id)
+	{
+		SqlSession session=ssf.openSession(true);
+
+		Map<String,Object> map=new HashMap();
+		map.put("reserve_id", reserve_id);
+		map.put("match_seat_id", match_seat_id);
+
+		session.update("adminmatchSeatStatusRemove",map);
+		session.delete("adminreserveDetailDelete",map);
+		session.delete("adminreserveDelete",map);
+
+		session.close();
+	}
 }
