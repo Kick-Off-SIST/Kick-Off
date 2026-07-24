@@ -290,8 +290,14 @@
           </div>
           
           <div class="gd-actions">
+           <c:if test="${sessionScope.user }">
             <button class="btn btn-outline-dark" @click="cart()">장바구니</button>
             <button class="btn btn-success" @click="buyBtn()">바로구매</button>
+           </c:if>
+           <c:if test="${!sessionScope.user }">
+            <button class="btn btn-outline-dark" disabled>장바구니</button>
+            <button class="btn btn-success" disabled>바로구매</button>
+           </c:if>
           </div>
           <div class="gd-back-link">
             <button class="btn btn-link text-muted p-0" @click="go">&larr; 목록으로</button>
@@ -416,6 +422,11 @@
            		}).then(response=>{
            			window.location.href="../mypage/mypage_cart.do"
            		})
+       		},
+       		loginCheck(){
+       			if(this.loginId==''){
+       				
+       			}
        		}
     		
     	}
