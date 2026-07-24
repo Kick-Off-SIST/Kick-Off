@@ -476,10 +476,12 @@ const youtubeApp=Vue.createApp({
 			const url='../youtubeProxy?keyword='+encodeURIComponent('K리그 하이라이트')+'&max=4'
 			try{
 				const response=await axios.get(url)
-				this.videos=response.data.items
-				if(response.data={}){
+				const rawData=typeof response.data==='string'?JSON.parse(response.data):response.data
+				if(!rawData || !rawData.items){
 					this.isError=true
+					return
 				}
+				this.videos=rawData.items
 			}catch(error){
 				console.error(error)
 				this.isError=true

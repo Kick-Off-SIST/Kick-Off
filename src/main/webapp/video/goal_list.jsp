@@ -62,18 +62,20 @@ const goalApp=Vue.createApp({
 			}
 			this.isLoading=true
 			this.isError=false
-			const url='../youtubeProxy?keyword='+encodeURIComponent('K리그 골')+'&max=12'
+			let url='../youtubeProxy?keyword='+encodeURIComponent('K리그 골')+'&max=12'
 			if(pageToken){
 				url+='&pageToken='+pageToken
 			}
 			try{
 				const response=await axios.get(url)
-				this.videos=response.data.items
+				const rawData=typeof response.data==='string'?JSON.parse(response.data):response.data
+				if(!rawData || !rawData.items){
+					this.isError=true
+					return
+				}
+				this.videos=rawData.items
 				this.nextPageToken=response.data.nextPageToken||''
                 this.prevPageToken=response.data.prevPageToken||''
-                if(response.data={}){
-					this.isError=true
-				}
 			}catch(error){
 				console.error(error)
 				this.isError=true

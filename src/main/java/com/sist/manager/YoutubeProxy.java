@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
@@ -45,7 +46,12 @@ public class YoutubeProxy extends HttpServlet {
 			cacheMap.put(cacheKey, cachedData);
 			timeMap.put(cacheKey, currentTime);
 		}
-		Commons.sendData(response, "application/json", cachedData);
+		response.setContentType("application/json; charset=UTF-8");
+	    response.setCharacterEncoding("UTF-8");
+	    
+	    PrintWriter out = response.getWriter();
+	    out.print(cachedData);
+	    out.flush();
 	}
 	private String fetchFromYoutube(String keyword,String maxResult,String pageToken) {
 		String youtubeAPI="";
