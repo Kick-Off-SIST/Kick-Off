@@ -290,11 +290,11 @@
           </div>
           
           <div class="gd-actions">
-           <c:if test="${sessionScope.user }">
+           <c:if test="${sessionScope.user!=null }">
             <button class="btn btn-outline-dark" @click="cart()">장바구니</button>
             <button class="btn btn-success" @click="buyBtn()">바로구매</button>
            </c:if>
-           <c:if test="${!sessionScope.user }">
+           <c:if test="${sessionScope.user==null }">
             <button class="btn btn-outline-dark" disabled>장바구니</button>
             <button class="btn btn-success" disabled>바로구매</button>
            </c:if>
