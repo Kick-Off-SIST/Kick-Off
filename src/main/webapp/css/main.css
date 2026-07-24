@@ -544,3 +544,6 @@ body{
 .btn-back:hover {
     background-color: #374151;
 }
+[v-cloak]{
+	display: none !important;
+}

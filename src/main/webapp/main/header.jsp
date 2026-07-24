@@ -19,7 +19,7 @@
                 </li>
 
                 <li class="nav-item dropdown">
-                	<a class="nav-link" href="../news/find.do"aria-expanded="false">
+                	<a class="nav-link" href="../news/find.do" aria-expanded="false">
                         뉴스
                     </a>
                 </li>

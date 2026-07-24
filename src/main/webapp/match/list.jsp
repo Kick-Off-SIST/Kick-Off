@@ -93,6 +93,9 @@ body {
 #matchApp {
 	flex: 1; 
 }
+[v-cloak] {
+	display: none !important;
+}
 </style>
 </head>
 <body>
@@ -146,7 +149,7 @@ body {
 			</div>
 		</div>
 	
-		<div class="kickoff-card match-card" v-for="(vo,index) in list" :key="index">
+		<div class="kickoff-card match-card" v-for="(vo,index) in list" :key="index" v-clock>
 			<div class="row align-items-center text-center text-md-start">
 				<div class="col-md-3 mb-3 mb-md-0 border-md-end">
 					<div class="badge bg-dark mb-2">{{vo.game_status=='A'?'경기 종료':'경기 예정'}}</div>
@@ -180,9 +183,12 @@ body {
 				</div>
 	
 				<div class="col-md-3 text-md-end">
-					<a v-if="vo.game_status!='A'" :href="'../ticket/reserve_ticket.do?sid='+vo.schedule_id" class="btn btn-success fw-bold px-4 py-2 w-100">
+					<a v-if="isLogin && vo.game_status!='A'" :href="'../ticket/reserve_ticket.do?sid='+vo.schedule_id" class="btn btn-success fw-bold px-4 py-2 w-100">
 						티켓 예매 <i class="bi bi-ticket-perforated ms-1"></i>
 					</a>
+					<button v-else-if="!isLogin" class="btn btn-success fw-bold px-4 py-2 w-100" disabled>
+						로그인 해주세요 <i class="bi bi-ticket-perforated ms-1"></i>
+					</button>
 					<button v-else type="button" class="btn btn-secondary fw-bold px-4 py-2 w-100" disabled>
 						경기 종료
 					</button>
@@ -199,7 +205,8 @@ const matchApp=Vue.createApp({
 			sDate:new Date(),
 			list:[],
 			count:0,
-			monthOptions:[]
+			monthOptions:[],
+			isLogin:${not empty sessionScope.user}
 		}
 	},
 	mounted(){
