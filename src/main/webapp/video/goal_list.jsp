@@ -48,17 +48,11 @@ const goalApp=Vue.createApp({
 			videos:[],
 			isLoading:false,
 			isError:false,
-			apiKey:'${youtubeAPI}',
 			nextPageToken:'',
 			prevPageToken:''
 		}
 	},
 	mounted(){
-		if (!this.apiKey) {
-			this.isLoading=false
-			this.isError=true
-			return
-		}
 		this.dataRecv()
 	},
 	methods:{
@@ -68,9 +62,7 @@ const goalApp=Vue.createApp({
 			}
 			this.isLoading=true
 			this.isError=false
-			const searchKeyword=encodeURIComponent('K리그골모음')
-			const maxResults=12
-			let url='https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults='+maxResults+'&q='+searchKeyword+'&type=video&key='+this.apiKey
+			const url='../youtubeProxy?keyword='+encodeURIComponent('K리그 골')+'&max=12'
 			if(pageToken){
 				url+='&pageToken='+pageToken
 			}
@@ -79,6 +71,9 @@ const goalApp=Vue.createApp({
 				this.videos=response.data.items
 				this.nextPageToken=response.data.nextPageToken||''
                 this.prevPageToken=response.data.prevPageToken||''
+                if(response.data={}){
+					this.isError=true
+				}
 			}catch(error){
 				console.error(error)
 				this.isError=true

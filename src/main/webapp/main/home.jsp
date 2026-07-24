@@ -466,25 +466,20 @@ const youtubeApp=Vue.createApp({
 			videos:[],
 			isLoading:true,
 			isError:false,
-			apiKey:'${youtubeAPI}'
 		}
 	},
 	mounted(){
-		if (!this.apiKey) {
-			this.isLoading=false
-			this.isError=true
-			return
-		}
 		this.dataRecv()
 	},
 	methods:{
 		async dataRecv(){
-			const searchKeyword=encodeURIComponent('K리그 하이라이트')
-			const maxResults=4
-			const url='https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults='+maxResults+'&q='+searchKeyword+'&type=video&key='+this.apiKey
+			const url='../youtubeProxy?keyword='+encodeURIComponent('K리그 하이라이트')+'&max=4'
 			try{
 				const response=await axios.get(url)
 				this.videos=response.data.items
+				if(response.data={}){
+					this.isError=true
+				}
 			}catch(error){
 				console.error(error)
 				this.isError=true

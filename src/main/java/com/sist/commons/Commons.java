@@ -10,6 +10,7 @@ public class Commons {
 			response.setContentType(type+";charset=UTF-8");
 			PrintWriter out=response.getWriter();
 			out.write(data);
+			out.flush();
 		}catch(Exception ex) {
 			ex.printStackTrace();
 		}
