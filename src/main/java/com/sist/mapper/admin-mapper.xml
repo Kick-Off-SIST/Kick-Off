@@ -73,7 +73,8 @@
 		d.grade_name,
 		d.seat_row,
 		d.seat_col,
-		TO_CHAR(r.reserve_time,'yyyy-mm-dd hh24:mi:ss') rday
+		TO_CHAR(r.reserve_time,'yyyy-mm-dd hh24:mi:ss') rday,
+		match_seat_id
 	FROM reservation_detail d
 	JOIN reservation r
 	ON d.reserve_id=r.reserve_id
