@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sist.mapper.board-mapper">
   <select id="boardListData" resultType="BoardVO" parameterType="int">
-  	SELECT b.no,b.title,b.content,TO_CHAR(b.regdate,'YYYY-MM-DD') as dbday,b.hit,
+  	SELECT b.no,b.title,b.content,TO_CHAR(b.regdate,'YYYY-MM-DD') as dbday,b.hit,m.name AS name,
   	m.login_id as loginId,(SELECT COUNT(*) FROM reply r WHERE r.bno = b.no) AS replyCount
   	FROM board b
   	JOIN member m ON b.member_id = m.member_id
@@ -28,7 +28,7 @@
     WHERE no=#{no}
   </update>
   <select id="boardDetailData" resultType="BoardVO">
-    SELECT b.no, b.title, b.content,
+    SELECT b.no, b.title, b.content,m.name as name,
            TO_CHAR(b.regdate,'YYYY-MM-DD') as dbday,
            b.hit, b.pwd,
            m.login_id as loginId

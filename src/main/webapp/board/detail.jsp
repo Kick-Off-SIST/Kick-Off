@@ -220,7 +220,7 @@ $(function(){
 
                 <tr>
                     <th>작성자</th>
-                    <td>${vo.loginId}</td>
+                    <td>${vo.name}</td>
 
                     <th>조회수</th>
                     <td>${vo.hit}</td>

@@ -136,7 +136,7 @@
                     <tr>
                         <th width="10%">번호</th>
                         <th width="40%">제목</th>
-                        <th width="10%">아이디</th>
+                        <th width="10%">작성자</th>
                         <th width="15%">작성일</th>
                         <th width="10%">조회수</th>
                         <th width="10%">댓글</th>
@@ -153,7 +153,7 @@
                                     <span class="badge text-bg-success ms-1" style="font-size:10px;">NEW</span>
                                 </c:if>
                             </td>
-                            <td class="text-center text-muted">${vo.loginId}</td>
+                            <td class="text-center text-muted">${vo.name}</td>
                             <td class="text-center text-muted">${vo.dbday}</td>
                             <td class="text-center text-muted">${vo.hit}</td>
                             <td class="text-center text-muted">${vo.replycount}</td>

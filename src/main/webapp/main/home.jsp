@@ -22,7 +22,7 @@
             height:550px; padding:80px 100px;">
             <div style="width:500px; margin-left: 150px; margin-top: 50px;">
                 <div style="font-size:13px; font-weight:800; letter-spacing:2px; color:#22c55e; margin-bottom:15px;">
-                    <span class="pulse"></span> D-3 · 이번 주말 라운드
+                    <span class="pulse"></span> D-1 · 이번 주말 라운드
                 </div>
                 <h1 style="font-size:42px; font-weight:800; line-height:1.3; margin-bottom:20px;">
                     그라운드의 열기를<br>가장 가까이, <span style="color:#22c55e;">K-리그 포털</span>
