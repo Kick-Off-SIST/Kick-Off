@@ -99,7 +99,7 @@ body {
 </style>
 </head>
 <body>
-	<div class="container my-5" id="matchApp">
+	<div class="container my-5" id="matchApp" v-cloak>
 		<h4 class="mb-4 fw-bold text-dark">
 			<i class="bi bi-calendar-check text-success me-2"></i>경기 일정 및 예매
 		</h4>
@@ -149,7 +149,7 @@ body {
 			</div>
 		</div>
 	
-		<div class="kickoff-card match-card" v-for="(vo,index) in list" :key="index" v-clock>
+		<div class="kickoff-card match-card" v-for="(vo,index) in list" :key="index">
 			<div class="row align-items-center text-center text-md-start">
 				<div class="col-md-3 mb-3 mb-md-0 border-md-end">
 					<div class="badge bg-dark mb-2">{{vo.game_status=='A'?'경기 종료':'경기 예정'}}</div>
