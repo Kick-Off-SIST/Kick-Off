@@ -228,6 +228,26 @@
         height: 38px;
     }
 }
+.pagination .page-link {
+    color: #22c55e;
+    background-color: #ffffff;
+    border-color: #dee2e6;
+    transition: all 0.2s ease-in-out;
+}
+
+.pagination .page-link:hover, 
+.pagination .page-link:focus {
+    color: #ffffff;
+    background-color: #22c55e;
+    border-color: #22c55e;
+    box-shadow: 0 0 0 0.25rem rgba(34, 197, 94, 0.25);
+}
+.pagination .page-item.active .page-link {
+    z-index: 3;
+    color: #ffffff;
+    background-color: #22c55e;
+    border-color: #22c55e;
+}
 </style>
 <script type="text/javascript" src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 <script type="text/javascript" src="https://unpkg.com/axios/dist/axios.min.js"></script>
